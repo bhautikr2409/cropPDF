@@ -195,7 +195,7 @@ export default function CropPDF() {
         {/* Render the dark overlay only on the page */}
         {cropArea && (
           <div
-            className="absolute bg-black/50"
+            className="absolute bg-black/10"
             style={{
               left: 0,
               top: 0,
