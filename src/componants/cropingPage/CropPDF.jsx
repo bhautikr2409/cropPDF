@@ -66,12 +66,6 @@ export default function CropPDF() {
     console.log("5 pdf")
   }
 
-  // const downloadCroppedPDF = () => {
-  //   // Here you would implement the PDF cropping and downloading logic
-  //   console.log("this is crop")
-  //   console.log('Downloading cropped PDF with area:', cropArea)
-  // }
-
 
 
   const downloadCroppedPDF = async () => {
@@ -217,13 +211,6 @@ export default function CropPDF() {
     ))}
   </div>
 </Document>
-
-
-
-
-
-
-
 
                 {cropArea && (
                   <>
