@@ -5,8 +5,7 @@ import '@react-pdf-viewer/core/lib/styles/index.css'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
-
-const CropPage = ({ onDocumentLoadSuccess, handleMouseDown, handleMouseMove, handleMouseUp, downloadCroppedPDF, cropArea, containerRef, file, numPages, pageNumber }) => {
+const CropPage = ({ onDocumentLoadSuccess, handleMouseDown, handleMouseMove, handleMouseUp, downloadCroppedPDF, cropArea, containerRef, file, numPages, pageNumber, onTouchStart, onTouchMove, onTouchEnd }) => {
   return (
     <>
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -27,16 +26,17 @@ const CropPage = ({ onDocumentLoadSuccess, handleMouseDown, handleMouseMove, han
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
         >
-
           <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
             <div className="flex flex-col gap-8 p-2 w-full">
               {Array.from(new Array(numPages), (el, index) => (
                 <div key={`page_${index + 1}`} className="relative shadow-lg w-full">
-                  {/* Render the dark overlay only on the page */}
                   {cropArea && (
                     <div
-                      className="absolute bg-black/10 "
+                      className="absolute bg-black/10"
                       style={{
                         left: 0,
                         top: 0,
@@ -46,8 +46,6 @@ const CropPage = ({ onDocumentLoadSuccess, handleMouseDown, handleMouseMove, han
                       }}
                     />
                   )}
-
-                  {/* Render the PDF page */}
                   <Page
                     pageNumber={index + 1}
                     renderTextLayer={false}
@@ -73,7 +71,6 @@ const CropPage = ({ onDocumentLoadSuccess, handleMouseDown, handleMouseMove, han
                   boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.4)'
                 }}
               >
-                {/* Resize handles */}
                 {['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se'].map((position) => (
                   <div
                     key={position}

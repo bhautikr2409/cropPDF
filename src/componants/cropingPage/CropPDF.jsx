@@ -77,7 +77,7 @@ export default function CropPDF() {
       const existingPdfBytes = await fetch(file).then((res) => res.arrayBuffer());
 
       // Load the original PDF
-      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+        const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
       // Create a new PDF for cropped pages
       const croppedPdf = await PDFDocument.create();
@@ -92,7 +92,7 @@ export default function CropPDF() {
         const [copiedPage] = await croppedPdf.copyPages(pdfDoc, [i]);
 
         // Get the original page dimensions
-        const originalPageWidth = originalPage.getWidth();
+        // const originalPageWidth = originalPage.getWidth();
         const originalPageHeight = originalPage.getHeight();
 
         // Adjust the crop area to PDF coordinates (bottom-left origin)
@@ -126,6 +126,18 @@ export default function CropPDF() {
     }
   };
 
+  const handleTouchStart = (e) => {
+    handleMouseDown(e.touches[0]);
+  };
+
+  const handleTouchMove = (e) => {
+    handleMouseMove(e.touches[0]);
+  };
+
+  const handleTouchEnd = () => {
+    handleMouseUp();
+  };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
@@ -143,6 +155,9 @@ export default function CropPDF() {
             file={file}
             numPages={numPages}
             pageNumber={pageNumber}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             />
           )}
           
