@@ -19,9 +19,9 @@ function LandingPage() {
             >
               Crop PDF Now
             </Link>
-            <button className="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 text-lg">
+            {/* <button className="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 text-lg">
               Learn More
-            </button>
+            </button> */}
           </div>
         </div>
 

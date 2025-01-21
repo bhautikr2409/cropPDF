@@ -5,8 +5,9 @@ import React from 'react';
 import LandingPage from './componants/cropingPage/LandingPage';
 import { BrowserRouter, Route, Router, Routes } from 'react-router';
 import CropPDF from './componants/cropingPage/CropPDF';
-import { HeaderM } from './componants/cropingPage/Header';
+import { Header } from './componants/cropingPage/Header';
 import CropPage from './componants/cropingPage/CropPage';
+import Tools from './componants/cropingPage/Tools';
 
 
 
@@ -15,11 +16,13 @@ function App() {
   return (  
     <>
       <BrowserRouter>
-        <HeaderM />
+        <Header />
         <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/crop" element={<CropPDF />} />
             <Route path="/cropPage" element={<CropPage />} />
+            <Route path="/tools" element={<Tools />} />
+
         </Routes>
       </BrowserRouter>
     </>
