@@ -5,10 +5,44 @@ import '@react-pdf-viewer/core/lib/styles/index.css'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
-const CropPage = ({ onDocumentLoadSuccess, handleMouseDown, handleMouseMove, handleMouseUp, downloadCroppedPDF, cropArea, containerRef, file, numPages, pageNumber, onTouchStart, onTouchMove, onTouchEnd }) => {
+const CropPage = ({ onDocumentLoadSuccess,
+  handleMouseDown,
+  handleMouseMove,
+  handleMouseUp,
+  downloadCroppedPDF,
+  cropArea,
+  containerRef,
+  file,
+  numPages,
+  pageNumber,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  handleZoomOut,
+  handleZoomIn,
+  scale
+}) => {
   return (
+
     <>
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+
+        <div className="flex justify-center gap-4 my-4">
+          <button
+            onClick={handleZoomOut}
+            className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+          >
+            Zoom Out
+          </button>
+          <button
+            onClick={handleZoomIn}
+            className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+          >
+            Zoom In
+          </button>
+        </div>
+
+
         <div className="p-4 border-b flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50">
           <button
             onClick={downloadCroppedPDF}
@@ -31,7 +65,7 @@ const CropPage = ({ onDocumentLoadSuccess, handleMouseDown, handleMouseMove, han
           onTouchEnd={onTouchEnd}
         >
           <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-            <div className="flex flex-col gap-8 p-2 w-full">
+            <div className="flex flex-col gap-8  w-full">
               {Array.from(new Array(numPages), (el, index) => (
                 <div key={`page_${index + 1}`} className="relative shadow-lg w-full">
                   {cropArea && (
@@ -98,3 +132,5 @@ const CropPage = ({ onDocumentLoadSuccess, handleMouseDown, handleMouseMove, han
 }
 
 export default CropPage
+
+

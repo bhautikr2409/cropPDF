@@ -44,3 +44,53 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
+
+
+
+// crop function 
+
+
+
+  // const downloadCroppedPDF = async () => {
+  //   if (!file || !cropArea) return;
+
+  //   try {
+  //     const existingPdfBytes = await fetch(file).then((res) => res.arrayBuffer());
+  //     const pdfDoc = await PDFDocument.load(existingPdfBytes);
+  //     const croppedPdf = await PDFDocument.create();
+  //     const pages = pdfDoc.getPages();
+  //     const { x, y, width, height } = cropArea;
+
+  //     for (let i = 0; i < pages.length; i++) {
+  //       const originalPage = pages[i];
+  //       const [copiedPage] = await croppedPdf.copyPages(pdfDoc, [i]);
+
+  //       const originalPageWidth = originalPage.getWidth();
+  //       const originalPageHeight = originalPage.getHeight();
+
+  //       const cropBox = {
+  //         x: x,
+  //         y: originalPageHeight - y - height, // Convert to PDF coordinate system
+  //         width: width,
+  //         height: height,
+  //       };
+
+  //       copiedPage.setCropBox(cropBox.x, cropBox.y, cropBox.width, cropBox.height);
+  //       croppedPdf.addPage(copiedPage);
+  //     }
+
+  //     const pdfBytes = await croppedPdf.save();
+  //     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+  //     const link = document.createElement('a');
+  //     link.href = URL.createObjectURL(blob);
+  //     link.download = 'cropped.pdf';
+  //     link.click();
+  //   } catch (error) {
+  //     console.error('Error downloading cropped PDF:', error);
+  //   }
+  // };

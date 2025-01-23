@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react'
-// import { Document, Page } from 'react-pdf'
 import { pdfjs } from 'react-pdf'
 import { PDFDocument } from 'pdf-lib';
 import '@react-pdf-viewer/core/lib/styles/index.css'
@@ -15,6 +14,7 @@ export default function CropPDF() {
   const [cropArea, setCropArea] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startPoint, setStartPoint] = useState({ x: 0, y: 0 })
+  const [scale, setScale] = useState(1)
   const containerRef = useRef(null)
 
   const handleFileChange = (event) => {
@@ -73,58 +73,44 @@ export default function CropPDF() {
     if (!file || !cropArea) return;
 
     try {
-      // Fetch the original PDF file
-      const existingPdfBytes = await fetch(file).then((res) => res.arrayBuffer());
-
-      // Load the original PDF
+        const existingPdfBytes = await fetch(file).then((res) => res.arrayBuffer());
         const pdfDoc = await PDFDocument.load(existingPdfBytes);
+        const croppedPdf = await PDFDocument.create();
+        const pages = pdfDoc.getPages();
+        const { x, y, width, height } = cropArea;
 
-      // Create a new PDF for cropped pages
-      const croppedPdf = await PDFDocument.create();
+        for (let i = 0; i < pages.length; i++) {
+            const originalPage = pages[i];
+            const [copiedPage] = await croppedPdf.copyPages(pdfDoc, [i]);
 
-      const pages = pdfDoc.getPages();
-      const { x, y, width, height } = cropArea;
+            const originalPageWidth = originalPage.getWidth();
+            const originalPageHeight = originalPage.getHeight();
 
-      for (let i = 0; i < pages.length; i++) {
-        const originalPage = pages[i];
+            const cropBox = {
+                x: x / scale, 
+                y: originalPageHeight - (y + height) / scale, 
+                width: width / scale, 
+                height: height / scale,
+            };
 
-        // Copy the page into the new PDF
-        const [copiedPage] = await croppedPdf.copyPages(pdfDoc, [i]);
+            copiedPage.setCropBox(cropBox.x, cropBox.y, cropBox.width, cropBox.height);
+            croppedPdf.addPage(copiedPage);
+        }
 
-        // Get the original page dimensions
-        // const originalPageWidth = originalPage.getWidth();
-        const originalPageHeight = originalPage.getHeight();
+        const pdfBytes = await croppedPdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
 
-        // Adjust the crop area to PDF coordinates (bottom-left origin)
-        const cropBox = {
-          x: x,
-          y: originalPageHeight - y - height, // Convert to PDF coordinate system
-          width: width,
-          height: height,
-        };
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = 'cropped.pdf';
+        link.click();
 
-        // Apply the crop box
-        copiedPage.setCropBox(cropBox.x, cropBox.y, cropBox.width, cropBox.height);
-
-        // Add the cropped page to the new PDF
-        croppedPdf.addPage(copiedPage);
-      }
-
-      // Serialize the cropped PDF and create a Blob
-      const pdfBytes = await croppedPdf.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-
-      // Trigger the download
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'cropped.pdf';
-      link.click();
-
-      console.log('Cropped PDF downloaded successfully!');
+        URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error downloading cropped PDF:', error);
+        console.error('Error downloading cropped PDF:', error);
     }
-  };
+};
 
   const handleTouchStart = (e) => {
     handleMouseDown(e.touches[0]);
@@ -138,6 +124,8 @@ export default function CropPDF() {
     handleMouseUp();
   };
 
+  const handleZoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3));
+  const handleZoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5));
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
@@ -158,6 +146,9 @@ export default function CropPDF() {
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            handleZoomIn={handleZoomIn}
+            handleZoomOut={handleZoomOut}
+            scale={scale}
             />
           )}
           
@@ -167,4 +158,4 @@ export default function CropPDF() {
   )
 }
 
-  
+
