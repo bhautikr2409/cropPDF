@@ -17,19 +17,19 @@ export default function CropPDF() {
   const [scale, setScale] = useState(1)
   const containerRef = useRef(null)
 
+
+  console.log("scale" , scale)
+
   const handleFileChange = (event) => {
     const file = event.target.files[0]
     if (file && file.type === 'application/pdf') {
       setFile(URL.createObjectURL(file))
-      console.log("1 pdf")
       console.log("file", file)
     }
-    console.log("1")
   }
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages)
-    console.log("2 pdf")
   }
 
   const handleMouseDown = (e) => {
@@ -43,8 +43,6 @@ export default function CropPDF() {
     setIsDragging(true)
     setStartPoint({ x, y })
     setCropArea({ x, y, width: 0, height: 0 })
-
-    console.log("3 pdf")
   }
 
   const handleMouseMove = (e) => {
@@ -61,56 +59,71 @@ export default function CropPDF() {
       width: Math.abs(currentX - startPoint.x),
       height: Math.abs(currentY - startPoint.y)
     })
-    console.log("4 pdf")
   }
 
   const handleMouseUp = () => {
     setIsDragging(false)
-    console.log("5 pdf")
   }
 
   const downloadCroppedPDF = async () => {
-    if (!file || !cropArea) return;
-
+    if (!file || !cropArea || !containerRef.current) return;
+  
     try {
-        const existingPdfBytes = await fetch(file).then((res) => res.arrayBuffer());
-        const pdfDoc = await PDFDocument.load(existingPdfBytes);
-        const croppedPdf = await PDFDocument.create();
-        const pages = pdfDoc.getPages();
-        const { x, y, width, height } = cropArea;
-
-        for (let i = 0; i < pages.length; i++) {
-            const originalPage = pages[i];
-            const [copiedPage] = await croppedPdf.copyPages(pdfDoc, [i]);
-
-            const originalPageWidth = originalPage.getWidth();
-            const originalPageHeight = originalPage.getHeight();
-
-            const cropBox = {
-                x: x / scale, 
-                y: originalPageHeight - (y + height) / scale, 
-                width: width / scale, 
-                height: height / scale,
-            };
-
-            copiedPage.setCropBox(cropBox.x, cropBox.y, cropBox.width, cropBox.height);
-            croppedPdf.addPage(copiedPage);
-        }
-
-        const pdfBytes = await croppedPdf.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.href = url;
-        link.download = 'cropped.pdf';
-        link.click();
-
-        URL.revokeObjectURL(url);
+      // Load the PDF
+      const existingPdfBytes = await fetch(file).then((res) => res.arrayBuffer());
+      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      const croppedPdf = await PDFDocument.create();
+      const pages = pdfDoc.getPages();
+  
+      const { x, y, width, height } = cropArea;
+      const container = containerRef.current;
+      const containerWidth = container.offsetWidth; // Displayed container width
+      const containerHeight = container.offsetHeight; // Displayed container height
+  
+      for (let i = 0; i < pages.length; i++) {
+        const originalPage = pages[i];
+        const [copiedPage] = await croppedPdf.copyPages(pdfDoc, [i]);
+  
+        const pdfWidth = originalPage.getWidth(); // Actual width of the PDF
+        const pdfHeight = originalPage.getHeight(); // Actual height of the PDF
+  
+        // Adjust for scale
+        const scaleX = pdfWidth / (containerWidth / scale); // Adjust for zoom
+        const scaleY = pdfHeight / (containerHeight / scale);
+  
+        // Convert screen crop area to PDF crop area
+        const cropBox = {
+          x: x * scaleX,
+          y: pdfHeight - (y + height) * scaleY, // Flip Y-axis
+          width: width * scaleX,
+          height: height * scaleY,
+        };
+  
+        console.log('Crop Box:', cropBox);
+  
+        // Apply crop to the page
+        copiedPage.setCropBox(cropBox.x, cropBox.y, cropBox.width, cropBox.height);
+        copiedPage.setMediaBox(cropBox.x, cropBox.y, cropBox.width, cropBox.height);
+  
+        croppedPdf.addPage(copiedPage); // Add the cropped page
+      }
+  
+      // Save and download the cropped PDF
+      const pdfBytes = await croppedPdf.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.href = url;
+      link.download = 'cropped.pdf';
+      link.click();
+  
+      URL.revokeObjectURL(url); // Clean up
     } catch (error) {
-        console.error('Error downloading cropped PDF:', error);
+      console.error('Error downloading cropped PDF:', error);
     }
-};
+  };
+  
+  
 
   const handleTouchStart = (e) => {
     handleMouseDown(e.touches[0]);

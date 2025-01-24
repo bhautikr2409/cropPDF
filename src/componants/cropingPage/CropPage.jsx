@@ -102,7 +102,8 @@ const CropPage = ({ onDocumentLoadSuccess,
                   width: cropArea.width,
                   height: cropArea.height,
                   backgroundColor: 'rgba(255, 236, 179, 0.3)',
-                  boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.4)'
+                  boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.4)',
+                  zIndex: 20,
                 }}
               >
                 {['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se'].map((position) => (
