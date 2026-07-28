@@ -29,10 +29,10 @@ const TOOLS = [
   {
     id: 'merge',
     title: 'Merge PDF',
-    description: 'Combine multiple PDFs in the order you want — coming soon.',
-    to: null,
+    description: 'Combine multiple PDFs in the order you want. Runs entirely in your browser.',
+    to: '/merge',
     category: 'organize',
-    available: false,
+    available: true,
     accent: 'rose',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
