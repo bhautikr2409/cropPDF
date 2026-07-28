@@ -78,9 +78,9 @@ const TOOLS = [
     id: 'rotate',
     title: 'Rotate PDF',
     description: 'Rotate pages left or right and save a corrected document.',
-    to: null,
+    to: '/rotate',
     category: 'edit',
-    available: false,
+    available: true,
     accent: 'teal',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
