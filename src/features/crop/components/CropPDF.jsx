@@ -37,12 +37,14 @@ export default function CropPDF() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-slate-50 to-slate-100 py-8">
+    <div className="bg-[#f5f7fb] py-10 sm:py-14">
       <div className="container mx-auto px-4">
-        <div className="max-w-5xl mx-auto">
-          {!pdf.hasFile ? (
-            <UploadPDFPage onFileChange={pdf.loadFile} />
-          ) : (
+        {!pdf.hasFile ? (
+          <div className="max-w-3xl mx-auto">
+            <UploadPDFPage onFileChange={pdf.loadFile} onFileDrop={pdf.acceptFile} />
+          </div>
+        ) : (
+          <div className="max-w-5xl mx-auto">
             <CropPage
               fileUrl={pdf.fileUrl}
               numPages={pdf.numPages}
@@ -67,8 +69,8 @@ export default function CropPDF() {
               onClearFile={handleClearFile}
               isDownloading={isDownloading}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -32,10 +32,9 @@ export function usePdfCrop() {
     };
   }, [file]);
 
-  const loadFile = useCallback((event) => {
-    const selectedFile = event.target.files?.[0];
+  const acceptFile = useCallback((selectedFile, resetInput) => {
     if (!validatePdfFile(selectedFile)) {
-      event.target.value = '';
+      resetInput?.();
       return;
     }
 
@@ -46,6 +45,16 @@ export function usePdfCrop() {
     setDocumentError(null);
     setIsDocumentLoading(true);
   }, []);
+
+  const loadFile = useCallback(
+    (event) => {
+      const selectedFile = event?.target?.files?.[0];
+      acceptFile(selectedFile, () => {
+        if (event?.target) event.target.value = '';
+      });
+    },
+    [acceptFile]
+  );
 
   const clearFile = useCallback(() => {
     setFile(null);
@@ -96,6 +105,7 @@ export function usePdfCrop() {
     isDocumentLoading,
     documentError,
     loadFile,
+    acceptFile,
     clearFile,
     onDocumentLoadSuccess,
     onDocumentLoadError,
