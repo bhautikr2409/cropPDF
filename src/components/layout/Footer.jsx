@@ -23,6 +23,7 @@ const Footer = () => {
           <div className="flex flex-col gap-3">
             <h4 className="text-white font-semibold text-sm uppercase tracking-wider">Product</h4>
             <Link to="/crop" className="hover:text-white transition-colors text-sm">Crop PDF Editor</Link>
+            <Link to="/edit" className="hover:text-white transition-colors text-sm">Edit PDF</Link>
             <Link to="/merge" className="hover:text-white transition-colors text-sm">Merge PDF</Link>
             <Link to="/split" className="hover:text-white transition-colors text-sm">Split PDF</Link>
             <Link to="/compress" className="hover:text-white transition-colors text-sm">Compress PDF</Link>

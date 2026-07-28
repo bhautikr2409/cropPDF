@@ -28,6 +28,22 @@ const TOOLS = [
     ),
   },
   {
+    id: 'edit',
+    title: 'Edit PDF',
+    description: 'Add text, images, shapes, or freehand drawings. Adjust size, font, and color.',
+    to: '/edit',
+    category: 'edit',
+    available: true,
+    accent: 'fuchsia',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
+        <rect x="10" y="8" width="24" height="32" rx="3" className="fill-fuchsia-100 stroke-fuchsia-600" strokeWidth="2" />
+        <path d="M16 18h12M16 24h12M16 30h8" className="stroke-fuchsia-600" strokeWidth="2" strokeLinecap="round" />
+        <path d="M32 28l8 8M36 28l4 4" className="stroke-fuchsia-600" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
     id: 'merge',
     title: 'Merge PDF',
     description: 'Combine multiple PDFs in the order you want. Runs entirely in your browser.',
@@ -212,7 +228,7 @@ export default function Tools() {
             All PDF tools
           </h1>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Free, client-side PDF utilities. Crop works today — more tools are on the roadmap.
+            Free, client-side PDF utilities. Your files never leave your browser.
           </p>
         </div>
 
