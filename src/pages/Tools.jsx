@@ -7,6 +7,7 @@ const CATEGORIES = [
   { id: 'organize', label: 'Organize PDF' },
   { id: 'optimize', label: 'Optimize PDF' },
   { id: 'convert', label: 'Convert PDF' },
+  { id: 'security', label: 'PDF Security' },
 ];
 
 const TOOLS = [
@@ -120,6 +121,38 @@ const TOOLS = [
         <rect x="10" y="12" width="28" height="24" rx="3" className="fill-indigo-100 stroke-indigo-600" strokeWidth="2" />
         <circle cx="18" cy="20" r="2.5" className="fill-indigo-600" />
         <path d="M12 32l8-8 6 6 4-4 6 6H12z" className="fill-indigo-200 stroke-indigo-600" strokeWidth="1.5" />
+      </svg>
+    ),
+  },
+  {
+    id: 'protect',
+    title: 'Protect PDF',
+    description: 'Add a password with AES-256 encryption. Runs entirely in your browser.',
+    to: '/protect',
+    category: 'security',
+    available: true,
+    accent: 'amber',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
+        <rect x="12" y="20" width="24" height="18" rx="3" className="fill-amber-100 stroke-amber-600" strokeWidth="2" />
+        <path d="M16 20v-4a8 8 0 0116 0v4" className="stroke-amber-600" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="24" cy="29" r="2.5" className="fill-amber-600" />
+      </svg>
+    ),
+  },
+  {
+    id: 'unlock',
+    title: 'Unlock PDF',
+    description: 'Remove password protection from a PDF using the known password.',
+    to: '/unlock',
+    category: 'security',
+    available: true,
+    accent: 'stone',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
+        <rect x="12" y="20" width="24" height="18" rx="3" className="fill-stone-100 stroke-stone-700" strokeWidth="2" />
+        <path d="M16 20v-4a8 8 0 0114.5-4.5" className="stroke-stone-700" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="24" cy="29" r="2.5" className="fill-stone-700" />
       </svg>
     ),
   },

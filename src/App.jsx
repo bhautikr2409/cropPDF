@@ -13,6 +13,8 @@ const CompressPDF = lazy(() => import('./features/compress'));
 const RotatePDF = lazy(() => import('./features/rotate'));
 const PdfToImage = lazy(() => import('./features/pdf-to-image'));
 const ImageToPdf = lazy(() => import('./features/image-to-pdf'));
+const ProtectPDF = lazy(() => import('./features/protect'));
+const UnlockPDF = lazy(() => import('./features/unlock'));
 const Tools = lazy(() => import('./pages/Tools'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const ContactUs = lazy(() => import('./pages/ContactUs'));
@@ -48,6 +50,8 @@ function App() {
                 <Route path="/rotate" element={<RotatePDF />} />
                 <Route path="/pdf-to-image" element={<PdfToImage />} />
                 <Route path="/image-to-pdf" element={<ImageToPdf />} />
+                <Route path="/protect" element={<ProtectPDF />} />
+                <Route path="/unlock" element={<UnlockPDF />} />
                 <Route path="/tools" element={<Tools />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
