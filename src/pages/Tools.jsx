@@ -141,6 +141,22 @@ const TOOLS = [
     ),
   },
   {
+    id: 'pdf-to-markdown',
+    title: 'PDF to Markdown',
+    description: 'Extract PDF text into Markdown with headings and lists when possible.',
+    to: '/pdf-to-markdown',
+    category: 'convert',
+    available: true,
+    accent: 'cyan',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
+        <rect x="10" y="8" width="20" height="28" rx="2" className="fill-cyan-100 stroke-cyan-600" strokeWidth="2" />
+        <path d="M14 16h12M14 22h12M14 28h8" className="stroke-cyan-600" strokeWidth="2" strokeLinecap="round" />
+        <path d="M30 24h10v14H28l2-5 2-3 2-6h6l-4 10z" className="fill-cyan-50 stroke-cyan-600" strokeWidth="1.5" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
     id: 'protect',
     title: 'Protect PDF',
     description: 'Add a password with AES-256 encryption. Runs entirely in your browser.',
