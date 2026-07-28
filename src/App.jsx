@@ -1,32 +1,42 @@
 import React from 'react';
-// import { Toaster } from 'react-hot-toast'; // Import Toaster
-// import Header from './componants/Header';
-// import UploadComponent from './componants/UploadComponent ';
-import LandingPage from './componants/cropingPage/LandingPage';
-import { BrowserRouter, Route, Router, Routes } from 'react-router';
-import CropPDF from './componants/cropingPage/CropPDF';
-import { Header } from './componants/cropingPage/Header';
-import CropPage from './componants/cropingPage/CropPage';
-import Tools from './componants/cropingPage/Tools';
-
-
+import { Toaster } from 'react-hot-toast';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import LandingPage from './components/crop/LandingPage';
+import CropPDF from './components/crop/CropPDF';
+import Header from './components/crop/Header';
+import Tools from './components/crop/Tools';
+import AboutUs from './components/AboutUs';
+import ContactUs from './components/ContactUs';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
+import Guide from './components/Guide';
+import Footer from './components/Footer';
 
 function App() {
-
-  return (  
-    <>
-      <BrowserRouter>
+  return (
+    <BrowserRouter>
+      <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800 antialiased">
+        <Toaster position="top-center" />
         <Header />
-        <Routes>
+        
+        {/* Main Content Viewport */}
+        <main className="flex-grow">
+          <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/crop" element={<CropPDF />} />
-            <Route path="/cropPage" element={<CropPage />} />
             <Route path="/tools" element={<Tools />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/guide" element={<Guide />} />
+          </Routes>
+        </main>
 
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
+        <Footer />
+      </div>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

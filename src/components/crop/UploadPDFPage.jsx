@@ -1,6 +1,6 @@
-import React from 'react'
 
-const UploadPDFPage = ({handleFileChange , file}) => {
+
+const UploadPDFPage = ({ handleFileChange }) => {
     return (
         <>
             <div className="bg-white rounded-xl shadow-lg p-10 text-center">
