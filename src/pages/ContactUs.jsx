@@ -1,48 +1,54 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { CONTACT_EMAIL } from '../constants';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
+
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       toast.error('Please fill in all required fields.');
       return;
     }
-    
-    setIsSubmitting(true);
-    
-    // Simulate API request
-    setTimeout(() => {
-      toast.success('Your message has been sent successfully! We will get back to you shortly.');
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      setIsSubmitting(false);
-    }, 1500);
+
+    const subject = encodeURIComponent(formData.subject.trim() || 'PDFCropper contact');
+    const body = encodeURIComponent(
+      `Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\n${formData.message.trim()}`
+    );
+
+    const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+
+    toast.success('Opening your email app to send the message…');
+    window.location.href = mailto;
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-100 p-8 sm:p-10">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2" id="contact-title">Contact Us</h1>
-          <p className="text-slate-500">Have feedback, suggestions, or issues? We'd love to hear from you.</p>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2" id="contact-title">
+            Contact Us
+          </h1>
+          <p className="text-slate-500">
+            Have feedback, suggestions, or issues? Fill out the form and we will open your
+            email app so you can send it to{' '}
+            <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 hover:underline">
+              {CONTACT_EMAIL}
+            </a>
+            .
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -111,10 +117,9 @@ const ContactUs = () => {
 
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-sm hover:shadow transition disabled:opacity-50"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-sm transition"
           >
-            {isSubmitting ? 'Sending Message...' : 'Send Message'}
+            Open Email to Send
           </button>
         </form>
       </div>

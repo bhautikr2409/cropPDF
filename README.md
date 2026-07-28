@@ -1,8 +1,29 @@
-# React + Vite
+# PDFCropper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Free, client-side PDF cropping tool built with React and Vite. PDFs are processed entirely in the browser — nothing is uploaded to a server.
 
-Currently, two official plugins are available:
+## Scripts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `npm run dev` — start development server
+- `npm run build` — production build
+- `npm run preview` — preview production build
+- `npm run lint` — run ESLint
+
+## Project structure
+
+```
+src/
+  App.jsx                 # routes, Suspense, ErrorBoundary
+  components/
+    ErrorBoundary.jsx
+    layout/               # Header, Footer
+  constants/              # shared limits and contact email
+  features/crop/          # crop feature (UI, hooks, utils)
+  lib/pdf/worker.js       # local pdf.js worker (no CDN)
+  pages/                  # Landing, Guide, legal, Tools, 404
+```
+
+## Notes
+
+- Update `CONTACT_EMAIL` in `src/constants/index.js` for the contact form.
+- Max PDF size for browser processing is 25 MB (configurable in constants).
