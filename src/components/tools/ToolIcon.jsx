@@ -89,6 +89,18 @@ const ICONS = {
       />
     </svg>
   ),
+  organize: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
+      <rect x="5" y="3" width="10" height="14" rx="1.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M8 7h4M8 10h4M8 13h2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path
+        d="M17 8v8M13 12h8"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
 };
 
 export default function ToolIcon({ name, className = '' }) {

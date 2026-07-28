@@ -95,6 +95,17 @@ export const TOOLS = [
     icon: 'compare',
   },
   {
+    id: 'organize',
+    title: 'Organize PDF',
+    description:
+      'Sort pages of your PDF file however you like. Delete PDF pages or add PDF pages to your document at your convenience.',
+    to: '/organize',
+    category: 'organize',
+    available: true,
+    accent: 'blue',
+    icon: 'organize',
+  },
+  {
     id: 'pdf-to-image',
     title: 'PDF to Image',
     description: 'Export PDF pages as PNG or JPEG images on your device.',

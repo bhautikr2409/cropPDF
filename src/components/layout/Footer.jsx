@@ -4,9 +4,9 @@ const POPULAR_TOOLS = [
   { to: '/merge', label: 'Merge PDF' },
   { to: '/split', label: 'Split PDF' },
   { to: '/compress', label: 'Compress PDF' },
+  { to: '/organize', label: 'Organize PDF' },
   { to: '/crop', label: 'Crop PDF' },
   { to: '/edit', label: 'Edit PDF' },
-  { to: '/compare', label: 'Compare PDF' },
 ];
 
 const CONVERT_LINKS = [
