@@ -27,6 +27,8 @@ const Footer = () => {
             <Link to="/split" className="hover:text-white transition-colors text-sm">Split PDF</Link>
             <Link to="/compress" className="hover:text-white transition-colors text-sm">Compress PDF</Link>
             <Link to="/rotate" className="hover:text-white transition-colors text-sm">Rotate PDF</Link>
+            <Link to="/pdf-to-image" className="hover:text-white transition-colors text-sm">PDF to Image</Link>
+            <Link to="/image-to-pdf" className="hover:text-white transition-colors text-sm">Image to PDF</Link>
             <Link to="/tools" className="hover:text-white transition-colors text-sm">All Tools</Link>
             <Link to="/guide" className="hover:text-white transition-colors text-sm">How-To Guide & FAQ</Link>
           </div>

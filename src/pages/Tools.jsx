@@ -94,9 +94,9 @@ const TOOLS = [
     id: 'pdf-to-image',
     title: 'PDF to Image',
     description: 'Export PDF pages as PNG or JPEG images on your device.',
-    to: null,
+    to: '/pdf-to-image',
     category: 'convert',
-    available: false,
+    available: true,
     accent: 'sky',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
@@ -104,6 +104,22 @@ const TOOLS = [
         <rect x="22" y="16" width="18" height="18" rx="2" className="fill-sky-50 stroke-sky-600" strokeWidth="2" />
         <circle cx="28" cy="22" r="2" className="fill-sky-600" />
         <path d="M24 30l4-4 4 3 4-5 4 6H24z" className="fill-sky-200 stroke-sky-600" strokeWidth="1.5" />
+      </svg>
+    ),
+  },
+  {
+    id: 'image-to-pdf',
+    title: 'Image to PDF',
+    description: 'Combine JPG, PNG, or WEBP images into a single PDF document.',
+    to: '/image-to-pdf',
+    category: 'convert',
+    available: true,
+    accent: 'indigo',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
+        <rect x="10" y="12" width="28" height="24" rx="3" className="fill-indigo-100 stroke-indigo-600" strokeWidth="2" />
+        <circle cx="18" cy="20" r="2.5" className="fill-indigo-600" />
+        <path d="M12 32l8-8 6 6 4-4 6 6H12z" className="fill-indigo-200 stroke-indigo-600" strokeWidth="1.5" />
       </svg>
     ),
   },

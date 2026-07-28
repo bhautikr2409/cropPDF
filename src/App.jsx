@@ -11,6 +11,8 @@ const MergePDF = lazy(() => import('./features/merge'));
 const SplitPDF = lazy(() => import('./features/split'));
 const CompressPDF = lazy(() => import('./features/compress'));
 const RotatePDF = lazy(() => import('./features/rotate'));
+const PdfToImage = lazy(() => import('./features/pdf-to-image'));
+const ImageToPdf = lazy(() => import('./features/image-to-pdf'));
 const Tools = lazy(() => import('./pages/Tools'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const ContactUs = lazy(() => import('./pages/ContactUs'));
@@ -44,6 +46,8 @@ function App() {
                 <Route path="/split" element={<SplitPDF />} />
                 <Route path="/compress" element={<CompressPDF />} />
                 <Route path="/rotate" element={<RotatePDF />} />
+                <Route path="/pdf-to-image" element={<PdfToImage />} />
+                <Route path="/image-to-pdf" element={<ImageToPdf />} />
                 <Route path="/tools" element={<Tools />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
