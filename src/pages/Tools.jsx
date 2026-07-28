@@ -62,9 +62,9 @@ const TOOLS = [
     id: 'compress',
     title: 'Compress PDF',
     description: 'Reduce file size while keeping quality suitable for sharing.',
-    to: null,
+    to: '/compress',
     category: 'optimize',
-    available: false,
+    available: true,
     accent: 'emerald',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">
