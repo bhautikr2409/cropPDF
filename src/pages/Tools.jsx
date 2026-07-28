@@ -45,10 +45,10 @@ const TOOLS = [
   {
     id: 'split',
     title: 'Split PDF',
-    description: 'Separate one page or a set of pages into independent PDF files.',
-    to: null,
+    description: 'Extract pages or split a PDF into separate files. Runs entirely in your browser.',
+    to: '/split',
     category: 'organize',
-    available: false,
+    available: true,
     accent: 'orange',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10" aria-hidden="true">

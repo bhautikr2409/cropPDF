@@ -24,6 +24,7 @@ const Footer = () => {
             <h4 className="text-white font-semibold text-sm uppercase tracking-wider">Product</h4>
             <Link to="/crop" className="hover:text-white transition-colors text-sm">Crop PDF Editor</Link>
             <Link to="/merge" className="hover:text-white transition-colors text-sm">Merge PDF</Link>
+            <Link to="/split" className="hover:text-white transition-colors text-sm">Split PDF</Link>
             <Link to="/tools" className="hover:text-white transition-colors text-sm">All Tools</Link>
             <Link to="/guide" className="hover:text-white transition-colors text-sm">How-To Guide & FAQ</Link>
           </div>

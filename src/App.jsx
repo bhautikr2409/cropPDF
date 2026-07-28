@@ -8,6 +8,7 @@ import LandingPage from './pages/LandingPage';
 
 const CropPDF = lazy(() => import('./features/crop'));
 const MergePDF = lazy(() => import('./features/merge'));
+const SplitPDF = lazy(() => import('./features/split'));
 const Tools = lazy(() => import('./pages/Tools'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const ContactUs = lazy(() => import('./pages/ContactUs'));
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/crop" element={<CropPDF />} />
                 <Route path="/merge" element={<MergePDF />} />
+                <Route path="/split" element={<SplitPDF />} />
                 <Route path="/tools" element={<Tools />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
