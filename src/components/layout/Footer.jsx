@@ -4,18 +4,23 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-900 text-slate-400 border-t border-slate-800">
+    <footer className="border-t border-slate-800 bg-slate-900 text-slate-400">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           
           {/* Logo & Privacy Disclaimer */}
           <div className="flex flex-col gap-4">
             <Link to="/" className="flex items-center gap-2 text-white">
-              <div className="w-6 h-6 bg-blue-500 rounded"></div>
-              <span className="text-lg font-bold">PDFCropper</span>
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-600 text-xs font-black">
+                P
+              </div>
+              <span className="text-lg font-bold">
+                PDF<span className="text-teal-300">Cropper</span>
+              </span>
             </Link>
             <p className="text-sm leading-relaxed max-w-sm">
-              An open-source, 100% client-side PDF cropping tool. Your documents never touch any server. All processing happens in browser sandbox memory.
+              Every PDF tool you need in one place — 100% client-side. Your documents never touch any
+              server. All processing happens in your browser.
             </p>
           </div>
 
