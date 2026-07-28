@@ -6,7 +6,7 @@ const POPULAR_TOOLS = [
   { to: '/compress', label: 'Compress PDF' },
   { to: '/crop', label: 'Crop PDF' },
   { to: '/edit', label: 'Edit PDF' },
-  { to: '/rotate', label: 'Rotate PDF' },
+  { to: '/compare', label: 'Compare PDF' },
 ];
 
 const CONVERT_LINKS = [

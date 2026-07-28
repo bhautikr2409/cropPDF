@@ -84,6 +84,17 @@ export const TOOLS = [
     icon: 'rotate',
   },
   {
+    id: 'compare',
+    title: 'Compare PDF',
+    description:
+      'Show a side-by-side document comparison and easily spot changes between different file versions.',
+    to: '/compare',
+    category: 'organize',
+    available: true,
+    accent: 'indigo',
+    icon: 'compare',
+  },
+  {
     id: 'pdf-to-image',
     title: 'PDF to Image',
     description: 'Export PDF pages as PNG or JPEG images on your device.',

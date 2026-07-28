@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
+import ScrollToTop from './components/ScrollToTop';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import LandingPage from './pages/LandingPage';
@@ -17,6 +18,7 @@ const PdfToMarkdown = lazy(() => import('./features/pdf-to-markdown'));
 const ProtectPDF = lazy(() => import('./features/protect'));
 const UnlockPDF = lazy(() => import('./features/unlock'));
 const EditPDF = lazy(() => import('./features/edit'));
+const ComparePDF = lazy(() => import('./features/compare'));
 const Tools = lazy(() => import('./pages/Tools'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const ContactUs = lazy(() => import('./pages/ContactUs'));
@@ -39,6 +41,7 @@ function PageLoader() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <ErrorBoundary>
         <div className="flex flex-col min-h-screen bg-[var(--page-bg)] text-slate-800 antialiased">
           <Toaster position="top-center" />
@@ -59,6 +62,7 @@ function App() {
                 <Route path="/protect" element={<ProtectPDF />} />
                 <Route path="/unlock" element={<UnlockPDF />} />
                 <Route path="/edit" element={<EditPDF />} />
+                <Route path="/compare" element={<ComparePDF />} />
                 <Route path="/tools" element={<Tools />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />

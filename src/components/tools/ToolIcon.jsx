@@ -77,6 +77,18 @@ const ICONS = {
       <circle cx="12" cy="15" r="1.5" fill="currentColor" />
     </svg>
   ),
+  compare: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
+      <rect x="3" y="4" width="8" height="16" rx="1.5" stroke="currentColor" strokeWidth="2" />
+      <rect x="13" y="4" width="8" height="16" rx="1.5" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M7 9h2M7 12h2M7 15h1M15 9h2M15 12h2M15 15h1"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
 };
 
 export default function ToolIcon({ name, className = '' }) {
