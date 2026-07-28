@@ -37,7 +37,7 @@ export default function CropPDF() {
   };
 
   return (
-    <div className="bg-[#f5f7fb] py-10 sm:py-14">
+    <div className="bg-[var(--page-bg)] py-10 sm:py-14">
       <div className="container mx-auto px-4">
         {!pdf.hasFile ? (
           <div className="max-w-3xl mx-auto">

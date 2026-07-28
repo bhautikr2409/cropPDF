@@ -133,7 +133,7 @@ export default function CropPage({
             type="button"
             onClick={onDownload}
             disabled={!cropArea || isDownloading}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 transition-colors duration-200 shadow-sm"
+            className="bg-teal-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-600 disabled:opacity-50 disabled:hover:bg-teal-700 transition-colors duration-200 shadow-sm"
           >
             {isDownloading ? 'Processing…' : 'Download Cropped PDF'}
           </button>
@@ -162,7 +162,7 @@ export default function CropPage({
               <button
                 type="button"
                 onClick={onClearFile}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700"
+                className="bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-teal-600"
               >
                 Choose another file
               </button>
@@ -218,7 +218,7 @@ export default function CropPage({
                 aria-hidden="true"
               />
               <div
-                className="absolute border-2 border-blue-500 cursor-move"
+                className="absolute border-2 border-teal-500 cursor-move"
                 style={{
                   left: cropArea.x,
                   top: cropArea.y,
@@ -235,7 +235,7 @@ export default function CropPage({
                     role="button"
                     tabIndex={-1}
                     aria-label={`Resize crop ${position}`}
-                    className="absolute w-3.5 h-3.5 bg-blue-600 border border-white rounded-full transition-transform hover:scale-125 shadow-md"
+                    className="absolute w-3.5 h-3.5 bg-teal-700 border border-white rounded-full transition-transform hover:scale-125 shadow-md"
                     onMouseDown={(e) => beginResize(e, position, false)}
                     onTouchStart={(e) => beginResize(e, position, true)}
                     style={handleStyle(position)}

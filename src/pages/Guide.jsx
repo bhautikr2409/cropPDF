@@ -1,113 +1,102 @@
 import { Link } from 'react-router-dom';
+import StaticPageShell from '../components/layout/StaticPageShell';
 
-const Guide = () => {
-  const faqs = [
-    {
-      q: "How does the client-side cropping engine work?",
-      a: "Unlike typical online conversion utilities that upload files to backend cloud servers, PDFCropper runs entirely inside your browser's local sandbox. When you load a document, our engine compiles canvas renderings of the pages using PDF.js. When you confirm a crop selection, we alter the metadata dimensions (the MediaBox and CropBox boundaries) directly in the client file buffer using JavaScript, triggering a direct browser stream download."
-    },
-    {
-      q: "Will cropping a PDF reduce its visual resolution or quality?",
-      a: "No. Our tool does not rasterize, compress, or re-render vector paths. It merely changes the page boundary definitions (MediaBox and CropBox boundaries). The embedded elements, texts, and vector lines remain in their original native vector states, ensuring maximum output resolution."
-    },
-    {
-      q: "Why does Google AdSense flag tool-based web applications?",
-      a: "Google requires sites hosting AdSense code to supply significant, original text content (publisher content) to ensure ads can be contextually matched and to protect against accidental click behaviors. To address this, we restrict ad delivery on interactive tool workspace canvases and provide rich support pages like this documentation center."
-    },
-    {
-      q: "What is the difference between a MediaBox and a CropBox?",
-      a: "In PDF formatting specifications, the MediaBox defines the physical boundaries of the medium on which the page is to be printed (e.g. A4 size). The CropBox defines the region to which the contents of the page are to be clipped when displayed or printed. By modifying the CropBox parameters, we tell PDF readers to only show the cropped area."
-    },
-    {
-      q: "Are my documents secure when using this tool?",
-      a: "Yes, 100%. Because no file uploads occur, your documents never cross the network. This makes PDFCropper perfectly compliant with strict organizational standards, HIPAA requirements, and data governance policies."
-    }
-  ];
+const faqs = [
+  {
+    q: 'How does client-side processing work?',
+    a: 'PDFCropper runs entirely in your browser. Files are loaded into local memory, processed with JavaScript libraries, and downloaded from your device. Nothing is uploaded to our servers.',
+  },
+  {
+    q: 'Will cropping reduce PDF quality?',
+    a: 'No. Cropping adjusts page boundaries (CropBox / MediaBox). Embedded text and vectors stay in their original form — we do not rasterize pages for cropping.',
+  },
+  {
+    q: 'Are my documents secure?',
+    a: 'Yes. Because files never leave your browser, they are not transmitted to or stored on our servers. That makes the tool suitable for sensitive documents when used on a trusted device.',
+  },
+  {
+    q: 'Which tools are available?',
+    a: 'Merge, split, compress, crop, edit, rotate, convert (images & Markdown), protect, and unlock — all from the tools page on the homepage.',
+  },
+];
 
+export default function Guide() {
   return (
-    <div className="min-h-screen bg-slate-50 py-16 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-4xl mx-auto">
-        
-        {/* Title */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl mb-4" id="guide-title">
-            PDF Cropping Guide & FAQ
-          </h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Everything you need to know about cropping PDF files, local browser security, and page coordinate formats.
-          </p>
-        </div>
+    <StaticPageShell>
+      <div className="mb-10 text-center sm:mb-12">
+        <p className="mb-2 text-sm font-semibold text-teal-700">Help & guide</p>
+        <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+          How to use PDFCropper
+        </h1>
+        <p className="mx-auto max-w-2xl text-lg text-slate-600">
+          Quick steps for cropping PDFs, plus answers about privacy and how local processing works.
+        </p>
+      </div>
 
-        {/* Step-by-Step Instructions */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 sm:p-12 mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">How to Crop a PDF (Step-by-Step)</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex flex-col">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center font-bold text-blue-600 mb-4 text-lg">
-                1
+      <div className="mb-8 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
+        <h2 className="mb-6 text-2xl font-bold text-slate-900">Crop a PDF in 3 steps</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {[
+            {
+              n: '1',
+              title: 'Upload',
+              text: 'Open Crop PDF and choose a file. It loads into browser memory only.',
+            },
+            {
+              n: '2',
+              title: 'Select area',
+              text: 'Drag on the page to draw a crop box. Resize with the corner handles.',
+            },
+            {
+              n: '3',
+              title: 'Download',
+              text: 'Click download to generate a cropped PDF locally and save it to your device.',
+            },
+          ].map((step) => (
+            <div key={step.n}>
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-lg font-bold text-teal-700">
+                {step.n}
               </div>
-              <h3 className="font-semibold text-slate-800 text-lg mb-2">Upload your PDF</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Click "Choose PDF file" on our home screen to select a file from your hard drive. Your file is loaded instantly in memory.
-              </p>
+              <h3 className="mb-1 text-lg font-semibold text-slate-800">{step.title}</h3>
+              <p className="text-sm leading-relaxed text-slate-600">{step.text}</p>
             </div>
-
-            <div className="flex flex-col">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center font-bold text-blue-600 mb-4 text-lg">
-                2
-              </div>
-              <h3 className="font-semibold text-slate-800 text-lg mb-2">Draw Crop Boundaries</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Click and drag your mouse (or drag with your finger on touchscreens) across the PDF page to select your crop region. Adjust the sizing using the corner drag handles.
-              </p>
-            </div>
-
-            <div className="flex flex-col">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center font-bold text-blue-600 mb-4 text-lg">
-                3
-              </div>
-              <h3 className="font-semibold text-slate-800 text-lg mb-2">Download Cropped PDF</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Click "Download Cropped PDF". Our client engine crops the document metadata and compiles a download stream immediately.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* Detailed FAQ Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 sm:p-12 mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 mb-8">Frequently Asked Questions</h2>
-          <div className="space-y-8">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b border-slate-100 pb-6 last:border-0 last:pb-0">
-                <h3 className="text-lg font-semibold text-slate-800 mb-2 flex items-start gap-2">
-                  <span className="text-blue-500 font-bold">Q:</span>
-                  <span>{faq.q}</span>
-                </h3>
-                <div className="text-slate-600 text-sm leading-relaxed pl-6">
-                  {faq.a}
-                </div>
-              </div>
-            ))}
-          </div>
+      <div className="mb-8 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
+        <h2 className="mb-6 text-2xl font-bold text-slate-900">FAQ</h2>
+        <div className="space-y-6">
+          {faqs.map((faq) => (
+            <div key={faq.q} className="border-b border-slate-100 pb-6 last:border-0 last:pb-0">
+              <h3 className="mb-2 flex gap-2 text-base font-semibold text-slate-800">
+                <span className="font-bold text-teal-600">Q</span>
+                <span>{faq.q}</span>
+              </h3>
+              <p className="pl-6 text-sm leading-relaxed text-slate-600">{faq.a}</p>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* Quick Link */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-center text-white shadow-md">
-          <h2 className="text-2xl font-bold mb-2">Start Cropping Your PDF Document Today</h2>
-          <p className="text-blue-100 mb-6 text-sm">Experience maximum security with zero server uploads.</p>
-          <Link 
-            to="/crop" 
-            className="inline-block bg-white text-blue-600 hover:bg-slate-50 font-bold px-6 py-3 rounded-lg transition"
+      <div className="rounded-2xl bg-teal-700 px-6 py-8 text-center text-white shadow-sm sm:px-10">
+        <h2 className="mb-2 text-2xl font-bold">Start with any tool</h2>
+        <p className="mb-6 text-sm text-teal-100">Private by design — files never leave your device.</p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            to="/"
+            className="inline-flex h-11 items-center rounded-xl bg-white px-5 text-sm font-bold text-teal-800 transition hover:bg-teal-50"
           >
-            Start Cropping
+            Browse all tools
+          </Link>
+          <Link
+            to="/crop"
+            className="inline-flex h-11 items-center rounded-xl border border-teal-400/50 px-5 text-sm font-semibold text-white transition hover:bg-teal-600"
+          >
+            Crop a PDF
           </Link>
         </div>
-
       </div>
-    </div>
+    </StaticPageShell>
   );
-};
-
-export default Guide;
+}

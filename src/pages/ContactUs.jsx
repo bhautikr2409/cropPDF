@@ -1,60 +1,111 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import StaticPageShell from '../components/layout/StaticPageShell';
 import { CONTACT_EMAIL } from '../constants';
 
-const ContactUs = () => {
+const fieldClass =
+  'w-full rounded-xl border border-slate-200 px-4 py-2.5 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20';
+
+/** Free client-side delivery to CONTACT_EMAIL (FormSubmit). First use needs inbox confirmation. */
+const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+
+export default function ContactUs() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
   });
+  const [isSending, setIsSending] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const openMailtoFallback = () => {
+    const subject = encodeURIComponent(formData.subject.trim() || 'PDFCropper contact');
+    const body = encodeURIComponent(
+      `Name: ${formData.name.trim()}\nReply-to: ${formData.email.trim()}\n\n${formData.message.trim()}`
+    );
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+    const name = formData.name.trim();
+    const email = formData.email.trim();
+    const subject = formData.subject.trim() || 'PDFCropper contact';
+    const message = formData.message.trim();
+
+    if (!name || !email || !message) {
       toast.error('Please fill in all required fields.');
       return;
     }
 
-    const subject = encodeURIComponent(formData.subject.trim() || 'PDFCropper contact');
-    const body = encodeURIComponent(
-      `Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\n${formData.message.trim()}`
-    );
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailOk) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
 
-    const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    setIsSending(true);
+    try {
+      const response = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+          body: JSON.stringify({
+            name,
+            email,
+            _replyto: email,
+            _subject: subject,
+            message,
+            _template: 'table',
+            _captcha: 'false',
+            _honey: '',
+          }),
+      });
 
-    toast.success('Opening your email app to send the message…');
-    window.location.href = mailto;
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result?.message || 'Could not send message.');
+      }
+
+      toast.success('Message sent — we will reply to your email soon.');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error('Direct send failed. Opening your email app instead…');
+      openMailtoFallback();
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
-    <div className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-100 p-8 sm:p-10">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2" id="contact-title">
-            Contact Us
-          </h1>
+    <StaticPageShell narrow>
+      <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
+        <div className="mb-8 text-center">
+          <p className="mb-2 text-sm font-semibold text-teal-700">Support</p>
+          <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-slate-900">Contact us</h1>
           <p className="text-slate-500">
-            Have feedback, suggestions, or issues? Fill out the form and we will open your
-            email app so you can send it to{' '}
-            <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 hover:underline">
+            Send feedback or questions. Messages go to{' '}
+            <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-teal-700 hover:underline">
               {CONTACT_EMAIL}
             </a>
-            .
+            . We will reply to the email you enter below.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-1">
-              Your Name <span className="text-red-500">*</span>
+            <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-slate-700">
+              Your name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -62,15 +113,16 @@ const ContactUs = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="John Doe"
+              placeholder="Jane Doe"
               required
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+              disabled={isSending}
+              className={fieldClass}
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1">
-              Email Address <span className="text-red-500">*</span>
+            <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-slate-700">
+              Your email <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
@@ -78,14 +130,16 @@ const ContactUs = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="john@example.com"
+              placeholder="you@example.com"
               required
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+              disabled={isSending}
+              className={fieldClass}
             />
+            <p className="mt-1.5 text-xs text-slate-500">We use this to reply to you.</p>
           </div>
 
           <div>
-            <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 mb-1">
+            <label htmlFor="subject" className="mb-1.5 block text-sm font-semibold text-slate-700">
               Subject
             </label>
             <input
@@ -94,14 +148,15 @@ const ContactUs = () => {
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              placeholder="General Inquiry"
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+              placeholder="General inquiry"
+              disabled={isSending}
+              className={fieldClass}
             />
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-1">
-              Your Message <span className="text-red-500">*</span>
+            <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-slate-700">
+              Message <span className="text-red-500">*</span>
             </label>
             <textarea
               id="message"
@@ -109,22 +164,28 @@ const ContactUs = () => {
               rows="5"
               value={formData.message}
               onChange={handleChange}
-              placeholder="Enter your message details here..."
+              placeholder="How can we help?"
               required
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors resize-none"
+              disabled={isSending}
+              className={`${fieldClass} resize-none`}
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-sm transition"
+            disabled={isSending}
+            className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-teal-700 text-sm font-semibold text-white transition hover:bg-teal-600 disabled:opacity-60"
           >
-            Open Email to Send
+            {isSending ? 'Sending…' : 'Send message'}
           </button>
+
+          <p className="text-center text-xs text-slate-400">
+            First-time setup: check{' '}
+            <span className="font-medium text-slate-500">{CONTACT_EMAIL}</span> for a FormSubmit
+            confirmation email and activate the form.
+          </p>
         </form>
       </div>
-    </div>
+    </StaticPageShell>
   );
-};
-
-export default ContactUs;
+}

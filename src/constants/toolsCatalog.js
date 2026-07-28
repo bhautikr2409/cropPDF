@@ -60,7 +60,7 @@ export const TOOLS = [
     to: '/crop',
     category: 'edit',
     available: true,
-    accent: 'blue',
+    accent: 'teal',
     icon: 'crop',
   },
   {
@@ -80,7 +80,7 @@ export const TOOLS = [
     to: '/rotate',
     category: 'edit',
     available: true,
-    accent: 'teal',
+    accent: 'sky',
     icon: 'rotate',
   },
   {

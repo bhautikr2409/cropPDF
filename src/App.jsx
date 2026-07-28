@@ -27,8 +27,11 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 
 function PageLoader() {
   return (
-    <div className="flex items-center justify-center py-24 text-slate-500 text-sm">
-      Loading…
+    <div className="flex items-center justify-center py-24 text-sm text-slate-500">
+      <span className="inline-flex items-center gap-2">
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-teal-200 border-t-teal-700" />
+        Loading…
+      </span>
     </div>
   );
 }
@@ -37,7 +40,7 @@ function App() {
   return (
     <BrowserRouter>
       <ErrorBoundary>
-        <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800 antialiased">
+        <div className="flex flex-col min-h-screen bg-[var(--page-bg)] text-slate-800 antialiased">
           <Toaster position="top-center" />
           <Header />
 

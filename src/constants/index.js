@@ -22,5 +22,5 @@ export const ZOOM = {
 
 export const MIN_CROP_SIZE = 10;
 
-/** Support inbox used by the contact form (opens the user's email client). */
-export const CONTACT_EMAIL = 'support@pdfcropper.example.com';
+/** Support inbox used by the contact form. */
+export const CONTACT_EMAIL = 'bhautikrakholiyawork@gmail.com';
