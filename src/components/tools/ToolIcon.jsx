@@ -63,6 +63,16 @@ const ICONS = {
       <path d="M16 12l4 6H15l1-2.5 1-1.5 1-2h2.5L18 18z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
     </svg>
   ),
+  markdownToPdf: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
+      <path
+        d="M5 4h9l5 5v11a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path d="M14 4v5h5M8 12h5M8 15h8M8 18h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  ),
   protect: (
     <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
       <rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />

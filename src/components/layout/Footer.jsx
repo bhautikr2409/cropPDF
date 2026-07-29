@@ -13,6 +13,7 @@ const CONVERT_LINKS = [
   { to: '/pdf-to-image', label: 'PDF to Image' },
   { to: '/image-to-pdf', label: 'Image to PDF' },
   { to: '/pdf-to-markdown', label: 'PDF to Markdown' },
+  { to: '/markdown-to-pdf', label: 'Markdown to PDF' },
 ];
 
 const SECURITY_LINKS = [

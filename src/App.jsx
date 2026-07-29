@@ -15,6 +15,7 @@ const RotatePDF = lazy(() => import('./features/rotate'));
 const PdfToImage = lazy(() => import('./features/pdf-to-image'));
 const ImageToPdf = lazy(() => import('./features/image-to-pdf'));
 const PdfToMarkdown = lazy(() => import('./features/pdf-to-markdown'));
+const MarkdownToPdf = lazy(() => import('./features/markdown-to-pdf'));
 const ProtectPDF = lazy(() => import('./features/protect'));
 const UnlockPDF = lazy(() => import('./features/unlock'));
 const EditPDF = lazy(() => import('./features/edit'));
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/pdf-to-image" element={<PdfToImage />} />
                 <Route path="/image-to-pdf" element={<ImageToPdf />} />
                 <Route path="/pdf-to-markdown" element={<PdfToMarkdown />} />
+                <Route path="/markdown-to-pdf" element={<MarkdownToPdf />} />
                 <Route path="/protect" element={<ProtectPDF />} />
                 <Route path="/unlock" element={<UnlockPDF />} />
                 <Route path="/edit" element={<EditPDF />} />

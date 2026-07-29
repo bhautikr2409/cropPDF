@@ -18,6 +18,7 @@ export const ACCENT = {
   sky: { box: 'bg-sky-50', icon: 'text-sky-600', hover: 'group-hover:border-sky-200' },
   indigo: { box: 'bg-indigo-50', icon: 'text-indigo-600', hover: 'group-hover:border-indigo-200' },
   cyan: { box: 'bg-cyan-50', icon: 'text-cyan-600', hover: 'group-hover:border-cyan-200' },
+  lime: { box: 'bg-lime-50', icon: 'text-lime-700', hover: 'group-hover:border-lime-200' },
   amber: { box: 'bg-amber-50', icon: 'text-amber-600', hover: 'group-hover:border-amber-200' },
   stone: { box: 'bg-stone-100', icon: 'text-stone-700', hover: 'group-hover:border-stone-300' },
 };
@@ -134,6 +135,16 @@ export const TOOLS = [
     available: true,
     accent: 'cyan',
     icon: 'markdown',
+  },
+  {
+    id: 'markdown-to-pdf',
+    title: 'Markdown to PDF',
+    description: 'Upload a Markdown file or paste Markdown, then download a clean PDF.',
+    to: '/markdown-to-pdf',
+    category: 'convert',
+    available: true,
+    accent: 'lime',
+    icon: 'markdownToPdf',
   },
   {
     id: 'protect',
