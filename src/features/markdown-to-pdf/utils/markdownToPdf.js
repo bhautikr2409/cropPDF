@@ -1,9 +1,10 @@
 import { marked } from 'marked';
-import fontkit from '@pdf-lib/fontkit';
+import fontkitImport from '@pdf-lib/fontkit';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import toast from 'react-hot-toast';
 import { DEFAULT_TYPEFACE_ID, loadTypefaceFontBytes } from './typefaces';
 
+const fontkit = fontkitImport?.default ?? fontkitImport;
 export const MAX_MARKDOWN_BYTES = 2 * 1024 * 1024;
 
 const PAGE_WIDTH = 595.28; // A4
@@ -86,14 +87,15 @@ function wrapText(text, font, size, maxWidth) {
     let current = '';
     for (const word of words) {
       const next = current + word;
-      if (font.widthOfTextAtSize(next, size) <= maxWidth || current.length === 0) {
+      const fitted = fitTextToFont(next, font) || next;
+      if (font.widthOfTextAtSize(fitted, size) <= maxWidth || current.length === 0) {
         current = next;
       } else {
-        lines.push(current.replace(/\s+$/, ''));
+        lines.push(fitTextToFont(current.replace(/\s+$/, ''), font));
         current = word.replace(/^\s+/, '');
       }
     }
-    if (current.length) lines.push(current.replace(/\s+$/, ''));
+    if (current.length) lines.push(fitTextToFont(current.replace(/\s+$/, ''), font));
   }
 
   return lines.length ? lines : [''];
@@ -105,6 +107,7 @@ function inlinePlain(tokens) {
     .map((token) => {
       switch (token.type) {
         case 'text':
+          if (token.tokens?.length) return inlinePlain(token.tokens);
           return token.text || token.raw || '';
         case 'escape':
           return token.text || '';
@@ -122,7 +125,10 @@ function inlinePlain(tokens) {
           return token.text || token.title || '[image]';
         case 'br':
           return '\n';
+        case 'paragraph':
+          return inlinePlain(token.tokens) || token.text || '';
         default:
+          if (token.tokens?.length) return inlinePlain(token.tokens);
           return token.text || token.raw || '';
       }
     })
@@ -134,7 +140,7 @@ function headingSize(depth) {
   return sizes[depth] || 12;
 }
 
-/** StandardFonts only support WinAnsi — normalize common Unicode. */
+/** Normalize markdown text for PDF drawing (no control chars / exotic unicode). */
 function toPdfText(text) {
   return String(text || '')
     .replace(/\u2018|\u2019|\u02BC/g, "'")
@@ -145,7 +151,47 @@ function toPdfText(text) {
     .replace(/\u2022/g, '-')
     .replace(/\u2192/g, '->')
     .replace(/\u2190/g, '<-')
-    .replace(/[^\t\n\r\x20-\x7E\xA0-\xFF]/g, '?');
+    .replace(/[\t\r]+/g, ' ')
+    .replace(/[^\n\x20-\x7E]/g, '?');
+}
+
+/** pdf-lib throws on empty strings and missing glyphs — sanitize per font. */
+function fitTextToFont(text, font) {
+  const cleaned = toPdfText(text).replace(/\n/g, ' ');
+  if (!cleaned) return '';
+
+  try {
+    font.encodeText(cleaned);
+    return cleaned;
+  } catch {
+    let out = '';
+    for (const ch of cleaned) {
+      try {
+        font.encodeText(ch);
+        out += ch;
+      } catch {
+        out += ch === ' ' ? ' ' : '?';
+      }
+    }
+    return out;
+  }
+}
+
+function flattenInlineTokens(tokens) {
+  const out = [];
+  for (const token of tokens || []) {
+    if (token.type === 'text' && token.tokens?.length) {
+      out.push(...flattenInlineTokens(token.tokens));
+    } else if (token.type === 'paragraph' && token.tokens?.length) {
+      out.push(...flattenInlineTokens(token.tokens));
+    } else if (token.type === 'list') {
+      // handled by caller
+      out.push(token);
+    } else {
+      out.push(token);
+    }
+  }
+  return out;
 }
 
 /**
@@ -172,18 +218,11 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
 
     try {
       const { bytes } = await loadTypefaceFontBytes(typefaceId);
-      fontRegular = await pdfDoc.embedFont(bytes.regular, { subset: true });
-      fontBold = await pdfDoc.embedFont(bytes.bold, { subset: true });
-      fontItalic = await pdfDoc.embedFont(bytes.italic, { subset: true });
-      fontBoldItalic = await pdfDoc.embedFont(bytes.boldItalic, { subset: true });
-
-      // Prefer a mono face for code when the selected typeface is already mono.
-      try {
-        const monoBytes = await loadTypefaceFontBytes('ibm-plex-mono');
-        fontMono = await pdfDoc.embedFont(monoBytes.bytes.regular, { subset: true });
-      } catch {
-        // keep Courier
-      }
+      const embed = async (buf) => pdfDoc.embedFont(buf, { subset: true });
+      fontRegular = await embed(bytes.regular);
+      fontBold = await embed(bytes.bold);
+      fontItalic = await embed(bytes.italic);
+      fontBoldItalic = await embed(bytes.boldItalic);
     } catch (fontError) {
       console.warn('Custom typeface failed, falling back to Helvetica.', fontError);
       fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -204,6 +243,13 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
       }
     };
 
+    const drawSafeText = (text, opts) => {
+      const fitted = fitTextToFont(text, opts.font);
+      if (!fitted) return 0;
+      page.drawText(fitted, opts);
+      return opts.font.widthOfTextAtSize(fitted, opts.size);
+    };
+
     const drawParagraph = (text, style = {}) => {
       const {
         font = fontRegular,
@@ -217,7 +263,7 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
       for (const line of lines) {
         ensureSpace(lineHeight);
         if (line.length > 0) {
-          page.drawText(line, {
+          drawSafeText(line, {
             x: MARGIN_X + indent,
             y: y - size,
             size,
@@ -251,20 +297,22 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
             flushNewLine();
             continue;
           }
-          const width = font.widthOfTextAtSize(part, size);
+          const fitted = fitTextToFont(part, font);
+          if (!fitted) continue;
+          const width = font.widthOfTextAtSize(fitted, size);
           if (x > MARGIN_X + baseIndent && x + width > MARGIN_X + baseIndent + maxW) {
             flushNewLine();
           }
           if (width > maxW) {
-            const wrapped = wrapText(part, font, size, maxW);
+            const wrapped = wrapText(fitted, font, size, maxW);
             wrapped.forEach((line, i) => {
               if (i > 0) flushNewLine();
-              page.drawText(line, { x, y: y - size, size, font, color });
-              x += font.widthOfTextAtSize(line, size);
+              const w = drawSafeText(line, { x, y: y - size, size, font, color });
+              x += w;
             });
             continue;
           }
-          page.drawText(part, { x, y: y - size, size, font, color });
+          drawSafeText(fitted, { x, y: y - size, size, font, color });
           x += width;
         }
       };
@@ -272,6 +320,10 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
       const walk = (nodes, style = {}) => {
         for (const node of nodes || []) {
           if (node.type === 'text' || node.type === 'escape') {
+            if (node.tokens?.length) {
+              walk(node.tokens, style);
+              continue;
+            }
             const font =
               style.bold && style.italic
                 ? fontBoldItalic
@@ -299,6 +351,8 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
             drawRun(node.text || '[image]', fontItalic, COLORS.muted);
           } else if (node.type === 'br') {
             flushNewLine();
+          } else if (node.type === 'paragraph' && node.tokens) {
+            walk(node.tokens, style);
           } else if (node.tokens) {
             walk(node.tokens, style);
           } else if (node.text) {
@@ -307,7 +361,7 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
         }
       };
 
-      walk(tokens);
+      walk(flattenInlineTokens(tokens));
       y -= lineHeight + 8;
     };
 
@@ -363,7 +417,7 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
               const labelWidth = fontRegular.widthOfTextAtSize(label, size);
               const itemIndent = indent + Math.max(labelWidth, 14);
               ensureSpace(size * 1.45);
-              page.drawText(label, {
+              drawSafeText(label, {
                 x: MARGIN_X + indent,
                 y: y - size,
                 size,
@@ -371,24 +425,21 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
                 color: COLORS.text,
               });
 
-              const bodyTokens = (item.tokens || []).filter((t) => t.type !== 'list');
               const nestedLists = (item.tokens || []).filter((t) => t.type === 'list');
-              const body = inlinePlain(bodyTokens) || item.text || '';
-              const lines = wrapText(body, fontRegular, size, contentWidth(itemIndent));
-              lines.forEach((line, i) => {
-                if (i > 0) {
-                  y -= size * 1.45;
-                  ensureSpace(size * 1.45);
-                }
-                page.drawText(line, {
-                  x: MARGIN_X + itemIndent,
-                  y: y - size,
-                  size,
-                  font: fontRegular,
-                  color: COLORS.text,
-                });
-              });
-              y -= size * 1.45 + 4;
+              const bodyTokens = flattenInlineTokens(
+                (item.tokens || []).filter((t) => t.type !== 'list')
+              );
+
+              if (bodyTokens.length) {
+                // Keep bullet and first line on the same baseline.
+                const savedY = y;
+                drawInlineRuns(bodyTokens, itemIndent);
+                // drawInlineRuns advances y; if content was short that's fine.
+                if (y > savedY - size * 1.45) y = savedY - size * 1.45;
+              } else {
+                y -= size * 1.45;
+              }
+              y -= 4;
               if (nestedLists.length) renderTokens(nestedLists, itemIndent);
               index += 1;
             }
@@ -406,7 +457,7 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
               size,
               contentWidth(indent) - pad * 2
             );
-            const blockHeight = lines.length * lineHeight + pad * 2;
+            const blockHeight = Math.max(lines.length, 1) * lineHeight + pad * 2;
             ensureSpace(blockHeight + 8);
             page.drawRectangle({
               x: MARGIN_X + indent,
@@ -419,7 +470,7 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
             });
             let cy = y - pad;
             for (const line of lines) {
-              page.drawText(line, {
+              drawSafeText(line.length ? line : ' ', {
                 x: MARGIN_X + indent + pad,
                 y: cy - size,
                 size,
@@ -486,7 +537,8 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
     return true;
   } catch (error) {
     console.error('Markdown to PDF error:', error);
-    toast.error('Could not convert this Markdown to PDF.');
+    const detail = error?.message ? String(error.message).slice(0, 120) : '';
+    toast.error(detail ? `PDF failed: ${detail}` : 'Could not convert this Markdown to PDF.');
     return false;
   }
 }
