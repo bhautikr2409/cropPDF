@@ -21,6 +21,10 @@ const COLORS = {
   quoteBar: rgb(0.45, 0.55, 0.72),
   link: rgb(0.15, 0.4, 0.75),
   hr: rgb(0.8, 0.83, 0.87),
+  tableHeaderBg: rgb(0.945, 0.953, 0.961),
+  tableStripeBg: rgb(0.965, 0.973, 0.98),
+  tableRule: rgb(0.86, 0.89, 0.93),
+  tableCodeBg: rgb(0.93, 0.94, 0.96),
 };
 
 function triggerDownload(blob, filename) {
@@ -185,13 +189,118 @@ function flattenInlineTokens(tokens) {
     } else if (token.type === 'paragraph' && token.tokens?.length) {
       out.push(...flattenInlineTokens(token.tokens));
     } else if (token.type === 'list') {
-      // handled by caller
       out.push(token);
     } else {
       out.push(token);
     }
   }
   return out;
+}
+
+/** Build draw segments for a markdown table cell (text / inline code). */
+function getCellSegments(cell) {
+  const tokens = flattenInlineTokens(cell?.tokens || []);
+  if (!tokens.length) {
+    const text = String(cell?.text || '').trim();
+    return text ? [{ kind: 'text', text, bold: false }] : [];
+  }
+
+  const segments = [];
+  for (const token of tokens) {
+    if (token.type === 'codespan') {
+      segments.push({ kind: 'code', text: token.text || '', bold: false });
+    } else if (token.type === 'strong') {
+      segments.push({
+        kind: 'text',
+        text: inlinePlain(token.tokens) || token.text || '',
+        bold: true,
+      });
+    } else if (token.type === 'em') {
+      segments.push({
+        kind: 'text',
+        text: inlinePlain(token.tokens) || token.text || '',
+        bold: false,
+      });
+    } else if (token.type === 'text' || token.type === 'escape') {
+      const text = token.text || token.raw || '';
+      if (text) segments.push({ kind: 'text', text, bold: false });
+    } else if (token.text || token.tokens) {
+      const text = inlinePlain([token]) || token.text || '';
+      if (text) segments.push({ kind: 'text', text, bold: false });
+    }
+  }
+  return segments.filter((s) => s.text);
+}
+
+function layoutSegmentLines(segments, fonts, size, maxWidth) {
+  const lines = [];
+  let line = [];
+  let lineWidth = 0;
+
+  const flush = () => {
+    if (line.length) lines.push(line);
+    line = [];
+    lineWidth = 0;
+  };
+
+  const fontFor = (seg) => {
+    if (seg.kind === 'code') return fonts.mono;
+    if (seg.bold) return fonts.bold;
+    return fonts.regular;
+  };
+
+  const pushToken = (seg, text, font) => {
+    let remaining = text;
+    while (remaining.length) {
+      const width = font.widthOfTextAtSize(remaining, size);
+      if (lineWidth === 0 && width > maxWidth) {
+        let cut = remaining.length;
+        while (cut > 1 && font.widthOfTextAtSize(remaining.slice(0, cut), size) > maxWidth) {
+          cut -= 1;
+        }
+        const chunk = remaining.slice(0, cut);
+        const chunkWidth = font.widthOfTextAtSize(chunk, size);
+        line.push({ ...seg, text: chunk, font, width: chunkWidth });
+        lineWidth += chunkWidth;
+        remaining = remaining.slice(cut);
+        flush();
+        continue;
+      }
+      if (lineWidth + width <= maxWidth) {
+        line.push({ ...seg, text: remaining, font, width });
+        lineWidth += width;
+        remaining = '';
+      } else {
+        flush();
+      }
+    }
+  };
+
+  for (const seg of segments) {
+    const font = fontFor(seg);
+    const parts = String(seg.text || '').split(/(\s+)/);
+    for (const part of parts) {
+      if (!part) continue;
+      const fitted = fitTextToFont(part, font);
+      if (!fitted) continue;
+      pushToken(seg, fitted, font);
+    }
+  }
+  flush();
+  return lines.length ? lines : [[]];
+}
+
+function computeColumnWidths(columnCount, tableWidth, weightHints = []) {
+  if (columnCount <= 0) return [];
+  const min = Math.min(48, tableWidth / columnCount);
+  const weights = Array.from({ length: columnCount }, (_, i) =>
+    Math.max(1, weightHints[i] || 1)
+  );
+  const weightSum = weights.reduce((a, b) => a + b, 0);
+  const widths = weights.map((w) => Math.max(min, (tableWidth * w) / weightSum));
+  const total = widths.reduce((a, b) => a + b, 0);
+  const scale = tableWidth / total;
+  return widths.map((w) => w * scale);
 }
 
 /**
@@ -410,14 +519,71 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
           case 'list': {
             const ordered = Boolean(token.ordered);
             let index = typeof token.start === 'number' ? token.start : 1;
-            for (const item of token.items || []) {
-              const bullet = ordered ? `${index}.` : '-';
-              const label = `${bullet} `;
-              const size = 11;
-              const labelWidth = fontRegular.widthOfTextAtSize(label, size);
-              const itemIndent = indent + Math.max(labelWidth, 14);
-              ensureSpace(size * 1.45);
-              drawSafeText(label, {
+            const size = 11;
+            const lineHeight = size * 1.45;
+            const items = token.items || [];
+            const lastIndex = index + Math.max(items.length, 1) - 1;
+            const markerSlot = ordered
+              ? fontRegular.widthOfTextAtSize(`${lastIndex}. `, size)
+              : fontRegular.widthOfTextAtSize('- ', size);
+            const bodyWidth = Math.max(24, contentWidth(indent) - markerSlot);
+
+            for (const item of items) {
+              const marker = ordered ? `${index}. ` : '- ';
+              const nestedLists = (item.tokens || []).filter((t) => t.type === 'list');
+              const bodyTokens = flattenInlineTokens(
+                (item.tokens || []).filter((t) => t.type !== 'list')
+              );
+              const segments = [];
+              for (const node of bodyTokens) {
+                if (node.type === 'codespan') {
+                  segments.push({ kind: 'code', text: node.text || '', bold: false });
+                } else if (node.type === 'strong') {
+                  segments.push({
+                    kind: 'text',
+                    text: inlinePlain(node.tokens) || node.text || '',
+                    bold: true,
+                  });
+                } else if (node.type === 'em') {
+                  segments.push({
+                    kind: 'text',
+                    text: inlinePlain(node.tokens) || node.text || '',
+                    bold: false,
+                  });
+                } else if (node.type === 'text' || node.type === 'escape') {
+                  segments.push({
+                    kind: 'text',
+                    text: node.text || node.raw || '',
+                    bold: false,
+                  });
+                } else if (node.tokens || node.text) {
+                  segments.push({
+                    kind: 'text',
+                    text: inlinePlain([node]) || node.text || '',
+                    bold: false,
+                  });
+                }
+              }
+              if (!segments.length) {
+                segments.push({
+                  kind: 'text',
+                  text: item.text || '',
+                  bold: false,
+                });
+              }
+
+              const lines = layoutSegmentLines(
+                segments.filter((s) => s.text),
+                { regular: fontRegular, bold: fontBold, mono: fontMono },
+                size,
+                bodyWidth
+              );
+              const blockHeight = Math.max(1, lines.length) * lineHeight;
+
+              ensureSpace(blockHeight + 4);
+
+              // Marker (1. / 2. / -)
+              drawSafeText(marker, {
                 x: MARGIN_X + indent,
                 y: y - size,
                 size,
@@ -425,22 +591,39 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
                 color: COLORS.text,
               });
 
-              const nestedLists = (item.tokens || []).filter((t) => t.type === 'list');
-              const bodyTokens = flattenInlineTokens(
-                (item.tokens || []).filter((t) => t.type !== 'list')
-              );
-
-              if (bodyTokens.length) {
-                // Keep bullet and first line on the same baseline.
-                const savedY = y;
-                drawInlineRuns(bodyTokens, itemIndent);
-                // drawInlineRuns advances y; if content was short that's fine.
-                if (y > savedY - size * 1.45) y = savedY - size * 1.45;
-              } else {
-                y -= size * 1.45;
+              // Body lines aligned with marker baseline
+              let textY = y - size;
+              const textX0 = MARGIN_X + indent + markerSlot;
+              for (const lineSegs of lines) {
+                let textX = textX0;
+                for (const seg of lineSegs) {
+                  if (seg.kind === 'code') {
+                    const bgPadX = 2;
+                    const bgPadY = 1.2;
+                    page.drawRectangle({
+                      x: textX - bgPadX,
+                      y: textY - bgPadY,
+                      width: seg.width + bgPadX * 2,
+                      height: size + bgPadY * 2,
+                      color: COLORS.tableCodeBg,
+                    });
+                  }
+                  drawSafeText(seg.text, {
+                    x: textX,
+                    y: textY,
+                    size,
+                    font: seg.font,
+                    color: COLORS.text,
+                  });
+                  textX += seg.width;
+                }
+                textY -= lineHeight;
               }
-              y -= 4;
-              if (nestedLists.length) renderTokens(nestedLists, itemIndent);
+
+              y -= blockHeight + 5;
+              if (nestedLists.length) {
+                renderTokens(nestedLists, indent + markerSlot);
+              }
               index += 1;
             }
             y -= 4;
@@ -497,22 +680,172 @@ export async function markdownToPdfAndDownload(markdown, options = {}) {
           }
 
           case 'table': {
-            const header = (token.header || []).map(
-              (cell) => inlinePlain(cell.tokens) || cell.text || ''
+            const padX = 7;
+            const padY = 8;
+            const size = 9;
+            const lineHeight = size * 1.35;
+            const tableWidth = contentWidth(indent);
+            const tableX = MARGIN_X + indent;
+
+            const headerCells = token.header || [];
+            const bodyRows = token.rows || [];
+            const colCount = Math.max(
+              headerCells.length,
+              ...bodyRows.map((r) => r.length),
+              1
             );
-            const rows = (token.rows || []).map((row) =>
-              row.map((cell) => inlinePlain(cell.tokens) || cell.text || '')
+
+            const fonts = {
+              regular: fontRegular,
+              bold: fontBold,
+              mono: fontMono,
+            };
+
+            const headerSegs = Array.from({ length: colCount }, (_, i) =>
+              getCellSegments(headerCells[i] || { text: '' })
             );
-            const all = [header, ...rows].filter((r) => r.length);
-            for (const [rowIndex, row] of all.entries()) {
-              drawParagraph(row.join('  |  '), {
-                font: rowIndex === 0 ? fontBold : fontRegular,
-                size: 10,
-                indent,
-                spaceAfter: 4,
+            const bodySegs = bodyRows.map((row) =>
+              Array.from({ length: colCount }, (_, i) => getCellSegments(row[i] || { text: '' }))
+            );
+
+            // Weight columns by longest plain text length (code columns get a bit more room).
+            const weightHints = Array.from({ length: colCount }, (_, i) => {
+              const samples = [
+                headerSegs[i],
+                ...bodySegs.map((r) => r[i]),
+              ];
+              let score = 1;
+              for (const segs of samples) {
+                const plain = segs.map((s) => s.text).join('');
+                const codeBonus = segs.some((s) => s.kind === 'code') ? 1.25 : 1;
+                score = Math.max(score, plain.length * codeBonus);
+              }
+              return Math.min(40, Math.max(4, score));
+            });
+
+            const colWidths = computeColumnWidths(colCount, tableWidth, weightHints);
+            const colInnerWidths = colWidths.map((w) => Math.max(12, w - padX * 2));
+
+            const layoutRow = (cellSegs, header = false) =>
+              cellSegs.map((segs, i) => {
+                const useFonts = header
+                  ? { ...fonts, regular: fontBold, bold: fontBold }
+                  : fonts;
+                // Header cells are bold text by default
+                const normalized = header
+                  ? segs.map((s) =>
+                      s.kind === 'code' ? s : { ...s, bold: true, kind: 'text' }
+                    )
+                  : segs;
+                return layoutSegmentLines(
+                  normalized.length ? normalized : [{ kind: 'text', text: ' ', bold: header }],
+                  useFonts,
+                  size,
+                  colInnerWidths[i]
+                );
               });
-            }
-            y -= 6;
+
+            const headerLines = layoutRow(headerSegs, true);
+            const bodyLayouts = bodySegs.map((row) => layoutRow(row, false));
+
+            const rowHeight = (cellLines) => {
+              const maxLines = Math.max(1, ...cellLines.map((c) => c.length || 1));
+              return maxLines * lineHeight + padY * 2;
+            };
+
+            const drawRow = (cellLines, opts) => {
+              const { isHeader = false, striped = false } = opts;
+              const height = rowHeight(cellLines);
+
+              if (y - height < MARGIN_BOTTOM) {
+                page = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+                y = PAGE_HEIGHT - MARGIN_TOP;
+              }
+
+              const top = y;
+              const bottom = y - height;
+
+              if (isHeader) {
+                page.drawRectangle({
+                  x: tableX,
+                  y: bottom,
+                  width: tableWidth,
+                  height,
+                  color: COLORS.tableHeaderBg,
+                });
+              } else if (striped) {
+                page.drawRectangle({
+                  x: tableX,
+                  y: bottom,
+                  width: tableWidth,
+                  height,
+                  color: COLORS.tableStripeBg,
+                });
+              }
+
+              // Vertical column rules
+              let ruleX = tableX;
+              for (let i = 0; i < colCount - 1; i++) {
+                ruleX += colWidths[i];
+                page.drawLine({
+                  start: { x: ruleX, y: top },
+                  end: { x: ruleX, y: bottom },
+                  thickness: 0.6,
+                  color: COLORS.tableRule,
+                });
+              }
+
+              // Cell text
+              let cellX = tableX;
+              for (let c = 0; c < colCount; c++) {
+                const lines = cellLines[c] || [[]];
+                let textY = top - padY - size;
+                for (const lineSegs of lines) {
+                  let textX = cellX + padX;
+                  for (const seg of lineSegs) {
+                    if (seg.kind === 'code') {
+                      const bgPadX = 2.5;
+                      const bgPadY = 1.5;
+                      page.drawRectangle({
+                        x: textX - bgPadX,
+                        y: textY - bgPadY,
+                        width: seg.width + bgPadX * 2,
+                        height: size + bgPadY * 2,
+                        color: COLORS.tableCodeBg,
+                      });
+                    }
+                    drawSafeText(seg.text, {
+                      x: textX,
+                      y: textY,
+                      size,
+                      font: seg.font,
+                      color: COLORS.text,
+                    });
+                    textX += seg.width;
+                  }
+                  textY -= lineHeight;
+                }
+                cellX += colWidths[c];
+              }
+
+              if (isHeader) {
+                page.drawLine({
+                  start: { x: tableX, y: bottom },
+                  end: { x: tableX + tableWidth, y: bottom },
+                  thickness: 0.9,
+                  color: COLORS.tableRule,
+                });
+              }
+
+              y = bottom;
+            };
+
+            y -= 4;
+            drawRow(headerLines, { isHeader: true });
+            bodyLayouts.forEach((rowLines, index) => {
+              drawRow(rowLines, { striped: index % 2 === 1 });
+            });
+            y -= 12;
             break;
           }
 
@@ -558,14 +891,16 @@ Convert **Markdown** to a clean PDF in your browser.
 ## Features
 
 - Upload a \`.md\` file or paste content
-- Headings, lists, code, and quotes
+- Headings, lists, code, quotes, and tables
 - Download instantly — nothing is uploaded
 
-### Example list
+### Example table
 
-1. Write or paste Markdown
-2. Preview the result
-3. Download your PDF
+| Limiter | Max requests | Time window | Default window | Applied on |
+| --- | --- | --- | --- | --- |
+| Global | 300 | 15 minutes (900000 ms) | \`RATE_LIMIT_WINDOW_MS\` / \`RATE_LIMIT_MAX\` | All API requests |
+| Auth | 30 | 15 minutes (900000 ms) | \`AUTH_RATE_LIMIT_WINDOW_MS\` / \`AUTH_RATE_LIMIT_MAX\` | Authentication routes |
+| Public | 100 | 15 minutes (900000 ms) | \`PUBLIC_RATE_LIMIT_WINDOW_MS\` / \`PUBLIC_RATE_LIMIT_MAX\` | Public / unauthenticated routes |
 
 > Tip: Everything runs locally on your device.
 

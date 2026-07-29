@@ -30,7 +30,7 @@ export default function MarkdownToPdfWorkspace({
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_20rem]">
+      <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-slate-50 px-4 py-4 sm:px-5">
             <div className="min-w-0">
@@ -173,11 +173,13 @@ export default function MarkdownToPdfWorkspace({
           </div>
         </div>
 
-        <TypefacePicker
-          value={typefaceId}
-          onChange={setTypefaceId}
-          disabled={isProcessing}
-        />
+        <div className="xl:sticky xl:top-20 xl:self-start xl:h-[calc(100vh-6.5rem)]">
+          <TypefacePicker
+            value={typefaceId}
+            onChange={setTypefaceId}
+            disabled={isProcessing}
+          />
+        </div>
       </div>
 
       <style>{`
@@ -186,8 +188,14 @@ export default function MarkdownToPdfWorkspace({
         .md-preview h3 { font-size: 1.1rem; font-weight: 700; margin: 1rem 0 0.5rem; }
         .md-preview h4, .md-preview h5, .md-preview h6 { font-size: 1rem; font-weight: 600; margin: 0.85rem 0 0.4rem; }
         .md-preview p { margin: 0 0 0.75rem; line-height: 1.6; }
-        .md-preview ul, .md-preview ol { margin: 0 0 0.75rem; padding-left: 1.25rem; }
-        .md-preview li { margin: 0.2rem 0; }
+        .md-preview ul, .md-preview ol {
+          margin: 0 0 0.75rem;
+          padding-left: 1.5rem;
+        }
+        .md-preview ul { list-style-type: disc; }
+        .md-preview ol { list-style-type: decimal; }
+        .md-preview li { margin: 0.25rem 0; display: list-item; }
+        .md-preview li::marker { color: #334155; }
         .md-preview blockquote {
           margin: 0 0 0.75rem;
           padding: 0.4rem 0.75rem;
@@ -214,9 +222,28 @@ export default function MarkdownToPdfWorkspace({
         .md-preview pre code { background: transparent; padding: 0; }
         .md-preview a { color: #4d7c0f; text-decoration: underline; }
         .md-preview hr { border: 0; border-top: 1px solid #e2e8f0; margin: 1rem 0; }
-        .md-preview table { width: 100%; border-collapse: collapse; margin: 0 0 0.75rem; font-size: 0.875rem; }
-        .md-preview th, .md-preview td { border: 1px solid #e2e8f0; padding: 0.4rem 0.5rem; text-align: left; }
-        .md-preview th { background: #f8fafc; }
+        .md-preview table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 0.75rem 0 1rem;
+          font-size: 0.8125rem;
+          border: none;
+        }
+        .md-preview thead th {
+          background: #f1f5f9;
+          font-weight: 700;
+          border-bottom: 1px solid #e2e8f0;
+        }
+        .md-preview th, .md-preview td {
+          border: none;
+          border-right: 1px solid #e2e8f0;
+          padding: 0.55rem 0.65rem;
+          text-align: left;
+          vertical-align: top;
+        }
+        .md-preview th:last-child, .md-preview td:last-child { border-right: none; }
+        .md-preview tbody tr:nth-child(even) { background: #f8fafc; }
+        .md-preview tbody tr:nth-child(odd) { background: #fff; }
         .md-preview img { max-width: 100%; height: auto; }
       `}</style>
     </div>
