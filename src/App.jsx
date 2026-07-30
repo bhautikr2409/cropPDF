@@ -21,6 +21,7 @@ const UnlockPDF = lazy(() => import('./features/unlock'));
 const EditPDF = lazy(() => import('./features/edit'));
 const ComparePDF = lazy(() => import('./features/compare'));
 const OrganizePDF = lazy(() => import('./features/organize'));
+const LabelCropPDF = lazy(() => import('./features/label-crop'));
 const Tools = lazy(() => import('./pages/Tools'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const ContactUs = lazy(() => import('./pages/ContactUs'));
@@ -67,6 +68,7 @@ function App() {
                 <Route path="/edit" element={<EditPDF />} />
                 <Route path="/compare" element={<ComparePDF />} />
                 <Route path="/organize" element={<OrganizePDF />} />
+                <Route path="/label-crop" element={<LabelCropPDF />} />
                 <Route path="/tools" element={<Tools />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />

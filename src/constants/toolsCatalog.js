@@ -65,6 +65,17 @@ export const TOOLS = [
     icon: 'crop',
   },
   {
+    id: 'label-crop',
+    title: 'Label Crop',
+    description:
+      'Auto-crop Flipkart or Meesho A4 shipping labels into 4×6 thermal printer PDFs.',
+    to: '/label-crop',
+    category: 'edit',
+    available: true,
+    accent: 'rose',
+    icon: 'labelCrop',
+  },
+  {
     id: 'edit',
     title: 'Edit PDF',
     description: 'Add text, images, shapes, or freehand drawings to your PDF.',

@@ -28,6 +28,14 @@ const ICONS = {
       <path d="M8 12h8M8 16h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   ),
+  labelCrop: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
+      <rect x="4" y="3" width="11" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M7 7h5M7 10h5M7 13h3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <rect x="12" y="10" width="8" height="11" rx="1.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M14 13h4M14 16h4M14 19h2.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  ),
   edit: (
     <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
       <path d="M4 20h4L18 10l-4-4L4 16v4z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
