@@ -6,6 +6,7 @@ import { useEditPdf } from '../hooks/useEditPdf';
 import { exportAnnotatedPdf } from '../utils/exportAnnotatedPdf';
 import EditUpload from './EditUpload';
 import EditWorkspace from './EditWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a PDF to annotate' },
@@ -161,6 +162,8 @@ export default function EditPDF() {
               onRenderSizeChange={handleRenderSizeChange}
             />
           )}
+
+          <ToolSeoSection toolId="edit" accentClass="text-fuchsia-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need to trim margins?{' '}

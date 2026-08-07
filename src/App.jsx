@@ -5,6 +5,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import ScrollToTop from './components/ScrollToTop';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import CookieConsent from './components/layout/CookieConsent';
 import LandingPage from './pages/LandingPage';
 
 const CropPDF = lazy(() => import('./features/crop'));
@@ -81,6 +82,7 @@ function App() {
           </main>
 
           <Footer />
+          <CookieConsent />
         </div>
       </ErrorBoundary>
     </BrowserRouter>

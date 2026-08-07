@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { usePdfToMarkdown } from '../hooks/usePdfToMarkdown';
 import PdfToMarkdownUpload from './PdfToMarkdownUpload';
 import PdfToMarkdownWorkspace from './PdfToMarkdownWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a text-based PDF' },
@@ -100,6 +101,8 @@ export default function PdfToMarkdown() {
               onCopy={runCopy}
             />
           )}
+
+          <ToolSeoSection toolId="pdf-to-markdown" accentClass="text-cyan-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need images instead?{' '}

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useMarkdownToPdf } from '../hooks/useMarkdownToPdf';
 import MarkdownToPdfWorkspace from './MarkdownToPdfWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Add Markdown', text: 'Upload a .md file or paste content' },
@@ -93,6 +94,8 @@ export default function MarkdownToPdf() {
               ))}
             </ol>
           </div>
+
+          <ToolSeoSection toolId="markdown-to-pdf" accentClass="text-lime-700" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Going the other way?{' '}

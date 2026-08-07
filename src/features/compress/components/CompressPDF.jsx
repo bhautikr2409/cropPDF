@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useCompressPdf } from '../hooks/useCompressPdf';
 import CompressUpload from './CompressUpload';
 import CompressWorkspace from './CompressWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a PDF to compress' },
@@ -88,6 +89,8 @@ export default function CompressPDF() {
               onCompress={runCompress}
             />
           )}
+
+          <ToolSeoSection toolId="compress" accentClass="text-emerald-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need to split first?{' '}

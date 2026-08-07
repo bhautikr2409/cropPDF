@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ACCENT, CATEGORIES, TOOLS } from '../../constants/toolsCatalog';
 import ToolIcon from './ToolIcon';
 
@@ -59,8 +59,14 @@ export default function ToolsCatalog({
   title = 'All PDF tools',
   subtitle = 'Free tools that run in your browser. Pick a tool to get started.',
 }) {
+  const [searchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('all');
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) setQuery(q);
+  }, [searchParams]);
 
   const filteredTools = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -92,11 +98,11 @@ export default function ToolsCatalog({
                 Private by design · No uploads
               </p>
               <h1 className="mb-4 text-3xl font-extrabold tracking-tight text-slate-800 sm:text-4xl md:text-[2.6rem] md:leading-[1.15]">
-                PDF tools that stay on your device
+                PDFCraft — PDF tools that stay on your device
               </h1>
               <p className="mx-auto max-w-2xl text-base text-slate-500 sm:text-lg">
-                Merge, split, compress, convert, edit, and protect PDFs — quickly, for free, without
-                sending files to a server.
+                Free online PDF toolkit at pdfcraft.aadrim.in. Merge, split, compress, convert, edit,
+                and protect PDFs — without sending files to a server.
               </p>
             </>
           ) : (

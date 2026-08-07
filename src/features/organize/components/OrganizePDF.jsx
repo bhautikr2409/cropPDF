@@ -3,6 +3,7 @@ import '../../../lib/pdf/worker';
 import { useOrganizePdf } from '../hooks/useOrganizePdf';
 import OrganizeUpload from './OrganizeUpload';
 import OrganizeWorkspace from './OrganizeWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose the PDF you want to organize' },
@@ -107,6 +108,8 @@ export default function OrganizePDF() {
               getPagePreviewUrl={getPagePreviewUrl}
             />
           )}
+
+          <ToolSeoSection toolId="organize" accentClass="text-blue-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need to combine whole files instead?{' '}

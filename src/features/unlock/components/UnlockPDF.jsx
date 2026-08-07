@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useUnlockPdf } from '../hooks/useUnlockPdf';
 import UnlockUpload from './UnlockUpload';
 import UnlockWorkspace from './UnlockWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a protected PDF' },
@@ -82,6 +83,8 @@ export default function UnlockPDF() {
               onUnlock={runUnlock}
             />
           )}
+
+          <ToolSeoSection toolId="unlock" accentClass="text-stone-700" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need to add a password?{' '}

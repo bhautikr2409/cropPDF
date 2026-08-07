@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useImageToPdf } from '../hooks/useImageToPdf';
 import ImageToPdfUpload from './ImageToPdfUpload';
 import ImageToPdfList from './ImageToPdfList';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Add images', text: 'Upload JPG, PNG, or WEBP files' },
@@ -77,6 +78,8 @@ export default function ImageToPdf() {
               </ol>
             </div>
           )}
+
+          <ToolSeoSection toolId="image-to-pdf" accentClass="text-indigo-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need the reverse?{' '}

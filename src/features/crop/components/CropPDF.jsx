@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../../../lib/pdf/worker';
 import { usePdfCrop } from '../hooks/usePdfCrop';
 import { useCropSelection } from '../hooks/useCropSelection';
 import { downloadCroppedPdf } from '../utils/downloadCroppedPdf';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 import UploadPDFPage from './UploadPDFPage';
 import CropPage from './CropPage';
 
@@ -40,11 +42,30 @@ export default function CropPDF() {
     <div className="bg-[var(--page-bg)] py-10 sm:py-14">
       <div className="container mx-auto px-4">
         {!pdf.hasFile ? (
-          <div className="max-w-3xl mx-auto">
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-8 text-center sm:mb-10">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-teal-700">
+                PDF Crop Tool
+              </p>
+              <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                Crop PDF online
+              </h1>
+              <p className="mx-auto max-w-xl text-base text-slate-600 sm:text-lg">
+                Trim margins or focus on a region. Everything runs locally in your browser —
+                nothing is uploaded.
+              </p>
+            </div>
             <UploadPDFPage onFileChange={pdf.loadFile} onFileDrop={pdf.acceptFile} />
+            <p className="mt-6 text-center text-sm text-slate-500">
+              Shipping labels?{' '}
+              <Link to="/label-crop" className="font-medium text-teal-700 hover:underline">
+                Open Label Crop
+              </Link>
+            </p>
+            <ToolSeoSection toolId="crop" accentClass="text-teal-700" />
           </div>
         ) : (
-          <div className="max-w-5xl mx-auto">
+          <div className="mx-auto max-w-5xl">
             <CropPage
               fileUrl={pdf.fileUrl}
               numPages={pdf.numPages}
@@ -69,6 +90,9 @@ export default function CropPDF() {
               onClearFile={handleClearFile}
               isDownloading={isDownloading}
             />
+            <div className="mx-auto max-w-3xl">
+              <ToolSeoSection toolId="crop" accentClass="text-teal-700" />
+            </div>
           </div>
         )}
       </div>

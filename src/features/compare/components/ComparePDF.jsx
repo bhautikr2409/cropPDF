@@ -4,6 +4,7 @@ import '../../../lib/pdf/worker';
 import { useComparePdf } from '../hooks/useComparePdf';
 import CompareUpload from './CompareUpload';
 import CompareWorkspace from './CompareWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload both', text: 'Original and revised PDF versions' },
@@ -116,6 +117,8 @@ export default function ComparePDF() {
               onClear={handleClear}
             />
           )}
+
+          <ToolSeoSection toolId="compare" accentClass="text-indigo-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need to merge versions?{' '}

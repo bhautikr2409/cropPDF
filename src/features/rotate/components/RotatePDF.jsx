@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useRotatePdf } from '../hooks/useRotatePdf';
 import RotateUpload from './RotateUpload';
 import RotateWorkspace from './RotateWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a PDF to rotate' },
@@ -92,6 +93,8 @@ export default function RotatePDF() {
               onRotate={runRotate}
             />
           )}
+
+          <ToolSeoSection toolId="rotate" accentClass="text-sky-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need to crop margins?{' '}

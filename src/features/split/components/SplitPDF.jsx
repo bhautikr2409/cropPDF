@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useSplitPdf } from '../hooks/useSplitPdf';
 import SplitUpload from './SplitUpload';
 import SplitWorkspace from './SplitWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a PDF to split' },
@@ -88,6 +89,8 @@ export default function SplitPDF() {
               onSplit={runSplit}
             />
           )}
+
+          <ToolSeoSection toolId="split" accentClass="text-orange-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need to combine files?{' '}

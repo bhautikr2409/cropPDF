@@ -3,6 +3,7 @@ import '../../../lib/pdf/worker';
 import { useLabelCrop } from '../hooks/useLabelCrop';
 import LabelCropUpload from './LabelCropUpload';
 import LabelCropWorkspace from './LabelCropWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Flipkart or Meesho A4 label PDF' },
@@ -93,6 +94,8 @@ export default function LabelCropPDF() {
               formatFileSize={formatFileSize}
             />
           )}
+
+          <ToolSeoSection toolId="label-crop" accentClass="text-rose-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need a manual crop instead?{' '}

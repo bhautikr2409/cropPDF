@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import StaticPageShell from '../components/layout/StaticPageShell';
+import SeoHead from '../components/seo/SeoHead';
 import { CONTACT_EMAIL } from '../constants';
+import { SITE_NAME } from '../constants/site';
+import { STATIC_SEO } from '../constants/seoContent';
 
 const fieldClass =
   'w-full rounded-xl border border-slate-200 px-4 py-2.5 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20';
@@ -24,7 +27,7 @@ export default function ContactUs() {
   };
 
   const openMailtoFallback = () => {
-    const subject = encodeURIComponent(formData.subject.trim() || 'PDFCropper contact');
+    const subject = encodeURIComponent(formData.subject.trim() || `${SITE_NAME} contact`);
     const body = encodeURIComponent(
       `Name: ${formData.name.trim()}\nReply-to: ${formData.email.trim()}\n\n${formData.message.trim()}`
     );
@@ -36,7 +39,7 @@ export default function ContactUs() {
 
     const name = formData.name.trim();
     const email = formData.email.trim();
-    const subject = formData.subject.trim() || 'PDFCropper contact';
+    const subject = formData.subject.trim() || `${SITE_NAME} contact`;
     const message = formData.message.trim();
 
     if (!name || !email || !message) {
@@ -87,14 +90,24 @@ export default function ContactUs() {
     }
   };
 
+  const seo = STATIC_SEO.contact;
+
   return (
     <StaticPageShell narrow>
+      <SeoHead
+        title={seo.title}
+        description={seo.description}
+        path={seo.path}
+        keywords={seo.keywords}
+      />
       <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
         <div className="mb-8 text-center">
           <p className="mb-2 text-sm font-semibold text-teal-700">Support</p>
-          <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-slate-900">Contact us</h1>
+          <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-slate-900">
+            Contact {SITE_NAME}
+          </h1>
           <p className="text-slate-500">
-            Send feedback or questions. Messages go to{' '}
+            Send feedback or questions about pdfcraft.aadrim.in. Messages go to{' '}
             <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-teal-700 hover:underline">
               {CONTACT_EMAIL}
             </a>

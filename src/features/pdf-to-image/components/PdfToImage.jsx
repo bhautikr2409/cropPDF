@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { usePdfToImage } from '../hooks/usePdfToImage';
 import PdfToImageUpload from './PdfToImageUpload';
 import PdfToImageWorkspace from './PdfToImageWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a PDF to convert' },
@@ -91,6 +92,8 @@ export default function PdfToImage() {
               onExport={runExport}
             />
           )}
+
+          <ToolSeoSection toolId="pdf-to-image" accentClass="text-sky-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Going the other way?{' '}

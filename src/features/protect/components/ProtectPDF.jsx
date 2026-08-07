@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useProtectPdf } from '../hooks/useProtectPdf';
 import ProtectUpload from './ProtectUpload';
 import ProtectWorkspace from './ProtectWorkspace';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose an unprotected PDF' },
@@ -96,6 +97,8 @@ export default function ProtectPDF() {
               onProtect={runProtect}
             />
           )}
+
+          <ToolSeoSection toolId="protect" accentClass="text-amber-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Need to remove a password?{' '}

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useMergePdf } from '../hooks/useMergePdf';
 import MergeUpload from './MergeUpload';
 import MergeFileList from './MergeFileList';
+import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 
 const STEPS = [
   { n: '1', title: 'Add PDFs', text: 'Upload two or more files' },
@@ -81,6 +82,8 @@ export default function MergePDF() {
               </ol>
             </div>
           )}
+
+          <ToolSeoSection toolId="merge" accentClass="text-rose-600" />
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Looking for cropping?{' '}
