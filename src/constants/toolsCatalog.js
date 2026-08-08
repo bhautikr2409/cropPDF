@@ -68,7 +68,7 @@ export const TOOLS = [
     id: 'label-crop',
     title: 'Label Crop',
     description:
-      'Auto-crop Flipkart or Meesho A4 shipping labels into 4×6 thermal printer PDFs.',
+      'Choose Flipkart or Meesho, then crop A4 shipping labels into 4×6 thermal printer PDFs.',
     to: '/label-crop',
     category: 'edit',
     available: true,

@@ -4,12 +4,19 @@ import { validatePdfFile } from '../../crop/utils/validatePdfFile';
 import { cropLabelsAndDownload } from '../utils/cropLabels';
 import { formatFileSize, loadPdfDocument } from '../utils/detectLabel';
 
+/**
+ * Label crop flow:
+ * 1) User picks Flipkart or Meesho (required — no auto-detect)
+ * 2) User uploads PDF
+ * 3) User crops & downloads
+ */
 export function useLabelCrop() {
   const [file, setFile] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState(null);
-  const [platformId, setPlatformId] = useState('flipkart');
+  /** null until user chooses Flipkart or Meesho */
+  const [platformId, setPlatformId] = useState(null);
   const [outputSizeId, setOutputSizeId] = useState('4x6');
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
@@ -52,10 +59,31 @@ export function useLabelCrop() {
     };
   }, [file]);
 
-  const acceptFile = useCallback((incoming) => {
-    if (!validatePdfFile(incoming)) return;
-    setFile(incoming);
+  const selectPlatform = useCallback((id) => {
+    if (id !== 'flipkart' && id !== 'meesho') return;
+    setPlatformId(id);
   }, []);
+
+  /** Go back to marketplace choice and clear any uploaded file. */
+  const changePlatform = useCallback(() => {
+    setFile(null);
+    setPageCount(0);
+    setLoadError(null);
+    setProgress({ current: 0, total: 0 });
+    setPlatformId(null);
+  }, []);
+
+  const acceptFile = useCallback(
+    (incoming) => {
+      if (!platformId) {
+        toast.error('Select Flipkart or Meesho first.');
+        return;
+      }
+      if (!validatePdfFile(incoming)) return;
+      setFile(incoming);
+    },
+    [platformId]
+  );
 
   const loadFile = useCallback(
     (event) => {
@@ -71,10 +99,15 @@ export function useLabelCrop() {
     setPageCount(0);
     setLoadError(null);
     setProgress({ current: 0, total: 0 });
+    // Keep platform so user can upload another file of the same type
   }, []);
 
   const runCrop = useCallback(async () => {
     if (!file || pageCount < 1 || isProcessing) return;
+    if (platformId !== 'flipkart' && platformId !== 'meesho') {
+      toast.error('Select Flipkart or Meesho first.');
+      return;
+    }
     setIsProcessing(true);
     setProgress({ current: 0, total: pageCount });
     try {
@@ -95,7 +128,8 @@ export function useLabelCrop() {
     isLoading,
     loadError,
     platformId,
-    setPlatformId,
+    setPlatformId: selectPlatform,
+    changePlatform,
     outputSizeId,
     setOutputSizeId,
     isProcessing,

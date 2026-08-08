@@ -1,7 +1,12 @@
 import { useCallback, useRef, useState } from 'react';
 import { MAX_PDF_BYTES } from '../../../constants';
 
-export default function LabelCropUpload({ onFileChange, onFileDrop, disabled }) {
+export default function LabelCropUpload({
+  platformLabel = 'label',
+  onFileChange,
+  onFileDrop,
+  disabled,
+}) {
   const inputRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const maxMb = Math.round(MAX_PDF_BYTES / (1024 * 1024));
@@ -59,17 +64,35 @@ export default function LabelCropUpload({ onFileChange, onFileDrop, disabled }) 
       <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
         <svg viewBox="0 0 48 48" fill="none" className="h-8 w-8" aria-hidden="true">
           <rect x="8" y="6" width="24" height="36" rx="2" stroke="currentColor" strokeWidth="2.5" />
-          <path d="M14 14h12M14 20h12M14 26h8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-          <rect x="28" y="22" width="14" height="20" rx="1.5" stroke="currentColor" strokeWidth="2.5" />
-          <path d="M31 28h8M31 33h8M31 38h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M14 14h12M14 20h12M14 26h8"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          />
+          <rect
+            x="28"
+            y="22"
+            width="14"
+            height="20"
+            rx="1.5"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          />
+          <path
+            d="M31 28h8M31 33h8M31 38h5"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </svg>
       </div>
 
       <h2 className="mb-2 text-xl font-bold text-slate-900">
-        {isDragging ? 'Drop label PDF here' : 'Upload Flipkart / Meesho label PDF'}
+        {isDragging ? 'Drop label PDF here' : `Upload ${platformLabel} label PDF`}
       </h2>
       <p className="mb-6 text-sm text-slate-500">
-        A4 shipping labels from Seller Hub · Max {maxMb} MB · Local only
+        A4 shipping label · Max {maxMb} MB · Processed locally in your browser
       </p>
 
       <button

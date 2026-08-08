@@ -5,8 +5,6 @@ import { pdfjs } from 'react-pdf';
 const WHITE_THRESHOLD = 245;
 /** Dark pixel for border lines. */
 const DARK_THRESHOLD = 90;
-/** Rows with ink ratio below this are treated as empty (gap). */
-const EMPTY_ROW_INK = 0.018;
 /** Minimum gap height as fraction of page height to split label/invoice. */
 const MIN_GAP_FRAC = 0.02;
 
@@ -30,10 +28,23 @@ export const LABEL_PLATFORMS = {
   meesho: {
     id: 'meesho',
     label: 'Meesho',
-    hint: 'Supplier Panel A4 label + invoice',
-    preset: { x: 0.03, y: 0.02, w: 0.94, h: 0.44 },
+    hint: 'Top shipping label + Product Details (no tax invoice body)',
+    // Fallback — crop from page top, stop at TAX INVOICE header.
+    preset: { x: 0.015, y: 0, w: 0.97, h: 0.48 },
   },
 };
+
+/** Near-white for Meesho blank-space scans (PDF anti-aliasing often ~250). */
+const MEESHO_WHITE_THRESHOLD = 248;
+/** Row ink density above this counts as “has content”. */
+const MEESHO_ROW_INK_MIN = 0.006;
+/** Solid content row (ignore sparse noise). */
+const MEESHO_ROW_INK_SOLID = 0.012;
+/** Pad under TAX INVOICE header so the header underline stays in crop. */
+const MEESHO_HEADER_PAD_FRAC = 0.01;
+/** Meesho shipping-label crop height (never deep into invoice). */
+const MEESHO_MIN_H = 0.3;
+const MEESHO_MAX_H = 0.52;
 
 /** Output sizes in PDF points (72 pt = 1 inch). */
 export const OUTPUT_SIZES = {
@@ -336,6 +347,478 @@ export function findLabelInvoiceSplit(imageData, width, height, bounds) {
 }
 
 /**
+ * Per-row ink density for Meesho scans (top-left bitmap).
+ */
+function meeshoRowInkDensities(imageData, width, height, x0, x1) {
+  const { data } = imageData;
+  const densities = new Float32Array(height);
+  const left = Math.max(0, x0);
+  const right = Math.min(width - 1, x1);
+  const span = Math.max(1, right - left + 1);
+
+  for (let y = 0; y < height; y++) {
+    let ink = 0;
+    const row = y * width * 4;
+    for (let x = left; x <= right; x++) {
+      const i = row + x * 4;
+      if (data[i + 3] < 20) continue;
+      if (
+        data[i] < MEESHO_WHITE_THRESHOLD ||
+        data[i + 1] < MEESHO_WHITE_THRESHOLD ||
+        data[i + 2] < MEESHO_WHITE_THRESHOLD
+      ) {
+        ink += 1;
+      }
+    }
+    densities[y] = ink / span;
+  }
+  return densities;
+}
+
+/**
+ * Outer black frame for Meesho label (near full-page width).
+ * Bottom is provided by TAX INVOICE cut — this only finds top/left/right.
+ * @returns {{ minX:number, minY:number, maxX:number } | null}
+ */
+export function findMeeshoOuterFrame(imageData, width, height, cropBottomY) {
+  const hScores = horizontalLineScores(imageData, width, height);
+  const lineThreshold = 0.45;
+  const searchBottom = Math.min(
+    Math.floor(height * 0.2),
+    Math.max(8, Math.floor(cropBottomY * 0.35))
+  );
+
+  let topY = null;
+  let peak = 0;
+  for (let y = 0; y < searchBottom; y++) {
+    if (hScores[y] >= lineThreshold && hScores[y] > peak) {
+      peak = hScores[y];
+      topY = y;
+    }
+  }
+  if (topY == null) {
+    // Fallback: first ink row
+    const densities = meeshoRowInkDensities(
+      imageData,
+      width,
+      height,
+      Math.floor(width * 0.03),
+      Math.floor(width * 0.97)
+    );
+    for (let y = 0; y < Math.floor(height * 0.15); y++) {
+      if (densities[y] >= MEESHO_ROW_INK_MIN) {
+        topY = Math.max(0, y - 2);
+        break;
+      }
+    }
+  }
+  if (topY == null) return null;
+
+  const y1 = Math.max(topY + 20, Math.min(height - 1, Math.floor(cropBottomY)));
+  const vScores = verticalLineScores(imageData, width, height, topY, y1);
+  const vThreshold = 0.28;
+
+  let leftX = null;
+  for (let x = Math.floor(width * 0.005); x < width * 0.2; x++) {
+    if (vScores[x] >= vThreshold) {
+      leftX = x;
+      break;
+    }
+  }
+  let rightX = null;
+  for (let x = Math.floor(width * 0.995); x > width * 0.8; x--) {
+    if (vScores[x] >= vThreshold) {
+      rightX = x;
+      break;
+    }
+  }
+
+  if (leftX == null || rightX == null || rightX - leftX < width * 0.7) {
+    leftX = Math.floor(width * 0.015);
+    rightX = Math.floor(width * 0.985);
+  }
+
+  const pad = Math.max(1, Math.round(Math.min(width, height) * 0.002));
+  return {
+    minX: Math.max(0, leftX - pad),
+    minY: Math.max(0, topY - pad),
+    maxX: Math.min(width - 1, rightX + pad),
+  };
+}
+
+/**
+ * Pixel fallback: first strong horizontal rule after Product Details zone
+ * (~34–50% of page). Never search into the invoice table area.
+ * @returns {number | null} maxY inclusive in bitmap coords
+ */
+export function detectMeeshoBottomBoundary(imageData, width, height) {
+  const hScores = horizontalLineScores(imageData, width, height);
+  const searchStart = Math.floor(height * 0.34);
+  const searchEnd = Math.floor(height * 0.5);
+
+  const rules = [];
+  let y = searchStart;
+  while (y <= searchEnd) {
+    if (hScores[y] < 0.42) {
+      y += 1;
+      continue;
+    }
+    let peak = hScores[y];
+    let peakY = y;
+    while (y <= searchEnd && hScores[y] >= 0.34) {
+      if (hScores[y] > peak) {
+        peak = hScores[y];
+        peakY = y;
+      }
+      y += 1;
+    }
+    if (peak >= 0.42) rules.push({ y: peakY, score: peak });
+  }
+
+  if (rules.length >= 1) {
+    // Prefer the earliest rule past ~40% (TAX INVOICE header underline),
+    // not deep table lines.
+    let chosen = rules[0];
+    for (const rule of rules) {
+      if (rule.y >= height * 0.4) {
+        chosen = rule;
+        break;
+      }
+      chosen = rule;
+    }
+    const pad = Math.max(4, Math.round(height * MEESHO_HEADER_PAD_FRAC));
+    return Math.min(height - 1, chosen.y + pad);
+  }
+
+  return Math.min(height - 1, Math.floor(height * LABEL_PLATFORMS.meesho.preset.h));
+}
+
+/**
+ * Meesho raster box: outer frame + cut under TAX INVOICE header.
+ */
+export function detectMeeshoLabelRatios(imageData, width, height) {
+  const preset = LABEL_PLATFORMS.meesho.preset;
+  const maxY = detectMeeshoBottomBoundary(imageData, width, height);
+  if (maxY == null) {
+    return { ...preset, source: 'meesho-preset-fallback' };
+  }
+
+  const frame = findMeeshoOuterFrame(imageData, width, height, maxY);
+  if (!frame) {
+    let h = (maxY + 1) / height;
+    h = Math.min(MEESHO_MAX_H, Math.max(MEESHO_MIN_H, h));
+    return { x: 0, y: 0, w: 1, h, source: 'meesho-pixels-height-only' };
+  }
+
+  return {
+    ...boxFromPixels(frame.minX, frame.minY, frame.maxX, maxY, width, height, 1),
+    source: 'meesho-pixels-tax-header',
+  };
+}
+
+/**
+ * Group PDF text items into horizontal lines (handles split "TAX"+"INVOICE").
+ */
+function meeshoTextLines(items, pageH) {
+  const rows = [];
+  for (const item of items || []) {
+    const str = String(item.str || '').trim();
+    if (!str) continue;
+    const tx = item.transform || [];
+    const x = tx[4] ?? 0;
+    const y = tx[5] ?? 0;
+    const h = Math.max(6, Number(item.height || 8));
+    const w = Math.max(Number(item.width || 0), str.length * h * 0.35);
+    const topFromTop = pageH - y;
+    const bottomFromTop = topFromTop + h;
+    const mid = topFromTop + h * 0.5;
+
+    let row = null;
+    for (const candidate of rows) {
+      if (Math.abs(candidate.mid - mid) <= Math.max(4, h * 0.7)) {
+        row = candidate;
+        break;
+      }
+    }
+    if (!row) {
+      row = { mid, top: topFromTop, bottom: bottomFromTop, minX: x, maxX: x + w, parts: [] };
+      rows.push(row);
+    }
+    row.parts.push({ str, x });
+    row.top = Math.min(row.top, topFromTop);
+    row.bottom = Math.max(row.bottom, bottomFromTop);
+    row.minX = Math.min(row.minX, x);
+    row.maxX = Math.max(row.maxX, x + w);
+    row.mid = (row.top + row.bottom) / 2;
+  }
+
+  for (const row of rows) {
+    row.parts.sort((a, b) => a.x - b.x);
+    row.line = row.parts.map((p) => p.str).join(' ').replace(/\s+/g, ' ').trim();
+  }
+  rows.sort((a, b) => a.top - b.top);
+  return rows;
+}
+
+/**
+ * Meesho text detect: always from page TOP → cut at TAX INVOICE header.
+ * Never includes Bill To / Sold By / item table / footer.
+ */
+export async function detectMeeshoLabelFromText(page) {
+  try {
+    const viewport = page.getViewport({ scale: 1 });
+    const pageH = viewport.height;
+    const pageW = viewport.width;
+    const content = await page.getTextContent({ disableCombineTextItems: false });
+    const lines = meeshoTextLines(content.items, pageH);
+
+    let taxInvoiceBottom = null;
+    let invoiceStopTop = null;
+    let productDetailsBottom = null;
+    let meeshoHits = 0;
+    let minX = pageW;
+    let maxX = 0;
+
+    const labelRe =
+      /customer\s*address|destination\s*code|return\s*code|\bdelhivery\b|\bmeesho\b|product\s*details|tax\s*invoice|original\s*for\s*recipient|if\s*undelivered/i;
+    // Hard stop: anything that belongs to the tax-invoice BODY (not the header row)
+    const invoiceStopRe =
+      /bill\s*to|ship\s*to|sold\s*by|purchase\s*order|invoice\s*no|taxable\s*value|\bgstin\b|\bhsn\b|gross\s*amount|other\s*charges|reverse\s*charge|computer\s*generated|description/i;
+
+    for (const row of lines) {
+      const line = row.line;
+      if (!line) continue;
+
+      if (labelRe.test(line)) meeshoHits += 1;
+
+      if (/tax\s*invoice/i.test(line) || (/tax/i.test(line) && /invoice/i.test(line))) {
+        if (taxInvoiceBottom == null || row.bottom > taxInvoiceBottom) {
+          taxInvoiceBottom = row.bottom;
+        }
+      }
+
+      if (/original\s*for\s*recipient/i.test(line)) {
+        if (taxInvoiceBottom == null || row.bottom > taxInvoiceBottom) {
+          taxInvoiceBottom = row.bottom;
+        }
+      }
+
+      if (/product\s*details/i.test(line)) {
+        if (productDetailsBottom == null || row.bottom > productDetailsBottom) {
+          productDetailsBottom = row.bottom;
+        }
+      }
+
+      // Invoice body / table — cut ABOVE the first match below mid-upper page
+      if (invoiceStopRe.test(line) && row.top > pageH * 0.28) {
+        // Don't treat the TAX INVOICE header line itself as a stop
+        const isHeaderOnly =
+          /tax\s*invoice/i.test(line) && !/bill\s*to|sold\s*by|description|hsn|gross/i.test(line);
+        if (!isHeaderOnly) {
+          if (invoiceStopTop == null || row.top < invoiceStopTop) {
+            invoiceStopTop = row.top;
+          }
+        }
+      }
+
+      if (row.top < pageH * 0.52) {
+        minX = Math.min(minX, row.minX);
+        maxX = Math.max(maxX, row.maxX);
+      }
+    }
+
+    if (meeshoHits < 1) return null;
+
+    // Pick the earliest hard stop bottom (never include invoice body)
+    const candidates = [];
+    if (invoiceStopTop != null) {
+      candidates.push({
+        bottom: invoiceStopTop - pageH * 0.003,
+        source: 'meesho-cut-above-invoice',
+      });
+    }
+    if (taxInvoiceBottom != null) {
+      candidates.push({
+        bottom: taxInvoiceBottom + pageH * MEESHO_HEADER_PAD_FRAC,
+        source: 'meesho-tax-invoice-header',
+      });
+    }
+    if (productDetailsBottom != null) {
+      candidates.push({
+        bottom: productDetailsBottom + pageH * 0.035,
+        source: 'meesho-product-details',
+      });
+    }
+    if (!candidates.length) return null;
+
+    // Prefer the cut that ends highest on the page (smallest bottom),
+    // but still after Product Details when we have that signal.
+    candidates.sort((a, b) => a.bottom - b.bottom);
+    let chosen = candidates[0];
+
+    // If we can keep TAX INVOICE header without entering body, prefer that
+    if (taxInvoiceBottom != null && invoiceStopTop != null) {
+      const headerCut = taxInvoiceBottom + pageH * MEESHO_HEADER_PAD_FRAC;
+      if (headerCut <= invoiceStopTop + pageH * 0.002) {
+        chosen = { bottom: headerCut, source: 'meesho-tax-invoice-header' };
+      } else {
+        chosen = {
+          bottom: invoiceStopTop - pageH * 0.003,
+          source: 'meesho-cut-above-invoice',
+        };
+      }
+    }
+
+    let bottom = Math.min(pageH * MEESHO_MAX_H, Math.max(pageH * MEESHO_MIN_H, chosen.bottom));
+    // Absolute ceiling: never past half page (invoice lives below)
+    bottom = Math.min(bottom, pageH * 0.52);
+
+    // Always start from the top of the page (shipping label starts there)
+    const top = 0;
+    const h = bottom / pageH;
+    if (h < MEESHO_MIN_H) return null;
+
+    let x = 0.01;
+    let w = 0.98;
+    if (maxX > minX && maxX - minX > pageW * 0.55) {
+      const padX = pageW * 0.01;
+      x = clamp01((minX - padX) / pageW);
+      w = clamp01((maxX - minX + padX * 2) / pageW);
+      if (x + w > 1) w = 1 - x;
+    }
+
+    return {
+      x,
+      y: 0,
+      w,
+      h,
+      source: chosen.source,
+      confidence: meeshoHits,
+      _bottomFrac: clamp01(bottom / pageH),
+    };
+  } catch (error) {
+    console.warn('Meesho text detect failed', error);
+    return null;
+  }
+}
+
+/**
+ * Detect marketplace from filename + first-page text.
+ * Used on upload so Meesho PDFs are not left on the Flipkart default.
+ * @returns {'meesho' | 'flipkart' | 'auto'}
+ */
+export async function detectMarketplaceFromPdf(pdf, fileName = '') {
+  const name = String(fileName || '').toLowerCase();
+
+  // Meesho supplier exports commonly use Sub_Order_Labels_*.pdf
+  let meeshoScore = 0;
+  let flipkartScore = 0;
+
+  if (/sub[_\s-]?order[_\s-]?label/i.test(name) || /meesho/i.test(name)) {
+    meeshoScore += 4;
+  }
+  if (/flipkart|fk[_-]?label|awb/i.test(name)) {
+    flipkartScore += 2;
+  }
+
+  try {
+    const page = await pdf.getPage(1);
+    const content = await page.getTextContent({ disableCombineTextItems: false });
+    const joined = (content.items || [])
+      .map((item) => String(item.str || ''))
+      .join(' ')
+      .toLowerCase();
+
+    const bump = (re, amount, target) => {
+      if (re.test(joined)) {
+        if (target === 'meesho') meeshoScore += amount;
+        else flipkartScore += amount;
+      }
+    };
+
+    // Meesho structural signals
+    bump(/\bmeesho\b/, 5, 'meesho');
+    bump(/customer\s*address/, 2, 'meesho');
+    bump(/destination\s*code/, 3, 'meesho');
+    bump(/return\s*code/, 3, 'meesho');
+    bump(/product\s*details/, 2, 'meesho');
+    bump(/purchase\s*order/, 2, 'meesho');
+    bump(/taxable\s*value/, 2, 'meesho');
+    bump(/\bdelhivery\b/, 1, 'meesho');
+    bump(/\bgstin\b/, 1, 'meesho');
+
+    // Flipkart structural signals
+    bump(/\bflipkart\b/, 5, 'flipkart');
+    bump(/ordered\s*through/, 4, 'flipkart');
+    bump(/\bawb\b/, 2, 'flipkart');
+    bump(/not\s*for\s*resale/, 3, 'flipkart');
+    bump(/shipping\s*\/\s*customer\s*address/, 3, 'flipkart');
+    bump(/fk[_\s-]?order|fsn\b/, 2, 'flipkart');
+  } catch (error) {
+    console.warn('Marketplace detect failed', error);
+  }
+
+  if (meeshoScore >= 3 && meeshoScore > flipkartScore) return 'meesho';
+  if (flipkartScore >= 3 && flipkartScore > meeshoScore) return 'flipkart';
+  if (meeshoScore > flipkartScore) return 'meesho';
+  if (flipkartScore > meeshoScore) return 'flipkart';
+  return 'auto';
+}
+
+/**
+ * Meesho detection: always from page TOP → stop before invoice body.
+ * Text cut wins (joined lines). Pixel frame only for left/right.
+ */
+export async function resolveMeeshoLabelRatios(pdfPage, imageData, width, height) {
+  const pixelBox = detectMeeshoLabelRatios(imageData, width, height);
+  const textBox = await detectMeeshoLabelFromText(pdfPage);
+
+  // Always start at the top of the page
+  let x = 0.01;
+  let w = 0.98;
+  let bottom = Math.min(MEESHO_MAX_H, Math.max(MEESHO_MIN_H, pixelBox.h ?? 0.48));
+  let source = pixelBox.source || 'meesho-pixels';
+
+  if (textBox) {
+    bottom = Math.min(
+      MEESHO_MAX_H,
+      textBox._bottomFrac ?? textBox.y + textBox.h,
+      0.52
+    );
+    bottom = Math.max(MEESHO_MIN_H, bottom);
+    x = textBox.x ?? x;
+    w = textBox.w ?? w;
+    source = textBox.source;
+  } else {
+    // Prefer the smaller of pixel/preset so we don't drag in invoice rows
+    bottom = Math.min(bottom, pixelBox.y + pixelBox.h, 0.5);
+    bottom = Math.max(MEESHO_MIN_H, bottom);
+    if ((pixelBox.w ?? 0) > 0.7) {
+      x = pixelBox.x;
+      w = pixelBox.w;
+    }
+  }
+
+  const frame = findMeeshoOuterFrame(imageData, width, height, Math.floor(bottom * height));
+  if (frame) {
+    const fw = (frame.maxX - frame.minX + 1) / width;
+    if (fw > 0.7) {
+      x = clamp01(frame.minX / width);
+      w = clamp01(fw);
+      if (x + w > 1) w = 1 - x;
+    }
+  }
+
+  return {
+    x,
+    y: 0,
+    w,
+    h: Math.min(MEESHO_MAX_H, Math.max(MEESHO_MIN_H, bottom)),
+    source: `meesho-from-top:${source}`,
+  };
+}
+
+/**
  * Use PDF text layer to find "Tax Invoice" (Flipkart) — highly reliable split.
  * Returns ratio box in top-left page fractions, or null.
  */
@@ -467,8 +950,13 @@ export async function detectFlipkartLabelFromText(page) {
  */
 export function detectLabelRatios(imageData, width, height, platformId = 'auto') {
   const platform = LABEL_PLATFORMS[platformId] || LABEL_PLATFORMS.auto;
-  const preferBorder =
-    platformId === 'flipkart' || platformId === 'auto' || platformId === 'meesho';
+
+  // Meesho: content-boundary crop (never Flipkart border / invoice-split).
+  if (platformId === 'meesho') {
+    return detectMeeshoLabelRatios(imageData, width, height);
+  }
+
+  const preferBorder = platformId === 'flipkart' || platformId === 'auto';
 
   // 1) Prefer outer black border of shipping label (Flipkart)
   if (preferBorder) {
@@ -531,6 +1019,10 @@ export function detectLabelRatios(imageData, width, height, platformId = 'auto')
  * Full detection pipeline for one page (text first, then raster).
  */
 export async function detectPageLabelRatios(pdfPage, imageData, width, height, platformId) {
+  if (platformId === 'meesho') {
+    return resolveMeeshoLabelRatios(pdfPage, imageData, width, height);
+  }
+
   if (platformId === 'flipkart' || platformId === 'auto') {
     const fromText = await detectFlipkartLabelFromText(pdfPage);
     if (fromText) {

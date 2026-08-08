@@ -1,4 +1,9 @@
-import { LABEL_PLATFORMS, OUTPUT_SIZES } from '../utils/detectLabel';
+import { OUTPUT_SIZES } from '../utils/detectLabel';
+
+const PLATFORM_LABEL = {
+  flipkart: 'Flipkart',
+  meesho: 'Meesho',
+};
 
 export default function LabelCropWorkspace({
   file,
@@ -6,7 +11,7 @@ export default function LabelCropWorkspace({
   isLoading,
   loadError,
   platformId,
-  setPlatformId,
+  onChangePlatform,
   outputSizeId,
   setOutputSizeId,
   isProcessing,
@@ -18,6 +23,7 @@ export default function LabelCropWorkspace({
   const canRun = !isLoading && !loadError && pageCount > 0 && !isProcessing;
   const progressPercent =
     progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0;
+  const platformName = PLATFORM_LABEL[platformId] || platformId;
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
@@ -28,17 +34,32 @@ export default function LabelCropWorkspace({
           </h2>
           <p className="mt-0.5 text-xs text-slate-500">
             {formatFileSize(file.size)}
-            {isLoading ? ' · Reading…' : pageCount > 0 ? ` · ${pageCount} page${pageCount === 1 ? '' : 's'}` : ''}
+            {isLoading
+              ? ' · Reading…'
+              : pageCount > 0
+                ? ` · ${pageCount} page${pageCount === 1 ? '' : 's'}`
+                : ''}
+            {platformName ? ` · ${platformName}` : ''}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={onClear}
-          disabled={isProcessing}
-          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-40"
-        >
-          New file
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={onChangePlatform}
+            disabled={isProcessing}
+            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-40"
+          >
+            Change type
+          </button>
+          <button
+            type="button"
+            onClick={onClear}
+            disabled={isProcessing}
+            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-40"
+          >
+            New file
+          </button>
+        </div>
       </div>
 
       <div className="space-y-5 p-4 sm:p-5">
@@ -49,36 +70,10 @@ export default function LabelCropWorkspace({
         ) : (
           <>
             <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-              Crops the top shipping label only — trims side whitespace to the black border. Tax invoice is removed.
+              {platformId === 'meesho'
+                ? 'Meesho: crops from the top through Product Details / TAX INVOICE header. Invoice table, totals, and footer are removed.'
+                : 'Flipkart: crops the top shipping label only — trims to the black border. Tax invoice below the cut line is removed.'}
             </p>
-
-            <fieldset>
-              <legend className="mb-3 text-sm font-semibold text-slate-900">Marketplace</legend>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                {Object.values(LABEL_PLATFORMS).map((option) => {
-                  const active = platformId === option.id;
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      onClick={() => setPlatformId(option.id)}
-                      disabled={isProcessing}
-                      className={[
-                        'rounded-xl border px-4 py-3 text-left transition-colors',
-                        active
-                          ? 'border-rose-500 bg-rose-50 ring-1 ring-rose-500'
-                          : 'border-slate-200 bg-white hover:border-rose-300',
-                      ].join(' ')}
-                    >
-                      <span className="block text-sm font-semibold text-slate-900">
-                        {option.label}
-                      </span>
-                      <span className="mt-1 block text-xs text-slate-500">{option.hint}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </fieldset>
 
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-slate-900">Output size</legend>
@@ -131,7 +126,7 @@ export default function LabelCropWorkspace({
               disabled={!canRun}
               className="w-full rounded-xl bg-rose-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-rose-700 disabled:opacity-40 disabled:hover:bg-rose-600 sm:w-auto"
             >
-              {isProcessing ? 'Cropping…' : 'Crop labels & Download'}
+              {isProcessing ? 'Cropping…' : `Crop ${platformName} labels & Download`}
             </button>
 
             <p className="text-xs text-slate-500">

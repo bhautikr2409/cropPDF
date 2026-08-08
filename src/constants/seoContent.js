@@ -189,7 +189,7 @@ export const TOOL_SEO = {
     h1: 'Label Crop for shipping PDFs',
     eyebrow: 'Label Crop Tool',
     intro:
-      'Turn A4 marketplace shipping labels into clean 4×6 thermal-ready PDFs. Auto-detect Flipkart or Meesho layouts and download printer-friendly pages.',
+      'Turn A4 marketplace shipping labels into clean 4×6 thermal-ready PDFs. Choose Flipkart or Meesho, upload your label PDF, and download printer-friendly pages.',
     related: ['crop', 'organize', 'rotate'],
     sections: [
       {
@@ -202,7 +202,7 @@ export const TOOL_SEO = {
     faqs: [
       {
         q: 'Which platforms are supported?',
-        a: 'Flipkart and Meesho presets are included, plus auto-detect for common A4 label layouts.',
+        a: 'Choose Flipkart or Meesho first, then upload your A4 label PDF. Each preset uses the crop rules for that marketplace.',
       },
       {
         q: 'Is order data sent online?',

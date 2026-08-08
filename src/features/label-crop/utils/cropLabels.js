@@ -2,10 +2,11 @@ import { PDFDocument } from 'pdf-lib';
 import toast from 'react-hot-toast';
 import {
   OUTPUT_SIZES,
-  detectPageLabelRatios,
+  detectMarketplaceFromPdf,
   findLabelBorderBox,
   loadPdfDocument,
   renderPageImageData,
+  resolveMeeshoLabelRatios,
 } from './detectLabel';
 
 function triggerDownload(blob, filename) {
@@ -27,21 +28,9 @@ function baseName(fileName) {
  */
 const TOP_LABEL = {
   flipkart: { x: 0.22, y: 0, w: 0.56, h: 0.48 },
-  meesho: { x: 0.02, y: 0, w: 0.96, h: 0.45 },
+  meesho: { x: 0.02, y: 0.01, w: 0.96, h: 0.5 },
   auto: { x: 0.22, y: 0, w: 0.56, h: 0.48 },
 };
-
-function ratiosToAbsolutePdfBox(ratios, mediaBox) {
-  const originX = mediaBox.x || 0;
-  const originY = mediaBox.y || 0;
-  const pageW = mediaBox.width;
-  const pageH = mediaBox.height;
-  const pdfW = Math.max(1, ratios.w * pageW);
-  const pdfH = Math.max(1, ratios.h * pageH);
-  const pdfX = originX + ratios.x * pageW;
-  const pdfY = originY + pageH - ratios.y * pageH - pdfH;
-  return { pdfX, pdfY, pdfW, pdfH };
-}
 
 /** Find first empty band after content, scanning from TOP of the bitmap. */
 function detectTopLabelHeightFromPixels(imageData, width, height) {
@@ -318,7 +307,7 @@ function shrinkwrapCanvas(sourceCanvas) {
     }
   }
   // Bottom = last SOLID border (ignore sparse dashed cut line below label)
-  for (let y = height - 1; y >= Math.floor(height * 0.45); y--) {
+  for (let y = height - 1; y >= Math.floor(height * 0.35); y--) {
     if (darkRow[y] >= solidH) {
       bottom = y;
       break;
@@ -331,7 +320,7 @@ function shrinkwrapCanvas(sourceCanvas) {
     top != null &&
     bottom != null &&
     right - left > width * 0.35 &&
-    bottom - top > height * 0.45
+    bottom - top > height * 0.35
   ) {
     minX = left;
     maxX = right;
@@ -381,8 +370,10 @@ function shrinkwrapCanvas(sourceCanvas) {
 /**
  * Slice the shipping label region into a PNG (tight to black border when detected).
  * Fixed sizes (4×5 / 4×6) stretch edge-to-edge — no letterbox whitespace.
+ * @param {{ shrinkwrap?: boolean }} [options] — set shrinkwrap:false to keep full width (Meesho).
  */
-async function embedTopLabelImage(outDoc, sourceCanvas, width, height, ratios, output) {
+async function embedTopLabelImage(outDoc, sourceCanvas, width, height, ratios, output, options = {}) {
+  const { shrinkwrap = true } = options;
   const sx = Math.max(0, Math.floor(ratios.x * width));
   const sy = Math.max(0, Math.floor(ratios.y * height));
   const sw = Math.min(width - sx, Math.max(1, Math.floor(ratios.w * width)));
@@ -396,12 +387,14 @@ async function embedTopLabelImage(outDoc, sourceCanvas, width, height, ratios, o
   ctx.fillRect(0, 0, sw, sh);
   ctx.drawImage(sourceCanvas, sx, sy, sw, sh, 0, 0, sw, sh);
 
-  // Second pass: trim remaining white around the black label border
-  const tight = shrinkwrapCanvas(cropCanvas);
-  if (tight !== cropCanvas) {
-    cropCanvas.width = 0;
-    cropCanvas.height = 0;
-    cropCanvas = tight;
+  // Flipkart: trim to black border. Meesho: keep full page width (no side crop).
+  if (shrinkwrap) {
+    const tight = shrinkwrapCanvas(cropCanvas);
+    if (tight !== cropCanvas) {
+      cropCanvas.width = 0;
+      cropCanvas.height = 0;
+      cropCanvas = tight;
+    }
   }
 
   const dataUrl = cropCanvas.toDataURL('image/png');
@@ -429,45 +422,71 @@ async function embedTopLabelImage(outDoc, sourceCanvas, width, height, ratios, o
 }
 
 /**
- * Vector crop path (Meesho / fallback) — same as Crop PDF tool.
+ * Meesho path: image slice from page TOP → stop before invoice body.
+ * Same embed path as Flipkart so the detected region is exactly what downloads.
  */
-async function embedPdfCrop(outDoc, srcDoc, pageIndex, ratios, media, output) {
-  const { pdfX, pdfY, pdfW, pdfH } = ratiosToAbsolutePdfBox(ratios, media);
-  const sliceDoc = await PDFDocument.create();
-  const [copied] = await sliceDoc.copyPages(srcDoc, [pageIndex]);
-  copied.setCropBox(pdfX, pdfY, pdfW, pdfH);
-  copied.setMediaBox(pdfX, pdfY, pdfW, pdfH);
-  sliceDoc.addPage(copied);
-  const sliceBytes = await sliceDoc.save();
-  const sliceLoaded = await PDFDocument.load(sliceBytes);
-  const [embedded] = await outDoc.embedPdf(sliceLoaded, [0]);
-
-  if (output.id === 'original') {
-    const page = outDoc.addPage([embedded.width, embedded.height]);
-    page.drawPage(embedded, {
-      x: 0,
-      y: 0,
-      width: embedded.width,
-      height: embedded.height,
-    });
-    return;
+async function cropMeeshoPage(outDoc, pdfPage, imageData, width, height, canvas, output) {
+  let ratios;
+  try {
+    ratios = await resolveMeeshoLabelRatios(pdfPage, imageData, width, height);
+  } catch (error) {
+    console.warn('Meesho detect failed, using safe fallback', error);
+    ratios = { x: 0.015, y: 0, w: 0.97, h: 0.48 };
   }
 
-  const targetW = output.widthPt;
-  const targetH = output.heightPt;
-  const page = outDoc.addPage([targetW, targetH]);
-  // Fill sticker size edge-to-edge (no letterbox whitespace)
-  page.drawPage(embedded, {
-    x: 0,
+  // Force top-down crop; hard-cap height so invoice table/footer cannot appear.
+  const safeRatios = {
+    x: Math.max(0, Math.min(0.06, ratios.x ?? 0.015)),
     y: 0,
-    width: targetW,
-    height: targetH,
+    w: Math.max(0.88, Math.min(1, ratios.w ?? 0.97)),
+    h: Math.max(0.3, Math.min(0.52, ratios.h ?? 0.48)),
+  };
+  if (safeRatios.x + safeRatios.w > 1) {
+    safeRatios.w = 1 - safeRatios.x;
+  }
+
+  await embedTopLabelImage(outDoc, canvas, width, height, safeRatios, output, {
+    shrinkwrap: true,
   });
 }
 
 /**
- * Crop shipping labels from the TOP of each page and download.
- * Flipkart uses a top-of-page image slice so the invoice cannot be selected.
+ * Flipkart / auto path (unchanged behavior): top-of-page image slice so the
+ * invoice below the shipping label is not included.
+ */
+async function cropFlipkartPage(
+  outDoc,
+  pdfPage,
+  imageData,
+  width,
+  height,
+  canvas,
+  platformId,
+  output
+) {
+  const ratios = await resolveTightTopLabelRatios(
+    pdfPage,
+    imageData,
+    width,
+    height,
+    platformId
+  );
+
+  // Keep upper-page crop; clamp width to Flipkart label box (never full A4 width)
+  const safeRatios = {
+    x: Math.max(0, Math.min(0.4, ratios.x)),
+    y: Math.max(0, Math.min(0.06, ratios.y)),
+    w: Math.max(0.28, Math.min(0.72, ratios.w)),
+    h: Math.max(0.28, Math.min(0.58, ratios.h)),
+  };
+
+  await embedTopLabelImage(outDoc, canvas, width, height, safeRatios, output);
+}
+
+/**
+ * Crop shipping labels from each page and download.
+ * - Flipkart: top shipping-label image slice (existing working path)
+ * - Meesho: shipping label + Product Details + TAX INVOICE header only
  */
 export async function cropLabelsAndDownload(file, options = {}) {
   const { platformId = 'auto', outputSizeId = '4x6', onProgress } = options;
@@ -481,71 +500,54 @@ export async function cropLabelsAndDownload(file, options = {}) {
       return false;
     }
 
-    const srcBytes = await file.arrayBuffer();
-    const srcDoc = await PDFDocument.load(srcBytes);
+    // Resolve Auto → meesho | flipkart from filename + page text
+    let resolvedPlatform = platformId;
+    if (platformId === 'auto') {
+      resolvedPlatform = await detectMarketplaceFromPdf(pdfjsDoc, file.name);
+      if (resolvedPlatform === 'auto') resolvedPlatform = 'flipkart';
+    }
+    const isMeesho = resolvedPlatform === 'meesho';
+
     const outDoc = await PDFDocument.create();
 
-    // Higher scale for Flipkart image path (sharper barcodes on 4×6)
-    const renderScale = platformId === 'flipkart' || platformId === 'auto' ? 2.5 : 2;
+    // High scale for barcodes (Meesho + Flipkart both use image embed now)
+    const renderScale = isMeesho ? 2.4 : 2.5;
 
     for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
       onProgress?.({ current: pageNumber, total: pageCount });
 
       const pdfPage = await pdfjsDoc.getPage(pageNumber);
-      const srcPage = srcDoc.getPage(pageNumber - 1);
-      const media = srcPage.getMediaBox();
-
-      const useTopImage = platformId === 'flipkart' || platformId === 'auto';
       const { imageData, width, height, canvas } = await renderPageImageData(
         pdfjsDoc,
         pageNumber,
         renderScale,
-        useTopImage
+        true
       );
 
-      const ratios = await resolveTightTopLabelRatios(
-        pdfPage,
-        imageData,
-        width,
-        height,
-        platformId
-      );
-
-      // Keep upper-page crop; clamp width to label box (never full A4 width)
-      const safeRatios = {
-        x: Math.max(0, Math.min(0.4, ratios.x)),
-        y: Math.max(0, Math.min(0.06, ratios.y)),
-        w: Math.max(0.28, Math.min(0.72, ratios.w)),
-        h: Math.max(0.28, Math.min(0.58, ratios.h)),
-      };
-
-      if (useTopImage && canvas) {
-        await embedTopLabelImage(outDoc, canvas, width, height, safeRatios, output);
-        canvas.width = 0;
-        canvas.height = 0;
+      if (isMeesho) {
+        await cropMeeshoPage(
+          outDoc,
+          pdfPage,
+          imageData,
+          width,
+          height,
+          canvas,
+          output
+        );
       } else {
-        let meeshoRatios = safeRatios;
-        try {
-          const detected = await detectPageLabelRatios(
-            pdfPage,
-            imageData,
-            width,
-            height,
-            platformId
-          );
-          if (detected && detected.y <= 0.08) {
-            meeshoRatios = {
-              x: Math.min(detected.x, 0.08),
-              y: Math.min(detected.y, 0.04),
-              w: Math.min(0.96, Math.max(0.5, detected.w)),
-              h: Math.min(0.55, Math.max(0.3, detected.h)),
-            };
-          }
-        } catch {
-          // keep top preset
-        }
-        await embedPdfCrop(outDoc, srcDoc, pageNumber - 1, meeshoRatios, media, output);
+        await cropFlipkartPage(
+          outDoc,
+          pdfPage,
+          imageData,
+          width,
+          height,
+          canvas,
+          resolvedPlatform,
+          output
+        );
       }
+      canvas.width = 0;
+      canvas.height = 0;
     }
 
     const outBytes = await outDoc.save();
@@ -554,7 +556,7 @@ export async function cropLabelsAndDownload(file, options = {}) {
       output.id === 'original' ? 'cropped-labels' : `labels-${output.id}`;
     triggerDownload(blob, `${baseName(file.name)}-${suffix}.pdf`);
     toast.success(
-      `Cropped ${pageCount} top label${pageCount === 1 ? '' : 's'} · ${output.label}`
+      `Cropped ${pageCount} label${pageCount === 1 ? '' : 's'} · ${output.label}`
     );
     return true;
   } catch (error) {
