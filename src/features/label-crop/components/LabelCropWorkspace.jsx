@@ -71,7 +71,7 @@ export default function LabelCropWorkspace({
           <>
             <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
               {platformId === 'meesho'
-                ? 'Meesho: crops from the top through Product Details / TAX INVOICE header. Invoice table, totals, and footer are removed.'
+                ? 'Meesho: crops from the top (no invoice body), then rotates 90° for 4×6 thermal printing.'
                 : 'Flipkart: crops the top shipping label only — trims to the black border. Tax invoice below the cut line is removed.'}
             </p>
 

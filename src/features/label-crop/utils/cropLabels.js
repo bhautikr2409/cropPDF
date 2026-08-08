@@ -368,12 +368,29 @@ function shrinkwrapCanvas(sourceCanvas) {
 }
 
 /**
+ * Rotate a canvas 90° clockwise (width/height swap).
+ * Used for Meesho labels so landscape crop fits 4×6 thermal portrait.
+ */
+function rotateCanvas90Clockwise(sourceCanvas) {
+  const rotated = document.createElement('canvas');
+  rotated.width = sourceCanvas.height;
+  rotated.height = sourceCanvas.width;
+  const ctx = rotated.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, rotated.width, rotated.height);
+  ctx.translate(rotated.width, 0);
+  ctx.rotate(Math.PI / 2);
+  ctx.drawImage(sourceCanvas, 0, 0);
+  return rotated;
+}
+
+/**
  * Slice the shipping label region into a PNG (tight to black border when detected).
  * Fixed sizes (4×5 / 4×6) stretch edge-to-edge — no letterbox whitespace.
- * @param {{ shrinkwrap?: boolean }} [options] — set shrinkwrap:false to keep full width (Meesho).
+ * @param {{ shrinkwrap?: boolean, rotate90?: boolean }} [options]
  */
 async function embedTopLabelImage(outDoc, sourceCanvas, width, height, ratios, output, options = {}) {
-  const { shrinkwrap = true } = options;
+  const { shrinkwrap = true, rotate90 = false } = options;
   const sx = Math.max(0, Math.floor(ratios.x * width));
   const sy = Math.max(0, Math.floor(ratios.y * height));
   const sw = Math.min(width - sx, Math.max(1, Math.floor(ratios.w * width)));
@@ -387,7 +404,7 @@ async function embedTopLabelImage(outDoc, sourceCanvas, width, height, ratios, o
   ctx.fillRect(0, 0, sw, sh);
   ctx.drawImage(sourceCanvas, sx, sy, sw, sh, 0, 0, sw, sh);
 
-  // Flipkart: trim to black border. Meesho: keep full page width (no side crop).
+  // Flipkart / Meesho: trim to black border when requested.
   if (shrinkwrap) {
     const tight = shrinkwrapCanvas(cropCanvas);
     if (tight !== cropCanvas) {
@@ -395,6 +412,14 @@ async function embedTopLabelImage(outDoc, sourceCanvas, width, height, ratios, o
       cropCanvas.height = 0;
       cropCanvas = tight;
     }
+  }
+
+  // Meesho: rotate 90° CW after crop so label prints correctly on 4×6.
+  if (rotate90) {
+    const rotated = rotateCanvas90Clockwise(cropCanvas);
+    cropCanvas.width = 0;
+    cropCanvas.height = 0;
+    cropCanvas = rotated;
   }
 
   const dataUrl = cropCanvas.toDataURL('image/png');
@@ -447,6 +472,7 @@ async function cropMeeshoPage(outDoc, pdfPage, imageData, width, height, canvas,
 
   await embedTopLabelImage(outDoc, canvas, width, height, safeRatios, output, {
     shrinkwrap: true,
+    rotate90: true,
   });
 }
 

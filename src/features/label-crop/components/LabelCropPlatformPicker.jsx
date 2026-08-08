@@ -10,7 +10,7 @@ const PLATFORMS = [
     id: 'meesho',
     label: 'Meesho',
     description:
-      'Crops from the top: shipping label + Product Details. Tax invoice table below is removed.',
+      'Crops from the top (no invoice body), rotates 90°, then downloads for 4×6 thermal print.',
     accent: 'rose',
   },
 ];
