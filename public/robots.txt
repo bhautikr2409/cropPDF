@@ -1,4 +1,8 @@
+# PDFCraft — https://pdfcraft.aadrim.in
 User-agent: *
 Allow: /
+
+# SPA assets and public content are crawlable.
+# Utility 404 responses are soft-404 (client-rendered) and marked noindex in-app.
 
 Sitemap: https://pdfcraft.aadrim.in/sitemap.xml

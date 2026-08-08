@@ -1,7 +1,12 @@
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useMarkdownToPdf } from '../hooks/useMarkdownToPdf';
 import MarkdownToPdfWorkspace from './MarkdownToPdfWorkspace';
 import ToolSeoSection from '../../../components/seo/ToolSeoSection';
+
+/** Preview fonts for the MD editor only — not loaded site-wide. */
+const MARKDOWN_PREVIEW_FONTS =
+  'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Serif+4:ital,wght@0,400;0,700;1,400;1,700&display=swap';
 
 const STEPS = [
   { n: '1', title: 'Add Markdown', text: 'Upload a .md file or paste content' },
@@ -35,6 +40,11 @@ export default function MarkdownToPdf() {
 
   return (
     <div className="bg-[var(--page-bg)] py-10 sm:py-14">
+      <Helmet>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href={MARKDOWN_PREVIEW_FONTS} rel="stylesheet" />
+      </Helmet>
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center sm:mb-10">

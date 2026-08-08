@@ -33,7 +33,12 @@ function Chevron({ open }) {
 
 function BrandLogo() {
   return (
-    <Link to="/" className="flex shrink-0 items-center gap-2.5" title="PDFCraft — free private PDF tools">
+    <Link
+      to="/"
+      className="flex shrink-0 items-center gap-2.5"
+      title="PDFCraft — free private PDF tools"
+      aria-label="PDFCraft home"
+    >
       <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-700 text-white">
         <svg viewBox="0 0 32 32" className="h-4 w-4" fill="none" aria-hidden="true">
           <rect x="7" y="5" width="14" height="18" rx="2" stroke="currentColor" strokeWidth="2.25" />

@@ -11,6 +11,7 @@ const homeJsonLd = {
       '@type': 'Organization',
       name: SITE_NAME,
       url: SITE_URL,
+      logo: `${SITE_URL}/img/pdfcraft-icon.png`,
       description:
         'Free private PDF tools that run entirely in the browser. No file uploads to servers.',
     },
@@ -18,6 +19,7 @@ const homeJsonLd = {
       '@type': 'WebSite',
       name: SITE_NAME,
       url: SITE_URL,
+      publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
       potentialAction: {
         '@type': 'SearchAction',
         target: `${SITE_URL}/tools?q={search_term_string}`,

@@ -10,7 +10,7 @@ export default function NotFound() {
       <SeoHead
         title={seo.title}
         description={seo.description}
-        path={seo.path}
+        path="/"
         noIndex
       />
       <div className="max-w-md text-center">
