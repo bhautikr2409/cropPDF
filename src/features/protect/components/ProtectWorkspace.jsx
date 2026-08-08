@@ -125,10 +125,6 @@ export default function ProtectWorkspace({
               </div>
             </fieldset>
 
-            <div className="rounded-xl border border-amber-100 bg-amber-50/70 px-4 py-3 text-sm text-slate-600">
-              Uses AES-256 encryption. Keep your password safe — we cannot recover it.
-            </div>
-
             <button
               type="button"
               onClick={onProtect}

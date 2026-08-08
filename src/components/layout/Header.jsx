@@ -337,10 +337,6 @@ export default function Header() {
           className="max-h-[80vh] overflow-y-auto border-t border-slate-200 bg-white xl:hidden"
         >
           <div className="mx-auto max-w-7xl space-y-5 px-4 py-4 sm:px-6">
-            <div className="rounded-xl border border-emerald-100 bg-emerald-50/80 px-4 py-3 text-sm text-emerald-800">
-              Your PDFs are processed locally — nothing is uploaded.
-            </div>
-
             <div className="grid grid-cols-2 gap-2">
               {popularMobile.map((tool) => {
                 const accent = ACCENT[tool.accent] || ACCENT.blue;

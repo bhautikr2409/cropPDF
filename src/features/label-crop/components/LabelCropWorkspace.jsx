@@ -69,12 +69,6 @@ export default function LabelCropWorkspace({
           </div>
         ) : (
           <>
-            <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-              {platformId === 'meesho'
-                ? 'Meesho: crops from the top (no invoice body), then rotates 90° for 4×6 thermal printing.'
-                : 'Flipkart: crops the top shipping label only — trims to the black border. Tax invoice below the cut line is removed.'}
-            </p>
-
             <fieldset>
               <legend className="mb-3 text-sm font-semibold text-slate-900">Output size</legend>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -128,11 +122,6 @@ export default function LabelCropWorkspace({
             >
               {isProcessing ? 'Cropping…' : `Crop ${platformName} labels & Download`}
             </button>
-
-            <p className="text-xs text-slate-500">
-              Tip: Print at <strong>100% / Actual size</strong>, margins <strong>None</strong>, paper{' '}
-              <strong>4×6</strong>. Never use “Fit to page” or barcodes may not scan.
-            </p>
           </>
         )}
       </div>

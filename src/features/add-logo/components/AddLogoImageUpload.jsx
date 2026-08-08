@@ -52,7 +52,7 @@ export default function AddLogoImageUpload({
             {isLoading
               ? 'Reading PDF…'
               : pageCount > 0
-                ? `${pageCount} page${pageCount === 1 ? '' : 's'} · logo will be placed on every page`
+                ? `${pageCount} page${pageCount === 1 ? '' : 's'}`
                 : 'PDF ready'}
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function AddLogoImageUpload({
           {isDragging ? 'Drop logo here' : 'Upload your logo'}
         </h2>
         <p className="mb-6 text-sm text-slate-500">
-          JPG, PNG, or WEBP · Max {maxMb} MB · Placed in the bottom white space
+          JPG, PNG, or WEBP · Max {maxMb} MB
         </p>
 
         <button

@@ -274,10 +274,6 @@ export default function EditWorkspace({
         </div>
       )}
 
-      <p className="px-4 py-2 text-xs text-slate-500 bg-slate-50 border-t border-slate-100">
-        Tip: click empty space to add with the active tool. Drag any annotation to move it.
-        Double-click text to edit inline. Press Delete to remove the selection.
-      </p>
     </div>
   );
 }

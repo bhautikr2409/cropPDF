@@ -80,11 +80,6 @@ export default function CompressWorkspace({
               </div>
             </fieldset>
 
-            <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 px-4 py-3 text-sm text-slate-600">
-              Pages are recompressed as images for a smaller file. Text will no longer be
-              selectable in the output — ideal for sharing and archiving.
-            </div>
-
             {isProcessing && (
               <div>
                 <div className="flex items-center justify-between text-xs text-slate-500 mb-2">

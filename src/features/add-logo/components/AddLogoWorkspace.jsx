@@ -67,11 +67,9 @@ export default function AddLogoWorkspace({
                 <p className="truncate text-sm font-semibold text-slate-900" title={logoFile?.name}>
                   {logoFile?.name || 'Logo'}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
-                  {logoFile ? formatFileSize(logoFile.size) : ''}
-                  {' · '}
-                  Placed in the bottom white space on every page
-                </p>
+                {logoFile ? (
+                  <p className="mt-1 text-xs text-slate-500">{formatFileSize(logoFile.size)}</p>
+                ) : null}
                 <button
                   type="button"
                   onClick={onClearLogo}
@@ -110,11 +108,6 @@ export default function AddLogoWorkspace({
                 })}
               </div>
             </fieldset>
-
-            <div className="rounded-xl border border-violet-100 bg-violet-50/70 px-4 py-3 text-sm text-violet-900">
-              We detect the blank area under your content and fit the full logo inside it — nothing
-              clipped, nothing covering text — same place on all {pageCount || ''} pages.
-            </div>
 
             <button
               type="button"
