@@ -76,6 +76,17 @@ export const TOOLS = [
     icon: 'labelCrop',
   },
   {
+    id: 'add-logo',
+    title: 'Add Logo to PDF',
+    description:
+      'Upload a PDF and a logo — place it in the bottom white space on every page.',
+    to: '/add-logo',
+    category: 'edit',
+    available: true,
+    accent: 'indigo',
+    icon: 'addLogo',
+  },
+  {
     id: 'edit',
     title: 'Edit PDF',
     description: 'Add text, images, shapes, or freehand drawings to your PDF.',

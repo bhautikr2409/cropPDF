@@ -211,6 +211,38 @@ export const TOOL_SEO = {
     ],
   },
 
+  'add-logo': {
+    path: '/add-logo',
+    title: `Add Logo to PDF — Stamp Brand on Every Page | ${SITE_NAME}`,
+    description:
+      'Add your logo to the bottom white space of a PDF. Works on multi-page shipping labels and invoices. Free, private, browser-based.',
+    keywords:
+      'add logo to pdf, stamp logo on pdf, brand shipping label, meesho logo pdf, put image on pdf bottom',
+    h1: 'Add Logo to PDF',
+    eyebrow: 'Add Logo Tool',
+    intro:
+      'Upload a PDF, then your logo or brand image. PDFCraft finds the blank area under the content and places the logo there on every page — same position throughout.',
+    related: ['label-crop', 'edit', 'organize'],
+    sections: [
+      {
+        heading: 'Made for labels with empty space',
+        paragraphs: [
+          'Marketplace packing slips and tax invoices often leave a large white band at the bottom of the page. Use Add Logo to drop your shop brand into that space without covering addresses, barcodes, or invoice tables.',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'Does the logo appear on every page?',
+        a: 'Yes. The same logo is placed in the same relative bottom position on all pages of the PDF.',
+      },
+      {
+        q: 'What image formats are supported?',
+        a: 'JPG, PNG, and WEBP. Processing stays in your browser — files are not uploaded to a server.',
+      },
+    ],
+  },
+
   edit: {
     path: '/edit',
     title: `Edit PDF Online Free — Add Text, Images & Shapes | ${SITE_NAME}`,

@@ -36,6 +36,15 @@ const ICONS = {
       <path d="M14 13h4M14 16h4M14 19h2.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   ),
+  addLogo: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
+      <rect x="4" y="3" width="12" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <rect x="9" y="15.5" width="6" height="3.5" rx="0.75" stroke="currentColor" strokeWidth="1.75" />
+      <circle cx="18" cy="8" r="3.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M18 6.5v3M16.5 8h3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  ),
   edit: (
     <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
       <path d="M4 20h4L18 10l-4-4L4 16v4z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
