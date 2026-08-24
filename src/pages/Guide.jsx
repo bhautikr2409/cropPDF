@@ -105,7 +105,7 @@ export default function Guide() {
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-slate-600">
           Step-by-step guides for popular tools, plus answers about privacy, limits, and
-          browser-based PDF processing on pdfcraft.aadrim.in.
+          browser-based PDF processing on croppdf.netlify.app.
         </p>
       </div>
 

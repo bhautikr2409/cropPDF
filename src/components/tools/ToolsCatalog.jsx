@@ -101,7 +101,7 @@ export default function ToolsCatalog({
                 PDFCraft — PDF tools that stay on your device
               </h1>
               <p className="mx-auto max-w-2xl text-base text-slate-500 sm:text-lg">
-                Free online PDF toolkit at pdfcraft.aadrim.in. Merge, split, compress, convert, edit,
+                Free online PDF toolkit at croppdf.netlify.app. Merge, split, compress, convert, edit,
                 and protect PDFs — without sending files to a server.
               </p>
             </>

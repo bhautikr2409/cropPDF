@@ -30,7 +30,7 @@ export default function AboutUs() {
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-slate-600">
           Fast, private PDF tools at{' '}
-          <span className="font-semibold text-slate-800">pdfcraft.aadrim.in</span> — merge, split,
+          <span className="font-semibold text-slate-800">croppdf.netlify.app</span> — merge, split,
           compress, crop, convert, edit, and protect documents entirely in your browser.
         </p>
       </div>

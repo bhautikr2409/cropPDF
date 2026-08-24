@@ -1,7 +1,7 @@
 /** Canonical site identity for SEO, AdSense, and branding. */
 export const SITE_NAME = 'PDFCraft';
 export const SITE_LEGAL_NAME = 'PDFCraft';
-export const SITE_DOMAIN = 'pdfcraft.aadrim.in';
+export const SITE_DOMAIN = 'croppdf.netlify.app';
 export const SITE_URL = `https://${SITE_DOMAIN}`;
 export const SITE_TAGLINE = 'Free private PDF tools that run in your browser';
 export const SITE_DESCRIPTION =

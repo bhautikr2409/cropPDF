@@ -86,7 +86,7 @@ export default function Footer() {
             </Link>
 
             <p className="mb-5 max-w-sm text-sm leading-relaxed text-slate-400">
-              Free PDF tools at pdfcraft.aadrim.in. Merge, split, compress, convert, and protect —
+              Free PDF tools at croppdf.netlify.app. Merge, split, compress, convert, and protect —
               entirely in your browser. Your files never leave your device.
             </p>
 
@@ -134,7 +134,7 @@ export default function Footer() {
 
       <div className="border-t border-slate-800/80">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-4 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:px-6">
-          <p>© {currentYear} PDFCraft (pdfcraft.aadrim.in). All rights reserved.</p>
+          <p>© {currentYear} PDFCraft (croppdf.netlify.app). All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <Link to="/privacy" className="transition-colors hover:text-slate-300">
               Privacy

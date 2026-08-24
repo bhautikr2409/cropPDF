@@ -107,7 +107,7 @@ export default function ContactUs() {
             Contact {SITE_NAME}
           </h1>
           <p className="text-slate-500">
-            Send feedback or questions about pdfcraft.aadrim.in. Messages go to{' '}
+            Send feedback or questions about croppdf.netlify.app. Messages go to{' '}
             <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-teal-700 hover:underline">
               {CONTACT_EMAIL}
             </a>

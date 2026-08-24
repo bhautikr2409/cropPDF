@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
-const SITE_URL = 'https://pdfcraft.aadrim.in';
+const SITE_URL = 'https://croppdf.netlify.app';
 
 const seoSource = readFileSync(join(root, 'src/constants/seoContent.js'), 'utf8');
 const paths = [
