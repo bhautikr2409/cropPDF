@@ -31,6 +31,8 @@ const ContactUs = lazy(() => import('./pages/ContactUs'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const Guide = lazy(() => import('./pages/Guide'));
+const Resources = lazy(() => import('./pages/Resources'));
+const ResourceArticle = lazy(() => import('./pages/ResourceArticle'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function PageLoader() {
@@ -80,6 +82,8 @@ function App() {
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<TermsOfService />} />
                 <Route path="/guide" element={<Guide />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/resources/:slug" element={<ResourceArticle />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

@@ -196,6 +196,13 @@ export const TOOL_SEO = {
         heading: 'Built for Indian marketplace labels',
         paragraphs: [
           'Sellers often receive A4 PDFs that mix the shipping label with invoices. Label Crop detects the label region and exports pages sized for common 4×6 thermal printers — without uploading order data to a server.',
+          'Choose Flipkart or Meesho before uploading so the crop preset matches that marketplace layout. Keep barcodes and addresses readable; invoice body content that thermal printers do not need can be removed.',
+        ],
+      },
+      {
+        heading: 'Private packing workflow',
+        paragraphs: [
+          'Customer names and delivery addresses stay in your browser session. After download, send the PDF to your printer driver and close the tab when finished. Pair with Sort Meesho Labels when you need SKU order, or Add Logo to brand the bottom white space.',
         ],
       },
     ],
@@ -270,6 +277,13 @@ export const TOOL_SEO = {
         heading: 'Made for labels with empty space',
         paragraphs: [
           'Marketplace packing slips and tax invoices often leave a large white band at the bottom of the page. Use Add Logo to drop your shop brand into that space without covering addresses, barcodes, or invoice tables.',
+          'Upload a PNG or JPEG with a transparent or solid background. Keep the logo modest in height so thermal print density stays sharp. The same placement is applied on every page for a consistent pack-out.',
+        ],
+      },
+      {
+        heading: 'Works with cropped label PDFs',
+        paragraphs: [
+          'Many sellers run Label Crop or Sort Meesho Labels first, then Add Logo on the result. Because every step is client-side, order data never leaves the device between tools.',
         ],
       },
     ],
@@ -610,8 +624,36 @@ export const STATIC_SEO = {
     path: '/guide',
     title: `PDF Help Guide & FAQ — How to Use ${SITE_NAME}`,
     description:
-      'Step-by-step guides and FAQs for merging, splitting, compressing, cropping, converting, and protecting PDFs with PDFCraft.',
-    keywords: 'pdf guide, how to merge pdf, how to compress pdf, pdf faq',
+      'Step-by-step guides and FAQs for merging, splitting, compressing, cropping, Meesho/Flipkart labels, converting, and protecting PDFs with PDFCraft.',
+    keywords: 'pdf guide, how to merge pdf, how to compress pdf, meesho label guide, pdf faq',
+  },
+  resources: {
+    path: '/resources',
+    title: `PDF Guides & Articles — Resources | ${SITE_NAME}`,
+    description:
+      'Read practical articles on private browser PDF tools, Meesho and Flipkart label printing, and everyday compress, merge, and split workflows.',
+    keywords: 'pdf guides, private pdf tips, meesho label guide, compress pdf tips',
+  },
+  resourceWhyBrowser: {
+    path: '/resources/why-browser-pdf-tools',
+    title: `Why Browser-Based PDF Tools Are Safer Than Upload Sites | ${SITE_NAME}`,
+    description:
+      'Learn how client-side PDF tools work and why they protect invoices and IDs better than upload converters.',
+    keywords: 'browser pdf tools, private pdf online, client-side pdf',
+  },
+  resourceLabels: {
+    path: '/resources/meesho-flipkart-label-printing',
+    title: `Meesho & Flipkart Shipping Labels Guide | ${SITE_NAME}`,
+    description:
+      'Crop A4 Meesho and Flipkart labels for 4×6 thermal printers, sort by SKU, and add a shop logo — privately in the browser.',
+    keywords: 'meesho label crop, flipkart shipping label, 4x6 thermal printer',
+  },
+  resourceEveryday: {
+    path: '/resources/compress-merge-split-everyday',
+    title: `Compress, Merge & Split PDF Everyday Workflows | ${SITE_NAME}`,
+    description:
+      'When to compress PDFs for email, how to merge reports in order, and how to split long scans — free private browser tools.',
+    keywords: 'compress pdf email, merge pdf online, split pdf pages',
   },
   notFound: {
     path: '/404',

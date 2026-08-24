@@ -27,6 +27,7 @@ const COMPANY_LINKS = [
   { to: '/about', label: 'About Us' },
   { to: '/contact', label: 'Contact' },
   { to: '/guide', label: 'Help & Guide' },
+  { to: '/resources', label: 'Resources' },
   { to: '/privacy', label: 'Privacy Policy' },
   { to: '/terms', label: 'Terms of Service' },
 ];

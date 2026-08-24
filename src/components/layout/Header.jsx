@@ -294,6 +294,13 @@ export default function Header() {
           </Link>
 
           <Link
+            to="/resources"
+            className="hidden h-9 items-center rounded-lg px-2 text-sm font-semibold text-slate-600 transition hover:text-teal-800 xl:inline-flex"
+          >
+            Resources
+          </Link>
+
+          <Link
             to="/"
             className="hidden h-9 items-center rounded-lg bg-teal-700 px-4 text-sm font-semibold text-white transition hover:bg-teal-600 sm:inline-flex"
           >
@@ -387,13 +394,20 @@ export default function Header() {
               </div>
             ))}
 
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <Link
                 to="/guide"
                 onClick={() => setMobileOpen(false)}
                 className="inline-flex h-11 flex-1 items-center justify-center rounded-xl border border-slate-200 text-sm font-semibold text-slate-700"
               >
                 Help
+              </Link>
+              <Link
+                to="/resources"
+                onClick={() => setMobileOpen(false)}
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-xl border border-slate-200 text-sm font-semibold text-slate-700"
+              >
+                Resources
               </Link>
               <Link
                 to="/"

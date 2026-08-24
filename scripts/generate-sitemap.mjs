@@ -20,7 +20,17 @@ const paths = [
 ];
 
 // Stable ordering: home → tools → tools alpha → static pages
-const staticTail = ['/guide', '/about', '/contact', '/privacy', '/terms'];
+const staticTail = [
+  '/guide',
+  '/resources',
+  '/resources/why-browser-pdf-tools',
+  '/resources/meesho-flipkart-label-printing',
+  '/resources/compress-merge-split-everyday',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/terms',
+];
 const ranked = [
   '/',
   '/tools',
@@ -43,6 +53,7 @@ const CHANGEFREQ = {
   '/': 'weekly',
   '/tools': 'weekly',
   '/guide': 'monthly',
+  '/resources': 'weekly',
   '/about': 'monthly',
   '/contact': 'monthly',
   '/privacy': 'yearly',

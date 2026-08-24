@@ -60,7 +60,14 @@ const BENEFITS = [
   },
 ];
 
-const POPULAR_ORDER = ['merge', 'split', 'compress', 'crop', 'pdf-to-image', 'protect'];
+const POPULAR_ORDER = [
+  'merge',
+  'compress',
+  'label-crop',
+  'meesho-sort',
+  'crop',
+  'protect',
+];
 const POPULAR = POPULAR_ORDER.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean);
 
 function PopularToolCard({ tool }) {
@@ -132,7 +139,7 @@ export default function HomeSeoContent() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-10">
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {BENEFITS.map((item) => (
             <div
               key={item.title}
@@ -149,9 +156,8 @@ export default function HomeSeoContent() {
           ))}
         </div>
 
-        <div className="pt-6 sm:pt-10 mt-10">
+        <div className="mt-10 pt-6 sm:pt-10">
           <div className="mx-auto mb-8 max-w-2xl text-center">
-            {/* <p className="mb-2 text-sm font-semibold text-teal-700">Most used</p> */}
             <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
               Popular PDF tools
             </h2>
@@ -160,13 +166,13 @@ export default function HomeSeoContent() {
             </p>
           </div>
 
-          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {POPULAR.map((tool) => (
               <PopularToolCard key={tool.id} tool={tool} />
             ))}
           </ul>
 
-          <div className="mt-8 text-center">
+          <div className="mt-8 text-center pb-4">
             <Link
               to="/tools"
               className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-900"
@@ -176,7 +182,199 @@ export default function HomeSeoContent() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-teal-100 bg-white mt-10">
+        <article className="mx-auto max-w-3xl rounded-2xl border border-slate-200/80 bg-white px-6 py-8 sm:px-10 sm:py-10">
+          <h2 className="text-xl font-extrabold text-slate-900 sm:text-2xl">
+            What you can do with {SITE_NAME}
+          </h2>
+          <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-slate-600">
+            <p>
+              Organize multi-file reports with{' '}
+              <Link to="/merge" className="font-semibold text-teal-800 hover:underline">
+                Merge PDF
+              </Link>
+              , extract pages with{' '}
+              <Link to="/split" className="font-semibold text-teal-800 hover:underline">
+                Split PDF
+              </Link>
+              , and shrink scans for email with{' '}
+              <Link to="/compress" className="font-semibold text-teal-800 hover:underline">
+                Compress PDF
+              </Link>
+              . Trim margins or focus on a region using{' '}
+              <Link to="/crop" className="font-semibold text-teal-800 hover:underline">
+                Crop PDF
+              </Link>
+              , then lock sensitive exports with{' '}
+              <Link to="/protect" className="font-semibold text-teal-800 hover:underline">
+                Protect PDF
+              </Link>
+              .
+            </p>
+            <p>
+              Indian marketplace sellers can prepare thermal-ready shipping labels with{' '}
+              <Link to="/label-crop" className="font-semibold text-teal-800 hover:underline">
+                Label Crop
+              </Link>{' '}
+              (Flipkart or Meesho), order Meesho pages by SKU with{' '}
+              <Link to="/meesho-sort" className="font-semibold text-teal-800 hover:underline">
+                Sort Meesho Labels
+              </Link>
+              , and brand packing slips via{' '}
+              <Link to="/add-logo" className="font-semibold text-teal-800 hover:underline">
+                Add Logo
+              </Link>
+              . Convert between PDF and images or Markdown when you need editable drafts or quick
+              previews.
+            </p>
+            <p>
+              Every workflow runs in your browser on croppdf.netlify.app. We publish clear{' '}
+              <Link to="/about" className="font-semibold text-teal-800 hover:underline">
+                About
+              </Link>
+              ,{' '}
+              <Link to="/privacy" className="font-semibold text-teal-800 hover:underline">
+                Privacy
+              </Link>
+              , and{' '}
+              <Link to="/contact" className="font-semibold text-teal-800 hover:underline">
+                Contact
+              </Link>{' '}
+              pages, plus a{' '}
+              <Link to="/guide" className="font-semibold text-teal-800 hover:underline">
+                Help Guide
+              </Link>{' '}
+              and long-form{' '}
+              <Link to="/resources" className="font-semibold text-teal-800 hover:underline">
+                Resources
+              </Link>{' '}
+              articles so you can learn before you click.
+            </p>
+          </div>
+        </article>
+
+        <article>
+          <div className="mx-auto mb-8 max-w-2xl text-center">
+            {/* <p className="mb-2 text-sm font-semibold text-teal-700">Built for real workflows</p> */}
+            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl mb-4 mt-8">
+              Who {SITE_NAME} is for
+            </h2>
+            <p className="mt-3 text-slate-600">
+              Same private toolkit — different jobs. Pick the path that matches how you work with
+              PDFs.
+            </p>
+          </div>
+
+          <ul className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+            {[
+              {
+                title: 'Students & freelancers',
+                text: 'Merge assignments, compress portfolio PDFs, and convert notes without creating accounts on random upload sites.',
+                href: '/merge',
+                cta: 'Start with Merge',
+                iconBox: 'bg-sky-50 text-sky-700',
+                icon: (
+                  <path
+                    d="M8 4h6l4 4v12H8V4zM14 4v4h4M10 13h6M10 17h4"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
+                ),
+              },
+              {
+                title: 'Small businesses',
+                text: 'Combine invoices, password-protect contracts, and prepare customer-facing PDFs on a trusted device.',
+                href: '/protect',
+                cta: 'Protect a PDF',
+                iconBox: 'bg-teal-50 text-teal-700',
+                icon: (
+                  <>
+                    <path
+                      d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinejoin="round"
+                      fill="none"
+                    />
+                    <path
+                      d="M9.5 12l1.8 1.8 3.7-3.8"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      fill="none"
+                    />
+                  </>
+                ),
+              },
+              {
+                title: 'Online sellers',
+                text: 'Crop Meesho and Flipkart A4 labels for 4×6 thermal printers, sort by SKU, and add a shop logo before print.',
+                href: '/label-crop',
+                cta: 'Open Label Crop',
+                iconBox: 'bg-amber-50 text-amber-800',
+                icon: (
+                  <>
+                    <rect
+                      x="5"
+                      y="4"
+                      width="14"
+                      height="16"
+                      rx="2"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      fill="none"
+                    />
+                    <path
+                      d="M8 9h8M8 13h5"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                    />
+                  </>
+                ),
+              },
+            ].map((item) => (
+              <li key={item.title}>
+                <Link
+                  to={item.href}
+                  className="group flex h-full flex-col rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-teal-200 hover:bg-[var(--page-bg)] sm:p-7"
+                >
+                  <div
+                    className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${item.iconBox}`}
+                  >
+                    <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
+                      {item.icon}
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{item.text}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700">
+                    {item.cta}
+                    <svg
+                      viewBox="0 0 16 16"
+                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M3 8h10M9 4l4 4-4 4"
+                        stroke="currentColor"
+                        strokeWidth="1.75"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </article>
+
+        <div className="mt-10 overflow-hidden rounded-2xl border border-teal-100 bg-white">
           <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr]">
             <div className="px-6 py-8 sm:px-10 sm:py-10">
               <p className="mb-2 text-sm font-semibold text-teal-700">Privacy first</p>
@@ -196,6 +394,13 @@ export default function HomeSeoContent() {
                   <Link to="/privacy" className="font-semibold text-teal-800 hover:underline">
                     Privacy Policy
                   </Link>
+                  . For deeper reading, see{' '}
+                  <Link
+                    to="/resources/why-browser-pdf-tools"
+                    className="font-semibold text-teal-800 hover:underline"
+                  >
+                    why browser-based PDF tools are safer
+                  </Link>
                   .
                 </p>
               </div>
@@ -207,10 +412,10 @@ export default function HomeSeoContent() {
                   Read the help guide
                 </Link>
                 <Link
-                  to="/about"
+                  to="/resources"
                   className="inline-flex h-10 items-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:border-teal-200 hover:bg-teal-50"
                 >
-                  About {SITE_NAME}
+                  Browse resources
                 </Link>
               </div>
             </div>
@@ -220,6 +425,7 @@ export default function HomeSeoContent() {
                 'Files never leave your browser',
                 'No signup to use tools',
                 'HTTPS site delivery only',
+                'Help Guide + Resources articles',
               ].map((line) => (
                 <div
                   key={line}

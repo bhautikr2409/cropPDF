@@ -20,6 +20,10 @@
   <url><loc>https://croppdf.netlify.app/split</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://croppdf.netlify.app/unlock</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://croppdf.netlify.app/guide</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://croppdf.netlify.app/resources</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://croppdf.netlify.app/resources/why-browser-pdf-tools</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://croppdf.netlify.app/resources/meesho-flipkart-label-printing</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://croppdf.netlify.app/resources/compress-merge-split-everyday</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://croppdf.netlify.app/about</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://croppdf.netlify.app/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://croppdf.netlify.app/privacy</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
