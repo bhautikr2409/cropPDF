@@ -76,6 +76,17 @@ export const TOOLS = [
     icon: 'labelCrop',
   },
   {
+    id: 'meesho-sort',
+    title: 'Sort Meesho Labels',
+    description:
+      'Upload Meesho label PDFs, sort by SKU then courier, crop, and download one print-ready PDF.',
+    to: '/meesho-sort',
+    category: 'organize',
+    available: true,
+    accent: 'orange',
+    icon: 'meeshoSort',
+  },
+  {
     id: 'add-logo',
     title: 'Add Logo to PDF',
     description:

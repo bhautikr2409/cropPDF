@@ -190,7 +190,7 @@ export const TOOL_SEO = {
     eyebrow: 'Label Crop Tool',
     intro:
       'Turn A4 marketplace shipping labels into clean 4×6 thermal-ready PDFs. Choose Flipkart or Meesho, upload your label PDF, and download printer-friendly pages.',
-    related: ['crop', 'organize', 'rotate'],
+    related: ['meesho-sort', 'crop', 'organize'],
     sections: [
       {
         heading: 'Built for Indian marketplace labels',
@@ -207,6 +207,48 @@ export const TOOL_SEO = {
       {
         q: 'Is order data sent online?',
         a: 'No. Label detection and cropping run in your browser only.',
+      },
+    ],
+  },
+
+  'meesho-sort': {
+    path: '/meesho-sort',
+    title: `Sort & Crop Meesho Labels by SKU | ${SITE_NAME}`,
+    description:
+      'Upload multiple Meesho shipping label PDFs. Sort pages by SKU then courier, crop like Label Crop, and download one thermal-ready PDF. Free and private in your browser.',
+    keywords:
+      'sort meesho labels, meesho sku sort, meesho label crop sort, arrange shipping labels by sku, meesho delhivery sort',
+    h1: 'Sort & crop Meesho labels',
+    eyebrow: 'Meesho Label Sort',
+    intro:
+      'Combine several Meesho label PDFs into one file: pages are ordered by SKU and shipping company, then cropped with the same Meesho rules as Label Crop (including 90° rotate for thermal print).',
+    related: ['label-crop', 'organize', 'merge'],
+    sections: [
+      {
+        heading: 'Sort first, then crop',
+        paragraphs: [
+          'PDFCraft reads the Product Details SKU and courier name from each page, sorts SKU → shipping company, then applies the Meesho label crop so invoice body and blank space are removed before download.',
+        ],
+      },
+      {
+        heading: 'Multiple files, one print-ready PDF',
+        paragraphs: [
+          'Upload as many Meesho label PDFs as you need. Every page is included, sorted, cropped, and saved locally in your browser.',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'How are pages ordered?',
+        a: 'First by SKU (A–Z), then by shipping company within each SKU. Same SKU + same courier pages stay together.',
+      },
+      {
+        q: 'Does this crop the labels?',
+        a: 'Yes. After sorting, each page is cropped with the same Meesho Label Crop path (top label only, then rotated for 4×6 when you choose that size).',
+      },
+      {
+        q: 'Which couriers are detected?',
+        a: 'Common Meesho partners such as Delhivery, Shadowfax, Xpressbees, Ecom Express, Blue Dart, DTDC, Ekart, and others. Unrecognized names are labeled Unknown.',
       },
     ],
   },

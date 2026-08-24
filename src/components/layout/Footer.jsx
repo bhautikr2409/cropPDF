@@ -5,6 +5,7 @@ const POPULAR_TOOLS = [
   { to: '/split', label: 'Split PDF' },
   { to: '/compress', label: 'Compress PDF' },
   { to: '/label-crop', label: 'Label Crop' },
+  { to: '/meesho-sort', label: 'Sort Meesho Labels' },
   { to: '/add-logo', label: 'Add Logo' },
   { to: '/crop', label: 'Crop PDF' },
   { to: '/edit', label: 'Edit PDF' },

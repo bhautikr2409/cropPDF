@@ -518,8 +518,9 @@ export function detectMeeshoLabelRatios(imageData, width, height) {
 
 /**
  * Group PDF text items into horizontal lines (handles split "TAX"+"INVOICE").
+ * Shared by Meesho crop + Meesho label sort.
  */
-function meeshoTextLines(items, pageH) {
+export function meeshoTextLines(items, pageH) {
   const rows = [];
   for (const item of items || []) {
     const str = String(item.str || '').trim();

@@ -477,6 +477,28 @@ async function cropMeeshoPage(outDoc, pdfPage, imageData, width, height, canvas,
 }
 
 /**
+ * Crop one Meesho label page into an output PDF (reuse from Sort Meesho Labels).
+ * Uses the same detect → crop → rotate 90° path as Label Crop (Meesho).
+ */
+export async function cropMeeshoPageIntoDoc(outDoc, pdfjsDoc, pageNumber, outputSizeId = '4x6') {
+  const output = OUTPUT_SIZES[outputSizeId] || OUTPUT_SIZES['4x6'];
+  const renderScale = 2.4;
+  const pdfPage = await pdfjsDoc.getPage(pageNumber);
+  const { imageData, width, height, canvas } = await renderPageImageData(
+    pdfjsDoc,
+    pageNumber,
+    renderScale,
+    true
+  );
+  try {
+    await cropMeeshoPage(outDoc, pdfPage, imageData, width, height, canvas, output);
+  } finally {
+    canvas.width = 0;
+    canvas.height = 0;
+  }
+}
+
+/**
  * Flipkart / auto path (unchanged behavior): top-of-page image slice so the
  * invoice below the shipping label is not included.
  */

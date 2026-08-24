@@ -36,6 +36,19 @@ const ICONS = {
       <path d="M14 13h4M14 16h4M14 19h2.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   ),
+  meeshoSort: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
+      <rect x="4" y="3" width="10" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M7 7h4M7 10h4M7 13h2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path
+        d="M16 7v10M13.5 9.5L16 7l2.5 2.5M13.5 14.5L16 17l2.5-2.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
   addLogo: (
     <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
       <rect x="4" y="3" width="12" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
