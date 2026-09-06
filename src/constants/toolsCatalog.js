@@ -98,6 +98,17 @@ export const TOOLS = [
     icon: 'addLogo',
   },
   {
+    id: 'amazon-sku',
+    title: 'Amazon SKU Injector',
+    description:
+      'Extract SKUs from Amazon order invoices and inject SKU tags onto corresponding shipping labels.',
+    to: '/amazon-sku',
+    category: 'edit',
+    available: true,
+    accent: 'amber',
+    icon: 'amazonSku',
+  },
+  {
     id: 'edit',
     title: 'Edit PDF',
     description: 'Add text, images, shapes, or freehand drawings to your PDF.',

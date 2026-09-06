@@ -58,6 +58,15 @@ const ICONS = {
       <path d="M18 6.5v3M16.5 8h3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   ),
+  amazonSku: (
+    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
+      <rect x="4" y="3" width="10" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M7 7h4M7 10h4M7 13h2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M15 8l4 4m0-4l-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <rect x="13" y="14" width="7" height="6" rx="1" stroke="currentColor" strokeWidth="1.75" />
+      <path d="M15 17h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
   edit: (
     <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
       <path d="M4 20h4L18 10l-4-4L4 16v4z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />

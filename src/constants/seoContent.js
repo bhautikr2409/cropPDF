@@ -577,6 +577,49 @@ export const TOOL_SEO = {
       },
     ],
   },
+  'amazon-sku': {
+    path: '/amazon-sku',
+    title: `Amazon Shipping Label SKU Injector — Free Online Tool | ${SITE_NAME}`,
+    description:
+      'Upload Amazon order PDFs (Label + Invoice pairs). Automatically extract product SKUs from invoices and inject SKU tags onto shipping labels in your browser.',
+    keywords:
+      'amazon sku injector, amazon shipping label sku, amazon order batch pdf, amazon seller pdf tools, inject sku on amazon label',
+    h1: 'Amazon Shipping Label SKU Injector',
+    eyebrow: 'Amazon Seller Tool',
+    intro:
+      'Extract product SKUs from Amazon invoice pages and automatically print SKU tags onto the blank space of corresponding shipping labels.',
+    related: ['meesho-sort', 'label-crop', 'add-logo'],
+    sections: [
+      {
+        heading: 'Automate Amazon Shipping Label SKU Tagging',
+        paragraphs: [
+          'Amazon seller batch exports often combine a Shipping Label page and an Invoice page for every order. Packing orders efficiently requires workers to identify the product SKU directly on the shipping label without turning the page.',
+          'PDFCraft automatically parses every 2-page Amazon order pair, extracts the SKU enclosed in parentheses inside the invoice product description, and injects "SKU: <your_sku>" onto the shipping label.',
+        ],
+      },
+      {
+        heading: 'How it works',
+        paragraphs: [
+          'Upload your Amazon multi-order PDF. The tool validates page pairing (Page 1 = Label, Page 2 = Invoice, Page 3 = Label, Page 4 = Invoice). It extracts the SKU from the invoice and stamps the label page without altering invoice data or covering barcodes.',
+          'The entire process runs 100% locally in your web browser. No document data is uploaded or stored on external servers.',
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'How does SKU extraction work?',
+        a: 'The tool extracts text from the invoice page and looks for the product SKU enclosed inside parentheses (e.g., "( floral perfume )").',
+      },
+      {
+        q: 'Does it change the invoice page?',
+        a: 'No. Invoice pages are preserved in their exact original form.',
+      },
+      {
+        q: 'Is my seller PDF private?',
+        a: 'Yes. All parsing and PDF generation happen locally in your browser memory.',
+      },
+    ],
+  },
 };
 
 export const STATIC_SEO = {

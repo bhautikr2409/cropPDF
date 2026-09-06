@@ -71,7 +71,7 @@ function baseName(fileName) {
   return (
     String(fileName || 'document')
       .replace(/\.(md|markdown|txt|mdown|mkd)$/i, '')
-      .replace(/[^\w\-]+/g, '-')
+      .replace(/[^\w-]+/g, '-')
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '') || 'document'
   );
