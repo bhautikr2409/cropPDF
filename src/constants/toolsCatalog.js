@@ -221,6 +221,11 @@ export const HEADER_PRIMARY = [
 export const CONVERT_TOOLS = TOOLS.filter((t) => t.category === 'convert');
 export const ALL_TOOLS_MENU = TOOLS.filter((t) => t.available);
 
+export const ECOM_TOOLS = TOOLS.filter((t) => ['label-crop', 'meesho-sort', 'amazon-sku'].includes(t.id));
+export const PDF_TOOLS = TOOLS.filter((t) => ['merge', 'split', 'compress', 'edit', 'organize', 'rotate', 'crop'].includes(t.id));
+export const IMAGE_TOOLS = TOOLS.filter((t) => ['pdf-to-image', 'image-to-pdf', 'add-logo'].includes(t.id));
+export const UTILITY_TOOLS = TOOLS.filter((t) => ['pdf-to-markdown', 'markdown-to-pdf', 'protect', 'unlock', 'compare'].includes(t.id));
+
 export const MEGA_MENU_COLUMNS = [
   {
     id: 'organize',

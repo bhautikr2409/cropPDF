@@ -3,14 +3,15 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   ACCENT,
   ALL_TOOLS_MENU,
-  CONVERT_TOOLS,
-  HEADER_PRIMARY,
+  ECOM_TOOLS,
+  PDF_TOOLS,
+  IMAGE_TOOLS,
+  UTILITY_TOOLS,
   MEGA_MENU_COLUMNS,
 } from '../../constants/toolsCatalog';
 import ToolIcon from '../tools/ToolIcon';
 
-const navLinkClass =
-  'inline-flex h-9 items-center rounded-lg px-3 text-sm font-semibold text-slate-600 transition hover:bg-teal-50 hover:text-teal-800';
+
 
 function Chevron({ open }) {
   return (
@@ -57,7 +58,7 @@ function BrandLogo() {
   );
 }
 
-function ConvertDropdown({ open, onOpen, onClose, onNavigate }) {
+function NavDropdown({ label, tools, open, onOpen, onClose, onNavigate, highlight }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -69,28 +70,33 @@ function ConvertDropdown({ open, onOpen, onClose, onNavigate }) {
     return () => document.removeEventListener('mousedown', onDoc);
   }, [open, onClose]);
 
+  const baseClass = 'inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm font-semibold transition';
+
+  const btnClass = highlight
+    ? open
+      ? 'bg-[#eef8f3] text-[#2c9869]'
+      : 'bg-[#eef8f3] text-[#2c9869] hover:bg-[#e4f2eb]'
+    : open
+      ? 'bg-slate-100 text-slate-800'
+      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800';
+
   return (
     <div ref={ref} className="relative" onMouseEnter={onOpen} onMouseLeave={onClose}>
       <button
         type="button"
-        className={[
-          'inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm font-semibold transition',
-          open
-            ? 'bg-teal-50 text-teal-800'
-            : 'text-slate-600 hover:bg-teal-50 hover:text-teal-800',
-        ].join(' ')}
+        className={`${baseClass} ${btnClass}`}
         aria-expanded={open}
         onClick={() => (open ? onClose() : onOpen())}
       >
-        Convert PDF
+        {label}
         <Chevron open={open} />
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-50 min-w-[220px] pt-2">
+        <div className="absolute left-0 top-full z-50 min-w-[240px] pt-2">
           <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white py-2 shadow-xl shadow-slate-900/10">
             <div className="absolute -top-1.5 left-8 h-3 w-3 rotate-45 border-l border-t border-slate-200 bg-white" />
-            {CONVERT_TOOLS.map((tool) => {
+            {tools.map((tool) => {
               const accent = ACCENT[tool.accent] || ACCENT.blue;
               return (
                 <Link
@@ -113,80 +119,14 @@ function ConvertDropdown({ open, onOpen, onClose, onNavigate }) {
   );
 }
 
-function MegaMenuPanel({ onNavigate }) {
-  return (
-    <div className="relative rounded-2xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-900/12 sm:p-6">
-      <div className="absolute -top-2 left-[min(68%,640px)] h-3.5 w-3.5 rotate-45 border-l border-t border-slate-200 bg-white" />
 
-      <div className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-3 lg:grid-cols-5">
-        {MEGA_MENU_COLUMNS.map((column) => (
-          <div key={column.id} className="min-w-0">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
-              {column.label}
-            </p>
-            <ul className="space-y-0.5">
-              {column.tools.map((tool) => {
-                const accent = ACCENT[tool.accent] || ACCENT.blue;
-                return (
-                  <li key={tool.id}>
-                    <Link
-                      to={tool.to}
-                      onClick={onNavigate}
-                      className="flex items-center gap-2.5 rounded-lg px-1 py-2 text-[13px] text-slate-700 transition hover:bg-slate-50 hover:text-slate-900"
-                    >
-                      <span className={`${accent.icon} flex shrink-0`}>
-                        <ToolIcon name={tool.icon} className="[&>svg]:h-[18px] [&>svg]:w-[18px]" />
-                      </span>
-                      <span className="font-medium leading-snug">{tool.title}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
-        <p className="text-xs text-slate-500">
-          All tools run locally in your browser — nothing is uploaded.
-        </p>
-        <Link
-          to="/"
-          onClick={onNavigate}
-          className="inline-flex h-8 shrink-0 items-center rounded-lg bg-teal-700 px-3.5 text-xs font-semibold text-white transition hover:bg-teal-600"
-        >
-          View all tools
-        </Link>
-      </div>
-    </div>
-  );
-}
 
 export default function Header() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
   const menuId = useId();
-  const megaWrapRef = useRef(null);
-  const allToolsBtnRef = useRef(null);
-  const closeTimerRef = useRef(null);
 
-  const openAllTools = () => {
-    if (closeTimerRef.current) {
-      clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-    setOpenMenu('all');
-  };
-
-  const scheduleCloseAllTools = () => {
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    closeTimerRef.current = setTimeout(() => {
-      setOpenMenu((m) => (m === 'all' ? null : m));
-      closeTimerRef.current = null;
-    }, 160);
-  };
 
   const popularMobile = useMemo(
     () => ALL_TOOLS_MENU.filter((t) => ['merge', 'split', 'compress', 'crop', 'edit'].includes(t.id)),
@@ -196,18 +136,7 @@ export default function Header() {
   useEffect(() => {
     setMobileOpen(false);
     setOpenMenu(null);
-    if (closeTimerRef.current) {
-      clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
   }, [location.pathname]);
-
-  useEffect(
-    () => () => {
-      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    },
-    []
-  );
 
   useEffect(() => {
     if (!mobileOpen) return undefined;
@@ -218,23 +147,7 @@ export default function Header() {
     return () => document.removeEventListener('keydown', onKey);
   }, [mobileOpen]);
 
-  useEffect(() => {
-    if (openMenu !== 'all') return undefined;
-    const onDoc = (e) => {
-      const inPanel = megaWrapRef.current?.contains(e.target);
-      const inBtn = allToolsBtnRef.current?.contains(e.target);
-      if (!inPanel && !inBtn) setOpenMenu(null);
-    };
-    const onKey = (e) => {
-      if (e.key === 'Escape') setOpenMenu(null);
-    };
-    document.addEventListener('mousedown', onDoc);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onDoc);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [openMenu]);
+
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white">
@@ -243,37 +156,47 @@ export default function Header() {
         <BrandLogo />
 
         {/* Center: primary nav */}
-        <div className="hidden min-w-0 flex-1 items-center gap-0.5 xl:flex">
-          {HEADER_PRIMARY.map((link) => (
-            <Link key={link.to} to={link.to} className={navLinkClass}>
-              {link.label}
-            </Link>
-          ))}
-
-          <ConvertDropdown
-            open={openMenu === 'convert'}
-            onOpen={() => setOpenMenu('convert')}
+        <div className="hidden min-w-0 flex-1 items-center gap-1 xl:flex xl:gap-2">
+          <NavDropdown
+            label="E-Com Tools"
+            tools={ECOM_TOOLS}
+            open={openMenu === 'ecom'}
+            onOpen={() => setOpenMenu('ecom')}
             onClose={() => setOpenMenu(null)}
             onNavigate={() => setOpenMenu(null)}
           />
-
-          <div onMouseEnter={openAllTools} onMouseLeave={scheduleCloseAllTools}>
-            <button
-              ref={allToolsBtnRef}
-              type="button"
-              className={[
-                'inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm font-semibold transition',
-                openMenu === 'all'
-                  ? 'bg-teal-50 text-teal-800'
-                  : 'text-slate-600 hover:bg-teal-50 hover:text-teal-800',
-              ].join(' ')}
-              aria-expanded={openMenu === 'all'}
-              onClick={() => setOpenMenu((m) => (m === 'all' ? null : 'all'))}
-            >
-              All PDF Tools
-              <Chevron open={openMenu === 'all'} />
-            </button>
-          </div>
+          <NavDropdown
+            label="PDF Tools"
+            tools={PDF_TOOLS}
+            open={openMenu === 'pdf'}
+            onOpen={() => setOpenMenu('pdf')}
+            onClose={() => setOpenMenu(null)}
+            onNavigate={() => setOpenMenu(null)}
+          />
+          <NavDropdown
+            label="Image Tools"
+            tools={IMAGE_TOOLS}
+            open={openMenu === 'image'}
+            onOpen={() => setOpenMenu('image')}
+            onClose={() => setOpenMenu(null)}
+            onNavigate={() => setOpenMenu(null)}
+          />
+          <NavDropdown
+            label="Utilities Tools"
+            tools={UTILITY_TOOLS}
+            open={openMenu === 'utilities'}
+            onOpen={() => setOpenMenu('utilities')}
+            onClose={() => setOpenMenu(null)}
+            onNavigate={() => setOpenMenu(null)}
+          />
+          <a
+            href="https://forms.gle/wZunnbhxJ2yaSe5s8"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-9 items-center rounded-lg px-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-slate-800"
+          >
+            Feedback
+          </a>
         </div>
 
         {/* Right: actions — evenly spaced, same height */}
@@ -328,20 +251,7 @@ export default function Header() {
         </div>
       </nav>
 
-      {openMenu === 'all' && (
-        <div
-          ref={megaWrapRef}
-          className="absolute inset-x-0 top-full z-50 hidden xl:block"
-          onMouseEnter={openAllTools}
-          onMouseLeave={scheduleCloseAllTools}
-        >
-          <div className="px-4 pb-4 pt-2 sm:px-6">
-            <div className="mx-auto max-w-7xl">
-              <MegaMenuPanel onNavigate={() => setOpenMenu(null)} />
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {mobileOpen && (
         <div
