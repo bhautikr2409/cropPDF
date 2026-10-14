@@ -50,58 +50,6 @@ export const RESOURCES_ARTICLES = [
     ],
   },
   {
-    slug: 'meesho-flipkart-label-printing',
-    path: '/resources/meesho-flipkart-label-printing',
-    title: `Meesho & Flipkart Shipping Labels: Crop, Sort & Print Guide | ${SITE_NAME}`,
-    description:
-      'A practical guide for Indian marketplace sellers: crop A4 Meesho and Flipkart labels for 4×6 thermal printers, sort by SKU, and add a shop logo—privately in the browser.',
-    keywords:
-      'meesho label crop, flipkart shipping label, 4x6 thermal printer, sort meesho sku, marketplace packing slip',
-    published: '2026-08-10',
-    updated: '2026-08-24',
-    category: 'Sellers',
-    h1: 'Meesho & Flipkart shipping labels: crop, sort, and print',
-    summary:
-      'Marketplace packing slips often arrive as A4 PDFs with invoices attached. This guide explains how sellers prepare clean thermal labels without uploading order data.',
-    sections: [
-      {
-        heading: 'Why A4 labels are awkward on thermal printers',
-        paragraphs: [
-          'Many marketplaces generate multi-page A4 PDFs that combine the courier shipping label, product details, and a full tax invoice. Thermal printers used in small warehouses typically expect a 4×6 inch (about 100×150 mm) page. Printing the whole A4 wastes paper, shrinks barcodes, or cuts off addresses.',
-          'Sellers traditionally crop labels in desktop PDF editors or use desktop scripts. That works, but it is slow when you process dozens of orders a day—and it often means installing software on every packing station.',
-        ],
-      },
-      {
-        heading: 'Crop Flipkart or Meesho labels in the browser',
-        paragraphs: [
-          `${SITE_NAME}'s Label Crop tool asks you to choose the marketplace first (Flipkart or Meesho), then upload the label PDF. Presets keep the shipping panel and relevant product header while removing invoice body content that thermal printers do not need. Processing stays on your device so customer addresses never hit our servers.`,
-          'After cropping, download the PDF and send it to your 4×6 printer driver. If orientation looks wrong for your printer model, try the Rotate tool or the Meesho crop path that applies a 90° clockwise turn for thermal layouts.',
-        ],
-      },
-      {
-        heading: 'Sort Meesho labels by SKU before you pack',
-        paragraphs: [
-          'When you download several Meesho label PDFs in one session, pages are rarely ordered the way you pick inventory. Sort Meesho Labels reads the SKU from Product Details and the courier name, then orders pages by SKU and shipping company. After sorting, the same Meesho crop is applied so you get one print-ready file.',
-          'This workflow helps packers group identical SKUs, reduce picking mistakes, and keep Delhivery, Shadowfax, Xpressbees, and other partners batched together when useful.',
-        ],
-      },
-      {
-        heading: 'Add your shop logo in the empty band',
-        paragraphs: [
-          'Many packing slips leave a blank strip under the invoice or label content. Use Add Logo to place a PNG or JPEG brand mark in that bottom white space on every page—without covering barcodes or addresses. Keep logos modest in height so thermal density stays readable.',
-          'Combine Label Crop → Add Logo → print for a consistent branded pack-out. All three steps remain local to the browser.',
-        ],
-      },
-      {
-        heading: 'Seller checklist before a busy packing day',
-        paragraphs: [
-          'Confirm your printer paper size matches the cropped PDF, test one page, verify barcode scanners still read the cropped label, and keep original marketplace PDFs as a backup. If a label fails detection, re-download from the seller panel or try the Flipkart vs Meesho preset again.',
-          `Full steps live in our Help Guide and on each tool page. Browse Label Crop, Sort Meesho Labels, and Add Logo from the tools directory on ${SITE_NAME}.`,
-        ],
-      },
-    ],
-  },
-  {
     slug: 'compress-merge-split-everyday',
     path: '/resources/compress-merge-split-everyday',
     title: `Everyday PDF Workflows: Compress, Merge & Split Without Software | ${SITE_NAME}`,

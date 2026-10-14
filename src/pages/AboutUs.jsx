@@ -31,8 +31,7 @@ export default function AboutUs() {
         <p className="mx-auto max-w-2xl text-lg text-slate-600">
           Fast, private PDF tools at{' '}
           <span className="font-semibold text-slate-800">croppdf.netlify.app</span> — merge, split,
-          compress, crop, convert, edit, protect, and prepare marketplace shipping labels entirely
-          in your browser.
+          compress, crop, convert, edit, and protect PDFs entirely in your browser.
         </p>
       </div>
 
@@ -58,9 +57,9 @@ export default function AboutUs() {
               {[
                 ['100% client-side', 'Zero uploads — documents stay private.'],
                 ['No signup', 'Start immediately with no email required.'],
-                ['Free toolkit', 'Merge, split, compress, crop, convert, protect, label tools, and more.'],
+                ['Free toolkit', 'Merge, split, compress, crop, convert, protect, and more.'],
                 ['Clear policies', 'Transparent Privacy Policy, Terms, About, and Contact pages.'],
-                ['Seller-ready', 'Label Crop, Sort Meesho Labels, and Add Logo for packing workflows.'],
+                ['Seller-ready', 'Add Logo to brand packing slips and invoices.'],
               ].map(([title, text]) => (
                 <li key={title} className="flex items-start gap-2">
                   <span className="mt-0.5 font-bold text-teal-600">✓</span>
@@ -106,8 +105,7 @@ export default function AboutUs() {
           <h2 className="mb-3 text-xl font-bold text-slate-800">What we build</h2>
           <p className="mb-3 leading-relaxed text-slate-600">
             Beyond classic organize and convert utilities, we invest in problems we see in real
-            packing desks: A4 marketplace labels that do not fit thermal printers, Meesho pages that
-            arrive unsorted by SKU, and blank bands on packing slips that sellers want to brand.
+            packing desks, such as blank bands on packing slips that sellers want to brand.
             Those tools sit alongside merge, split, compress, rotate, edit, compare, and password
             protection so one site covers both general PDF chores and seller-specific steps.
           </p>
@@ -122,7 +120,7 @@ export default function AboutUs() {
           <p className="mb-3 leading-relaxed text-slate-600">
             Students, freelancers, small businesses, and ecommerce sellers who need quick PDF fixes
             without installing desktop software or trusting unknown upload portals. Whether you are
-            merging reports, compressing scans for email, cropping Meesho labels for a 4×6 printer,
+            merging reports, compressing scans for email, branding packing slips,
             or password-protecting a contract, {SITE_NAME} is built to be useful, honest, and private.
           </p>
           <p className="leading-relaxed text-slate-600">

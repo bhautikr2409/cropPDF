@@ -24,7 +24,6 @@ const staticTail = [
   '/guide',
   '/resources',
   '/resources/why-browser-pdf-tools',
-  '/resources/meesho-flipkart-label-printing',
   '/resources/compress-merge-split-everyday',
   '/about',
   '/contact',

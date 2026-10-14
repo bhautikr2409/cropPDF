@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 import { useAddLogo } from '../hooks/useAddLogo';
 import AddLogoImageUpload from './AddLogoImageUpload';
@@ -107,13 +106,6 @@ export default function AddLogoPDF() {
           )}
 
           <ToolSeoSection toolId="add-logo" accentClass="text-violet-600" />
-
-          <p className="mt-6 text-center text-sm text-slate-500">
-            Cropping shipping labels?{' '}
-            <Link to="/label-crop" className="font-medium text-violet-600 hover:underline">
-              Open Label Crop
-            </Link>
-          </p>
         </div>
       </div>
     </div>

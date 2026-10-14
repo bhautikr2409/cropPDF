@@ -65,28 +65,6 @@ export const TOOLS = [
     icon: 'crop',
   },
   {
-    id: 'label-crop',
-    title: 'Label Crop',
-    description:
-      'Choose Flipkart or Meesho, then crop A4 shipping labels into 4×6 thermal printer PDFs.',
-    to: '/label-crop',
-    category: 'edit',
-    available: true,
-    accent: 'rose',
-    icon: 'labelCrop',
-  },
-  {
-    id: 'meesho-sort',
-    title: 'Sort Meesho Labels',
-    description:
-      'Upload Meesho label PDFs, sort by SKU then courier, crop, and download one print-ready PDF.',
-    to: '/meesho-sort',
-    category: 'organize',
-    available: true,
-    accent: 'orange',
-    icon: 'meeshoSort',
-  },
-  {
     id: 'add-logo',
     title: 'Add Logo to PDF',
     description:
@@ -96,17 +74,6 @@ export const TOOLS = [
     available: true,
     accent: 'indigo',
     icon: 'addLogo',
-  },
-  {
-    id: 'amazon-sku',
-    title: 'Amazon SKU Injector',
-    description:
-      'Extract SKUs from Amazon order invoices and inject SKU tags onto corresponding shipping labels.',
-    to: '/amazon-sku',
-    category: 'edit',
-    available: true,
-    accent: 'amber',
-    icon: 'amazonSku',
   },
   {
     id: 'edit',
@@ -221,7 +188,6 @@ export const HEADER_PRIMARY = [
 export const CONVERT_TOOLS = TOOLS.filter((t) => t.category === 'convert');
 export const ALL_TOOLS_MENU = TOOLS.filter((t) => t.available);
 
-export const ECOM_TOOLS = TOOLS.filter((t) => ['label-crop', 'meesho-sort', 'amazon-sku'].includes(t.id));
 export const PDF_TOOLS = TOOLS.filter((t) => ['merge', 'split', 'compress', 'edit', 'organize', 'rotate', 'crop'].includes(t.id));
 export const IMAGE_TOOLS = TOOLS.filter((t) => ['pdf-to-image', 'image-to-pdf', 'add-logo'].includes(t.id));
 export const UTILITY_TOOLS = TOOLS.filter((t) => ['pdf-to-markdown', 'markdown-to-pdf', 'protect', 'unlock', 'compare'].includes(t.id));

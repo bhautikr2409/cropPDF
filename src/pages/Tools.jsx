@@ -55,15 +55,7 @@ export default function Tools() {
               tools to lock or unlock passwords you already know.
             </p>
             <p>
-              Marketplace sellers should start with{' '}
-              <Link to="/label-crop" className="font-semibold text-teal-800 hover:underline">
-                Label Crop
-              </Link>{' '}
-              or{' '}
-              <Link to="/meesho-sort" className="font-semibold text-teal-800 hover:underline">
-                Sort Meesho Labels
-              </Link>
-              , then optionally{' '}
+              Marketplace sellers can brand packing slips with{' '}
               <Link to="/add-logo" className="font-semibold text-teal-800 hover:underline">
                 Add Logo
               </Link>{' '}

@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../../../lib/pdf/worker';
 import { usePdfCrop } from '../hooks/usePdfCrop';
 import { useCropSelection } from '../hooks/useCropSelection';
@@ -56,12 +55,6 @@ export default function CropPDF() {
               </p>
             </div>
             <UploadPDFPage onFileChange={pdf.loadFile} onFileDrop={pdf.acceptFile} />
-            <p className="mt-6 text-center text-sm text-slate-500">
-              Shipping labels?{' '}
-              <Link to="/label-crop" className="font-medium text-teal-700 hover:underline">
-                Open Label Crop
-              </Link>
-            </p>
             <ToolSeoSection toolId="crop" accentClass="text-teal-700" />
           </div>
         ) : (

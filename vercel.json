@@ -1,4 +1,14 @@
 {
+  "redirects": [
+    { "source": "/label-crop", "destination": "/tools", "permanent": true },
+    { "source": "/meesho-sort", "destination": "/tools", "permanent": true },
+    { "source": "/amazon-sku", "destination": "/tools", "permanent": true },
+    {
+      "source": "/resources/meesho-flipkart-label-printing",
+      "destination": "/resources",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

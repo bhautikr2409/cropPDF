@@ -28,7 +28,7 @@ const generalFaqs = [
   },
   {
     q: 'Do you store my shipping labels or invoices?',
-    a: 'No. Label Crop, Sort Meesho Labels, and Add Logo process marketplace PDFs only in your tab. Close the tab to clear the session.',
+    a: 'No. Add Logo and every other tool process marketplace PDFs only in your tab. Close the tab to clear the session.',
   },
 ];
 
@@ -71,26 +71,6 @@ const guideTopics = [
       'Open Crop PDF and load your file.',
       'Drag to draw a crop box; resize with handles.',
       'Download the trimmed PDF.',
-    ],
-  },
-  {
-    id: 'label-crop',
-    title: 'Label Crop',
-    body: 'Prepare Flipkart or Meesho A4 shipping labels for 4×6 thermal printers. Choose the marketplace first, then upload — cropping stays on your device.',
-    steps: [
-      'Open Label Crop and select Flipkart or Meesho.',
-      'Upload your marketplace label PDF.',
-      'Download the thermal-ready cropped PDF.',
-    ],
-  },
-  {
-    id: 'meesho-sort',
-    title: 'Sort Meesho Labels',
-    body: 'Upload several Meesho label PDFs, sort pages by SKU then courier, crop with Meesho rules, and download one print-ready file for packing.',
-    steps: [
-      'Open Sort Meesho Labels and add one or more PDFs.',
-      'Choose output size if prompted.',
-      'Run Sort, Crop & Download for the combined PDF.',
     ],
   },
   {
@@ -143,7 +123,7 @@ export default function Guide() {
           How to use {SITE_NAME}
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-slate-600">
-          Step-by-step guides for popular tools, marketplace label workflows, and answers about
+          Step-by-step guides for popular tools and answers about
           privacy, limits, and browser-based PDF processing on croppdf.netlify.app.
         </p>
       </div>
@@ -161,8 +141,7 @@ export default function Guide() {
           <Link to="/resources" className="font-semibold text-teal-700 hover:underline">
             Resources
           </Link>{' '}
-          for articles on private PDF tools, Meesho/Flipkart label printing, and everyday
-          compress–merge–split workflows.
+          for articles on private PDF tools and everyday compress–merge–split workflows.
         </p>
       </article>
 

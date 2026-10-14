@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   ACCENT,
   ALL_TOOLS_MENU,
-  ECOM_TOOLS,
   PDF_TOOLS,
   IMAGE_TOOLS,
   UTILITY_TOOLS,
@@ -157,14 +156,6 @@ export default function Header() {
 
         {/* Center: primary nav */}
         <div className="hidden min-w-0 flex-1 items-center gap-1 xl:flex xl:gap-2">
-          <NavDropdown
-            label="E-Com Tools"
-            tools={ECOM_TOOLS}
-            open={openMenu === 'ecom'}
-            onOpen={() => setOpenMenu('ecom')}
-            onClose={() => setOpenMenu(null)}
-            onNavigate={() => setOpenMenu(null)}
-          />
           <NavDropdown
             label="PDF Tools"
             tools={PDF_TOOLS}

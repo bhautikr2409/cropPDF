@@ -39,7 +39,7 @@ export default function Resources() {
           Guides &amp; articles
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-slate-600">
-          Practical writing about private PDF workflows, marketplace shipping labels, and everyday
+          Practical writing about private PDF workflows and everyday
           document tasks on {SITE_NAME}. Updated for sellers, students, and small teams.
         </p>
       </div>
@@ -77,7 +77,7 @@ export default function Resources() {
       <div className="rounded-2xl border border-teal-100 bg-teal-50/50 px-6 py-8 text-center sm:px-10">
         <h2 className="mb-2 text-lg font-bold text-slate-900">Need step-by-step tool help?</h2>
         <p className="mb-5 text-sm text-slate-600">
-          The Help Guide covers merge, split, compress, crop, label tools, and privacy FAQs.
+          The Help Guide covers merge, split, compress, crop, and privacy FAQs.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link

@@ -63,9 +63,9 @@ const BENEFITS = [
 const POPULAR_ORDER = [
   'merge',
   'compress',
-  'label-crop',
-  'meesho-sort',
+  'split',
   'crop',
+  'edit',
   'protect',
 ];
 const POPULAR = POPULAR_ORDER.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean);
@@ -211,15 +211,7 @@ export default function HomeSeoContent() {
               .
             </p>
             <p>
-              Indian marketplace sellers can prepare thermal-ready shipping labels with{' '}
-              <Link to="/label-crop" className="font-semibold text-teal-800 hover:underline">
-                Label Crop
-              </Link>{' '}
-              (Flipkart or Meesho), order Meesho pages by SKU with{' '}
-              <Link to="/meesho-sort" className="font-semibold text-teal-800 hover:underline">
-                Sort Meesho Labels
-              </Link>
-              , and brand packing slips via{' '}
+              Online sellers can brand packing slips and invoices via{' '}
               <Link to="/add-logo" className="font-semibold text-teal-800 hover:underline">
                 Add Logo
               </Link>
@@ -311,9 +303,9 @@ export default function HomeSeoContent() {
               },
               {
                 title: 'Online sellers',
-                text: 'Crop Meesho and Flipkart A4 labels for 4×6 thermal printers, sort by SKU, and add a shop logo before print.',
-                href: '/label-crop',
-                cta: 'Open Label Crop',
+                text: 'Add your shop logo to the blank space on packing slips and invoices before you print.',
+                href: '/add-logo',
+                cta: 'Open Add Logo',
                 iconBox: 'bg-amber-50 text-amber-800',
                 icon: (
                   <>

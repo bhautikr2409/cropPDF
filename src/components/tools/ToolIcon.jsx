@@ -28,27 +28,6 @@ const ICONS = {
       <path d="M8 12h8M8 16h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   ),
-  labelCrop: (
-    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
-      <rect x="4" y="3" width="11" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
-      <path d="M7 7h5M7 10h5M7 13h3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <rect x="12" y="10" width="8" height="11" rx="1.5" stroke="currentColor" strokeWidth="2" />
-      <path d="M14 13h4M14 16h4M14 19h2.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-    </svg>
-  ),
-  meeshoSort: (
-    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
-      <rect x="4" y="3" width="10" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
-      <path d="M7 7h4M7 10h4M7 13h2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path
-        d="M16 7v10M13.5 9.5L16 7l2.5 2.5M13.5 14.5L16 17l2.5-2.5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
   addLogo: (
     <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
       <rect x="4" y="3" width="12" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
@@ -56,15 +35,6 @@ const ICONS = {
       <rect x="9" y="15.5" width="6" height="3.5" rx="0.75" stroke="currentColor" strokeWidth="1.75" />
       <circle cx="18" cy="8" r="3.5" stroke="currentColor" strokeWidth="2" />
       <path d="M18 6.5v3M16.5 8h3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-    </svg>
-  ),
-  amazonSku: (
-    <svg viewBox="0 0 24 24" fill="none" className={iconClass} aria-hidden="true">
-      <rect x="4" y="3" width="10" height="18" rx="1.5" stroke="currentColor" strokeWidth="2" />
-      <path d="M7 7h4M7 10h4M7 13h2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M15 8l4 4m0-4l-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <rect x="13" y="14" width="7" height="6" rx="1" stroke="currentColor" strokeWidth="1.75" />
-      <path d="M15 17h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   ),
   edit: (

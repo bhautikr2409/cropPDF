@@ -152,7 +152,7 @@ export const TOOL_SEO = {
     eyebrow: 'PDF Crop Tool',
     intro:
       'Trim unwanted margins or focus on a region of each page. Draw a crop box, adjust handles, and download a tighter PDF — privately on your device.',
-    related: ['label-crop', 'rotate', 'organize'],
+    related: ['rotate', 'organize', 'split'],
     sections: [
       {
         heading: 'Crop PDFs without uploading',
@@ -172,91 +172,6 @@ export const TOOL_SEO = {
         q: 'Does cropping lower image quality?',
         a: 'Cropping adjusts page boxes. It does not re-encode page content as a new image for the crop operation itself.',
       },
-      {
-        q: 'Can I crop shipping labels?',
-        a: 'For Flipkart/Meesho A4 labels, use the dedicated Label Crop tool for automatic 4×6 output.',
-      },
-    ],
-  },
-
-  'label-crop': {
-    path: '/label-crop',
-    title: `Label Crop PDF — Flipkart & Meesho Shipping Labels | ${SITE_NAME}`,
-    description:
-      'Auto-crop Flipkart or Meesho A4 shipping labels into 4×6 thermal printer PDFs. Free, private, browser-based label cropper.',
-    keywords:
-      'label crop, flipkart label crop, meesho label pdf, 4x6 shipping label, thermal printer pdf',
-    h1: 'Label Crop for shipping PDFs',
-    eyebrow: 'Label Crop Tool',
-    intro:
-      'Turn A4 marketplace shipping labels into clean 4×6 thermal-ready PDFs. Choose Flipkart or Meesho, upload your label PDF, and download printer-friendly pages.',
-    related: ['meesho-sort', 'crop', 'organize'],
-    sections: [
-      {
-        heading: 'Built for Indian marketplace labels',
-        paragraphs: [
-          'Sellers often receive A4 PDFs that mix the shipping label with invoices. Label Crop detects the label region and exports pages sized for common 4×6 thermal printers — without uploading order data to a server.',
-          'Choose Flipkart or Meesho before uploading so the crop preset matches that marketplace layout. Keep barcodes and addresses readable; invoice body content that thermal printers do not need can be removed.',
-        ],
-      },
-      {
-        heading: 'Private packing workflow',
-        paragraphs: [
-          'Customer names and delivery addresses stay in your browser session. After download, send the PDF to your printer driver and close the tab when finished. Pair with Sort Meesho Labels when you need SKU order, or Add Logo to brand the bottom white space.',
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: 'Which platforms are supported?',
-        a: 'Choose Flipkart or Meesho first, then upload your A4 label PDF. Each preset uses the crop rules for that marketplace.',
-      },
-      {
-        q: 'Is order data sent online?',
-        a: 'No. Label detection and cropping run in your browser only.',
-      },
-    ],
-  },
-
-  'meesho-sort': {
-    path: '/meesho-sort',
-    title: `Sort & Crop Meesho Labels by SKU | ${SITE_NAME}`,
-    description:
-      'Upload multiple Meesho shipping label PDFs. Sort pages by SKU then courier, crop like Label Crop, and download one thermal-ready PDF. Free and private in your browser.',
-    keywords:
-      'sort meesho labels, meesho sku sort, meesho label crop sort, arrange shipping labels by sku, meesho delhivery sort',
-    h1: 'Sort & crop Meesho labels',
-    eyebrow: 'Meesho Label Sort',
-    intro:
-      'Combine several Meesho label PDFs into one file: pages are ordered by SKU and shipping company, then cropped with the same Meesho rules as Label Crop (including 90° rotate for thermal print).',
-    related: ['label-crop', 'organize', 'merge'],
-    sections: [
-      {
-        heading: 'Sort first, then crop',
-        paragraphs: [
-          'PDFCraft reads the Product Details SKU and courier name from each page, sorts SKU → shipping company, then applies the Meesho label crop so invoice body and blank space are removed before download.',
-        ],
-      },
-      {
-        heading: 'Multiple files, one print-ready PDF',
-        paragraphs: [
-          'Upload as many Meesho label PDFs as you need. Every page is included, sorted, cropped, and saved locally in your browser.',
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: 'How are pages ordered?',
-        a: 'First by SKU (A–Z), then by shipping company within each SKU. Same SKU + same courier pages stay together.',
-      },
-      {
-        q: 'Does this crop the labels?',
-        a: 'Yes. After sorting, each page is cropped with the same Meesho Label Crop path (top label only, then rotated for 4×6 when you choose that size).',
-      },
-      {
-        q: 'Which couriers are detected?',
-        a: 'Common Meesho partners such as Delhivery, Shadowfax, Xpressbees, Ecom Express, Blue Dart, DTDC, Ekart, and others. Unrecognized names are labeled Unknown.',
-      },
     ],
   },
 
@@ -266,24 +181,18 @@ export const TOOL_SEO = {
     description:
       'Add your logo to the bottom white space of a PDF. Works on multi-page shipping labels and invoices. Free, private, browser-based.',
     keywords:
-      'add logo to pdf, stamp logo on pdf, brand shipping label, meesho logo pdf, put image on pdf bottom',
+      'add logo to pdf, stamp logo on pdf, brand shipping label, put image on pdf bottom',
     h1: 'Add Logo to PDF',
     eyebrow: 'Add Logo Tool',
     intro:
       'Upload a PDF, then your logo or brand image. PDFCraft finds the blank area under the content and places the logo there on every page — same position throughout.',
-    related: ['label-crop', 'edit', 'organize'],
+    related: ['edit', 'organize', 'image-to-pdf'],
     sections: [
       {
         heading: 'Made for labels with empty space',
         paragraphs: [
           'Marketplace packing slips and tax invoices often leave a large white band at the bottom of the page. Use Add Logo to drop your shop brand into that space without covering addresses, barcodes, or invoice tables.',
           'Upload a PNG or JPEG with a transparent or solid background. Keep the logo modest in height so thermal print density stays sharp. The same placement is applied on every page for a consistent pack-out.',
-        ],
-      },
-      {
-        heading: 'Works with cropped label PDFs',
-        paragraphs: [
-          'Many sellers run Label Crop or Sort Meesho Labels first, then Add Logo on the result. Because every step is client-side, order data never leaves the device between tools.',
         ],
       },
     ],
@@ -577,49 +486,6 @@ export const TOOL_SEO = {
       },
     ],
   },
-  'amazon-sku': {
-    path: '/amazon-sku',
-    title: `Amazon Shipping Label SKU Injector — Free Online Tool | ${SITE_NAME}`,
-    description:
-      'Upload Amazon order PDFs (Label + Invoice pairs). Automatically extract product SKUs from invoices and inject SKU tags onto shipping labels in your browser.',
-    keywords:
-      'amazon sku injector, amazon shipping label sku, amazon order batch pdf, amazon seller pdf tools, inject sku on amazon label',
-    h1: 'Amazon Shipping Label SKU Injector',
-    eyebrow: 'Amazon Seller Tool',
-    intro:
-      'Extract product SKUs from Amazon invoice pages and automatically print SKU tags onto the blank space of corresponding shipping labels.',
-    related: ['meesho-sort', 'label-crop', 'add-logo'],
-    sections: [
-      {
-        heading: 'Automate Amazon Shipping Label SKU Tagging',
-        paragraphs: [
-          'Amazon seller batch exports often combine a Shipping Label page and an Invoice page for every order. Packing orders efficiently requires workers to identify the product SKU directly on the shipping label without turning the page.',
-          'PDFCraft automatically parses every 2-page Amazon order pair, extracts the SKU enclosed in parentheses inside the invoice product description, and injects "SKU: <your_sku>" onto the shipping label.',
-        ],
-      },
-      {
-        heading: 'How it works',
-        paragraphs: [
-          'Upload your Amazon multi-order PDF. The tool validates page pairing (Page 1 = Label, Page 2 = Invoice, Page 3 = Label, Page 4 = Invoice). It extracts the SKU from the invoice and stamps the label page without altering invoice data or covering barcodes.',
-          'The entire process runs 100% locally in your web browser. No document data is uploaded or stored on external servers.',
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: 'How does SKU extraction work?',
-        a: 'The tool extracts text from the invoice page and looks for the product SKU enclosed inside parentheses (e.g., "( floral perfume )").',
-      },
-      {
-        q: 'Does it change the invoice page?',
-        a: 'No. Invoice pages are preserved in their exact original form.',
-      },
-      {
-        q: 'Is my seller PDF private?',
-        a: 'Yes. All parsing and PDF generation happen locally in your browser memory.',
-      },
-    ],
-  },
 };
 
 export const STATIC_SEO = {
@@ -667,15 +533,15 @@ export const STATIC_SEO = {
     path: '/guide',
     title: `PDF Help Guide & FAQ — How to Use ${SITE_NAME}`,
     description:
-      'Step-by-step guides and FAQs for merging, splitting, compressing, cropping, Meesho/Flipkart labels, converting, and protecting PDFs with PDFCraft.',
-    keywords: 'pdf guide, how to merge pdf, how to compress pdf, meesho label guide, pdf faq',
+      'Step-by-step guides and FAQs for merging, splitting, compressing, cropping, converting, and protecting PDFs with PDFCraft.',
+    keywords: 'pdf guide, how to merge pdf, how to compress pdf, pdf faq',
   },
   resources: {
     path: '/resources',
     title: `PDF Guides & Articles — Resources | ${SITE_NAME}`,
     description:
-      'Read practical articles on private browser PDF tools, Meesho and Flipkart label printing, and everyday compress, merge, and split workflows.',
-    keywords: 'pdf guides, private pdf tips, meesho label guide, compress pdf tips',
+      'Read practical articles on private browser PDF tools and everyday compress, merge, and split workflows.',
+    keywords: 'pdf guides, private pdf tips, compress pdf tips',
   },
   resourceWhyBrowser: {
     path: '/resources/why-browser-pdf-tools',
@@ -683,13 +549,6 @@ export const STATIC_SEO = {
     description:
       'Learn how client-side PDF tools work and why they protect invoices and IDs better than upload converters.',
     keywords: 'browser pdf tools, private pdf online, client-side pdf',
-  },
-  resourceLabels: {
-    path: '/resources/meesho-flipkart-label-printing',
-    title: `Meesho & Flipkart Shipping Labels Guide | ${SITE_NAME}`,
-    description:
-      'Crop A4 Meesho and Flipkart labels for 4×6 thermal printers, sort by SKU, and add a shop logo — privately in the browser.',
-    keywords: 'meesho label crop, flipkart shipping label, 4x6 thermal printer',
   },
   resourceEveryday: {
     path: '/resources/compress-merge-split-everyday',
