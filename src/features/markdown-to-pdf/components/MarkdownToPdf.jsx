@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useMarkdownToPdf } from '../hooks/useMarkdownToPdf';
 import MarkdownToPdfWorkspace from './MarkdownToPdfWorkspace';
 import ToolSeoSection from '../../../components/seo/ToolSeoSection';
+import ToolHeading from '../../../components/tools/ToolHeading';
 
 /** Preview fonts for the MD editor only — not loaded site-wide. */
 const MARKDOWN_PREVIEW_FONTS =
@@ -39,7 +40,7 @@ export default function MarkdownToPdf() {
   } = useMarkdownToPdf();
 
   return (
-    <div className="bg-[var(--page-bg)] py-10 sm:py-14">
+    <div className="cat-convert tool-page pb-20 pt-10 sm:pt-14">
       <Helmet>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -48,13 +49,11 @@ export default function MarkdownToPdf() {
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center sm:mb-10">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-lime-700">
-              Markdown to PDF
-            </p>
-            <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            <ToolHeading toolId="markdown-to-pdf" />
+            <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
               Convert Markdown to PDF
             </h1>
-            <p className="mx-auto max-w-xl text-base text-slate-600 sm:text-lg">
+            <p className="mx-auto max-w-xl text-base text-ink-600 sm:text-lg">
               Upload a Markdown file or paste Markdown, pick a typeface, then download a clean PDF.
               Everything runs locally in your browser.
             </p>
@@ -83,8 +82,8 @@ export default function MarkdownToPdf() {
             formatFileSize={formatFileSize}
           />
 
-          <div className="mt-10 rounded-2xl border border-slate-200 bg-white px-6 py-6 sm:px-8">
-            <h3 className="mb-5 text-center text-sm font-semibold text-slate-900 sm:text-left">
+          <div className="mt-10 rounded-3xl border border-ink-200 bg-white px-6 py-6 sm:px-8">
+            <h3 className="mb-5 text-center text-sm font-semibold text-ink-900 sm:text-left">
               How it works
             </h3>
             <ol className="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -93,23 +92,23 @@ export default function MarkdownToPdf() {
                   key={step.n}
                   className="flex items-center gap-3 text-left sm:flex-col sm:items-start"
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lime-700 text-sm font-bold text-white">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-700 text-sm font-bold text-white">
                     {step.n}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{step.title}</p>
-                    <p className="mt-0.5 text-xs text-slate-500">{step.text}</p>
+                    <p className="text-sm font-semibold text-ink-900">{step.title}</p>
+                    <p className="mt-0.5 text-xs text-ink-500">{step.text}</p>
                   </div>
                 </li>
               ))}
             </ol>
           </div>
 
-          <ToolSeoSection toolId="markdown-to-pdf" accentClass="text-lime-700" />
+          <ToolSeoSection toolId="markdown-to-pdf" />
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-6 text-center text-sm text-ink-500">
             Going the other way?{' '}
-            <Link to="/pdf-to-markdown" className="font-medium text-lime-700 hover:underline">
+            <Link to="/pdf-to-markdown" className="font-medium text-accent-700 hover:underline">
               Open PDF to Markdown
             </Link>
           </p>

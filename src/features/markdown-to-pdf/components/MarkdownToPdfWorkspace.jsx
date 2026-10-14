@@ -31,11 +31,11 @@ export default function MarkdownToPdfWorkspace({
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-[minmax(0,1fr)_22rem]">
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-slate-50 px-4 py-4 sm:px-5">
+        <div className="overflow-hidden rounded-3xl border border-ink-200 bg-white">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink-100 bg-ink-50 px-4 py-4 sm:px-5">
             <div className="min-w-0">
-              <h2 className="font-semibold text-slate-900">Markdown source</h2>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <h2 className="font-semibold text-ink-900">Markdown source</h2>
+              <p className="mt-0.5 text-xs text-ink-500">
                 {fileMeta
                   ? `${fileMeta.name} · ${formatFileSize(fileMeta.size)}`
                   : 'Paste or upload · processed on your device'}
@@ -48,7 +48,7 @@ export default function MarkdownToPdfWorkspace({
                 type="button"
                 onClick={onLoadSample}
                 disabled={isProcessing}
-                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-40"
+                className="rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm font-medium text-ink-600 hover:bg-ink-50 disabled:opacity-40"
               >
                 Load sample
               </button>
@@ -56,7 +56,7 @@ export default function MarkdownToPdfWorkspace({
                 type="button"
                 onClick={onClear}
                 disabled={isProcessing || !markdown}
-                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-40"
+                className="rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm font-medium text-ink-600 hover:bg-ink-50 disabled:opacity-40"
               >
                 Clear
               </button>
@@ -64,7 +64,7 @@ export default function MarkdownToPdfWorkspace({
           </div>
 
           <div className="space-y-4 p-4 sm:p-5">
-            <div className="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1">
+            <div className="inline-flex rounded-xl border border-ink-200 bg-ink-50 p-1">
               {[
                 { id: INPUT_MODES.PASTE, label: 'Paste Markdown' },
                 { id: INPUT_MODES.UPLOAD, label: 'Upload file' },
@@ -77,8 +77,8 @@ export default function MarkdownToPdfWorkspace({
                   className={[
                     'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
                     mode === tab.id
-                      ? 'bg-white text-lime-800 shadow-sm'
-                      : 'text-slate-500 hover:text-slate-700',
+                      ? 'bg-white text-accent-800 shadow-sm'
+                      : 'text-ink-500 hover:text-ink-700',
                   ].join(' ')}
                 >
                   {tab.label}
@@ -96,7 +96,7 @@ export default function MarkdownToPdfWorkspace({
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div className="min-w-0">
-                <label htmlFor="md-source" className="mb-2 block text-sm font-semibold text-slate-900">
+                <label htmlFor="md-source" className="mb-2 block text-sm font-semibold text-ink-900">
                   Editor
                 </label>
                 <MarkdownToolbar
@@ -113,14 +113,14 @@ export default function MarkdownToPdfWorkspace({
                   disabled={isProcessing}
                   spellCheck={false}
                   placeholder={'# Heading\n\nWrite or paste Markdown here…'}
-                  className="h-[28rem] w-full resize-y rounded-b-xl rounded-t-none border border-slate-200 bg-slate-50 px-4 py-3 font-mono text-sm leading-relaxed text-slate-800 outline-none transition focus:border-lime-500 focus:ring-2 focus:ring-lime-500/20 disabled:opacity-60"
+                  className="h-[28rem] w-full resize-y rounded-b-xl rounded-t-none border border-ink-200 bg-ink-50 px-4 py-3 font-mono text-sm leading-relaxed text-ink-800 outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 disabled:opacity-60"
                 />
               </div>
 
               <div className="min-w-0">
                 <div className="mb-2 flex items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-slate-900">Preview</p>
-                  <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+                  <p className="text-sm font-semibold text-ink-900">Preview</p>
+                  <div className="inline-flex rounded-lg border border-ink-200 bg-ink-50 p-0.5">
                     {[
                       { id: 'preview', label: 'Rendered' },
                       { id: 'source', label: 'Raw' },
@@ -132,8 +132,8 @@ export default function MarkdownToPdfWorkspace({
                         className={[
                           'rounded-md px-2.5 py-1 text-xs font-semibold transition',
                           previewTab === tab.id
-                            ? 'bg-white text-slate-800 shadow-sm'
-                            : 'text-slate-500',
+                            ? 'bg-white text-ink-800 shadow-sm'
+                            : 'text-ink-500',
                         ].join(' ')}
                       >
                         {tab.label}
@@ -142,19 +142,19 @@ export default function MarkdownToPdfWorkspace({
                   </div>
                 </div>
 
-                <div className="h-[30.25rem] overflow-auto rounded-xl border border-slate-200 bg-white px-4 py-3">
+                <div className="h-[30.25rem] overflow-auto rounded-xl border border-ink-200 bg-white px-4 py-3">
                   {previewTab === 'source' ? (
-                    <pre className="whitespace-pre-wrap break-words font-mono text-xs leading-relaxed text-slate-700">
+                    <pre className="whitespace-pre-wrap break-words font-mono text-xs leading-relaxed text-ink-700">
                       {markdown || 'Nothing to preview yet.'}
                     </pre>
                   ) : markdown.trim() ? (
                     <div
-                      className="md-preview prose-sm max-w-none text-slate-800"
+                      className="md-preview prose-sm max-w-none text-ink-800"
                       style={{ fontFamily: typeface?.cssFamily }}
                       dangerouslySetInnerHTML={{ __html: previewHtml }}
                     />
                   ) : (
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-ink-500">
                       Paste or upload Markdown to preview it here.
                     </p>
                   )}
@@ -166,7 +166,7 @@ export default function MarkdownToPdfWorkspace({
               type="button"
               onClick={onDownload}
               disabled={!canDownload}
-              className="w-full rounded-xl bg-lime-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-lime-600 disabled:opacity-40 sm:w-auto"
+              className="w-full rounded-full bg-accent-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-accent-600 disabled:opacity-40 sm:w-auto"
             >
               {isProcessing ? 'Creating PDF…' : `Download PDF · ${typeface?.name || 'Font'}`}
             </button>

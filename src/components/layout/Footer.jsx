@@ -1,60 +1,32 @@
 import { Link } from 'react-router-dom';
-
-const POPULAR_TOOLS = [
-  { to: '/merge', label: 'Merge PDF' },
-  { to: '/split', label: 'Split PDF' },
-  { to: '/compress', label: 'Compress PDF' },
-  { to: '/add-logo', label: 'Add Logo' },
-  { to: '/crop', label: 'Crop PDF' },
-  { to: '/edit', label: 'Edit PDF' },
-];
-
-const CONVERT_LINKS = [
-  { to: '/pdf-to-image', label: 'PDF to Image' },
-  { to: '/image-to-pdf', label: 'Image to PDF' },
-  { to: '/pdf-to-markdown', label: 'PDF to Markdown' },
-  { to: '/markdown-to-pdf', label: 'Markdown to PDF' },
-];
-
-const SECURITY_LINKS = [
-  { to: '/protect', label: 'Protect PDF' },
-  { to: '/unlock', label: 'Unlock PDF' },
-];
+import { TOOL_GROUPS } from '../../constants/toolsCatalog';
+import { BrandMark } from './Header';
 
 const COMPANY_LINKS = [
-  { to: '/about', label: 'About Us' },
+  { to: '/about', label: 'About us' },
   { to: '/contact', label: 'Contact' },
-  { to: '/guide', label: 'Help & Guide' },
+  { to: '/guide', label: 'Help guide' },
   { to: '/resources', label: 'Resources' },
-  { to: '/privacy', label: 'Privacy Policy' },
-  { to: '/terms', label: 'Terms of Service' },
+  { to: '/privacy', label: 'Privacy policy' },
+  { to: '/terms', label: 'Terms of service' },
 ];
 
-function FooterLink({ to, children }) {
+function FooterColumn({ title, children, className = '' }) {
   return (
-    <Link
-      to={to}
-      className="text-sm text-slate-400 transition-colors hover:text-teal-300"
-    >
-      {children}
-    </Link>
+    <div className={className}>
+      <h2 className="mb-4 flex items-center gap-2 font-sans text-sm font-semibold text-white">{title}</h2>
+      <ul className="space-y-2.5">{children}</ul>
+    </div>
   );
 }
 
-function FooterColumn({ title, links }) {
+function FooterLink({ to, children }) {
   return (
-    <div>
-      <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.08em] text-slate-300">
-        {title}
-      </h4>
-      <ul className="space-y-2.5">
-        {links.map((link) => (
-          <li key={link.to}>
-            <FooterLink to={link.to}>{link.label}</FooterLink>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <li>
+      <Link to={to} className="text-[15px] text-ink-300 transition-colors hover:text-white">
+        {children}
+      </Link>
+    </li>
   );
 }
 
@@ -62,92 +34,59 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-slate-800 bg-slate-950 text-slate-400">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-          {/* Brand */}
-          <div className="sm:col-span-2 lg:col-span-4">
-            <Link to="/" className="mb-4 inline-flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600 text-white">
-                <svg viewBox="0 0 32 32" className="h-4 w-4" fill="none" aria-hidden="true">
-                  <rect x="7" y="5" width="14" height="18" rx="2" stroke="currentColor" strokeWidth="2.25" />
-                  <path
-                    d="M11 12h6M11 16h6M11 20h4"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-              <span className="text-lg font-extrabold tracking-tight text-white">
-                PDF<span className="text-teal-400">Craft</span>
-              </span>
+    <footer className="bg-ink-950 text-ink-300">
+      <div className="mx-auto max-w-7xl px-4 pb-10 pt-16 sm:px-6">
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_3fr]">
+          <div>
+            <Link to="/" className="inline-flex items-center gap-2" aria-label="PDFCraft home">
+              <BrandMark className="h-9 w-9" />
+              <span className="font-display text-xl font-bold text-white">PDFCraft</span>
             </Link>
-
-            <p className="mb-5 max-w-sm text-sm leading-relaxed text-slate-400">
-              Free PDF tools at croppdf.netlify.app. Merge, split, compress, convert, and protect —
-              entirely in your browser. Your files never leave your device.
+            <p className="mt-4 max-w-xs leading-relaxed text-ink-400">
+              Free PDF tools that run in your browser. Your files never leave your device.
             </p>
-
-            <div className="inline-flex items-center gap-2 rounded-lg border border-teal-800/60 bg-teal-950/50 px-3 py-2 text-xs font-semibold text-teal-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-teal-400" />
-              100% client-side · No uploads
-            </div>
           </div>
 
-          {/* Popular */}
-          <div className="lg:col-span-2">
-            <FooterColumn title="Popular" links={POPULAR_TOOLS} />
-          </div>
-
-          {/* Convert */}
-          <div className="lg:col-span-2">
-            <FooterColumn title="Convert" links={CONVERT_LINKS} />
-            <div className="mt-8">
-              <FooterColumn title="Security" links={SECURITY_LINKS} />
-            </div>
-          </div>
-
-          {/* Company */}
-          <div className="lg:col-span-2">
-            <FooterColumn title="Company" links={COMPANY_LINKS} />
-          </div>
-
-          {/* CTA */}
-          <div className="lg:col-span-2">
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.08em] text-slate-300">
-              Get started
-            </h4>
-            <p className="mb-4 text-sm leading-relaxed text-slate-400">
-              Browse every tool in one place and start editing PDFs privately.
-            </p>
-            <Link
-              to="/"
-              className="inline-flex h-10 items-center justify-center rounded-lg bg-teal-600 px-4 text-sm font-semibold text-white transition hover:bg-teal-500"
-            >
-              All PDF tools
-            </Link>
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3">
+            {TOOL_GROUPS.map((group) => (
+              <FooterColumn
+                key={group.id}
+                className={group.className}
+                title={
+                  <>
+                    <span className="h-2 w-2 rounded-full bg-accent-400" aria-hidden="true" />
+                    {group.label}
+                  </>
+                }
+              >
+                {group.tools.map((tool) => (
+                  <FooterLink key={tool.id} to={tool.to}>
+                    {tool.title}
+                  </FooterLink>
+                ))}
+              </FooterColumn>
+            ))}
+            <FooterColumn title="PDFCraft">
+              {COMPANY_LINKS.map((link) => (
+                <FooterLink key={link.to} to={link.to}>
+                  {link.label}
+                </FooterLink>
+              ))}
+            </FooterColumn>
           </div>
         </div>
-      </div>
 
-      <div className="border-t border-slate-800/80">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-4 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:px-6">
-          <p>© {currentYear} PDFCraft (croppdf.netlify.app). All rights reserved.</p>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <Link to="/privacy" className="transition-colors hover:text-slate-300">
+        <div className="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-ink-400 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {currentYear} PDFCraft. All rights reserved.</p>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link to="/privacy" className="hover:text-white">
               Privacy
             </Link>
-            <Link to="/terms" className="transition-colors hover:text-slate-300">
+            <Link to="/terms" className="hover:text-white">
               Terms
             </Link>
-            <a
-              href="https://www.google.com/settings/ads"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-slate-300"
-            >
-              Ad Options & Cookies
+            <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+              Ad settings
             </a>
           </div>
         </div>

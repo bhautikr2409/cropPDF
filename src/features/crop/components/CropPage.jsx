@@ -61,48 +61,48 @@ export default function CropPage({
   const pageWidth = containerWidth ? containerWidth * scale : undefined;
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-100">
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-slate-50 border-b border-slate-100">
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-ink-100">
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-ink-50 border-b border-ink-100">
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={onZoomOut}
-            className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+            className="px-4 py-2 text-sm font-medium text-ink-700 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 transition-colors"
             aria-label="Zoom out"
           >
             Zoom Out
           </button>
-          <span className="text-sm text-slate-500 font-medium min-w-[3rem] text-center">
+          <span className="text-sm text-ink-500 font-medium min-w-[3rem] text-center">
             {Math.round(scale * 100)}%
           </span>
           <button
             type="button"
             onClick={onZoomIn}
-            className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+            className="px-4 py-2 text-sm font-medium text-ink-700 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 transition-colors"
             aria-label="Zoom in"
           >
             Zoom In
           </button>
 
           {numPages > 0 && (
-            <div className="flex items-center gap-2 ml-2 pl-2 border-l border-slate-200">
+            <div className="flex items-center gap-2 ml-2 pl-2 border-l border-ink-200">
               <button
                 type="button"
                 onClick={onPrevPage}
                 disabled={currentPage <= 1}
-                className="px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40 transition-colors"
+                className="px-3 py-2 text-sm font-medium text-ink-700 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 disabled:opacity-40 transition-colors"
                 aria-label="Previous page"
               >
                 Prev
               </button>
-              <span className="text-sm text-slate-600 font-medium tabular-nums">
+              <span className="text-sm text-ink-600 font-medium tabular-nums">
                 {currentPage} / {numPages}
               </span>
               <button
                 type="button"
                 onClick={onNextPage}
                 disabled={currentPage >= numPages}
-                className="px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40 transition-colors"
+                className="px-3 py-2 text-sm font-medium text-ink-700 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 disabled:opacity-40 transition-colors"
                 aria-label="Next page"
               >
                 Next
@@ -115,7 +115,7 @@ export default function CropPage({
           <button
             type="button"
             onClick={onClearFile}
-            className="px-3.5 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+            className="px-3.5 py-2 text-sm font-medium text-ink-600 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 transition-colors"
           >
             New File
           </button>
@@ -123,7 +123,7 @@ export default function CropPage({
             <button
               type="button"
               onClick={clearCrop}
-              className="px-3.5 py-2 text-sm font-medium text-slate-600 hover:text-red-600 bg-white border border-slate-200 rounded-lg hover:bg-red-50 transition-colors shadow-sm"
+              className="px-3.5 py-2 text-sm font-medium text-ink-600 hover:text-red-600 bg-white border border-ink-200 rounded-lg hover:bg-red-50 transition-colors shadow-sm"
               title="Deselect selection (Esc)"
             >
               Clear Selection (Esc)
@@ -133,18 +133,18 @@ export default function CropPage({
             type="button"
             onClick={onDownload}
             disabled={!cropArea || isDownloading}
-            className="bg-teal-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-600 disabled:opacity-50 disabled:hover:bg-teal-700 transition-colors duration-200 shadow-sm"
+            className="bg-accent-700 text-white px-6 py-2 rounded-full font-semibold hover:bg-accent-600 disabled:opacity-50 disabled:hover:bg-accent-700 transition-colors duration-200"
           >
             {isDownloading ? 'Processing…' : 'Download Cropped PDF'}
           </button>
         </div>
       </div>
 
-      <p className="px-4 py-2 text-xs text-slate-500 bg-slate-50 border-b border-slate-100">
+      <p className="px-4 py-2 text-xs text-ink-500 bg-ink-50 border-b border-ink-100">
         Draw a crop box on this page. The same relative crop is applied to every page on download.
       </p>
 
-      <div className="relative overflow-auto bg-slate-100 p-8 flex justify-center max-h-[80vh]">
+      <div className="relative overflow-auto bg-ink-100 p-8 flex justify-center max-h-[80vh]">
         <div
           ref={containerRef}
           className="relative inline-block w-full cursor-crosshair select-none"
@@ -162,13 +162,13 @@ export default function CropPage({
               <button
                 type="button"
                 onClick={onClearFile}
-                className="bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-teal-600"
+                className="bg-accent-700 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-accent-600"
               >
                 Choose another file
               </button>
             </div>
           ) : !fileUrl ? (
-            <div className="bg-white rounded-lg p-12 text-center text-slate-600 shadow-sm">
+            <div className="bg-white rounded-lg p-12 text-center text-ink-600 shadow-sm">
               Preparing document…
             </div>
           ) : (
@@ -177,7 +177,7 @@ export default function CropPage({
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
               loading={
-                <div className="bg-white rounded-lg p-12 text-center text-slate-600 shadow-sm">
+                <div className="bg-white rounded-lg p-12 text-center text-ink-600 shadow-sm">
                   {isDocumentLoading ? 'Loading PDF…' : 'Preparing document…'}
                 </div>
               }
@@ -218,7 +218,7 @@ export default function CropPage({
                 aria-hidden="true"
               />
               <div
-                className="absolute border-2 border-teal-500 cursor-move"
+                className="absolute border-2 border-accent-500 cursor-move"
                 style={{
                   left: cropArea.x,
                   top: cropArea.y,
@@ -235,7 +235,7 @@ export default function CropPage({
                     role="button"
                     tabIndex={-1}
                     aria-label={`Resize crop ${position}`}
-                    className="absolute w-3.5 h-3.5 bg-teal-700 border border-white rounded-full transition-transform hover:scale-125 shadow-md"
+                    className="absolute w-3.5 h-3.5 bg-accent-700 border border-white rounded-full transition-transform hover:scale-125 shadow-md"
                     onMouseDown={(e) => beginResize(e, position, false)}
                     onTouchStart={(e) => beginResize(e, position, true)}
                     style={handleStyle(position)}

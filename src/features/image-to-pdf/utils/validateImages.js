@@ -38,8 +38,8 @@ export function validateImageFiles(incomingFiles, existingFiles = []) {
       break;
     }
 
-    const duplicate = [...existingFiles, ...accepted].some(
-      (item) => item.file.name === file.name && item.file.size === file.size
+    const duplicate = [...existingFiles.map((item) => item.file), ...accepted].some(
+      (other) => other.name === file.name && other.size === file.size
     );
     if (duplicate) {
       toast.error(`"${file.name}" is already in the list.`);

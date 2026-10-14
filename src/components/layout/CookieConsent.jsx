@@ -33,13 +33,13 @@ export default function CookieConsent() {
     <div
       role="dialog"
       aria-label="Cookie notice"
-      className="fixed inset-x-0 bottom-0 z-[100] border-t border-slate-200 bg-white/95 p-4 backdrop-blur sm:p-5"
+      className="fixed inset-x-0 bottom-0 z-[100] border-t border-ink-200 bg-white/95 p-4 backdrop-blur sm:p-5"
     >
       <div className="mx-auto flex max-w-5xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-relaxed text-slate-600">
+        <p className="text-sm leading-relaxed text-ink-600">
           {SITE_NAME} uses cookies for essential site functions and may use Google AdSense cookies
           to show ads. PDF files you process stay in your browser and are never uploaded.{' '}
-          <Link to="/privacy" className="font-semibold text-teal-700 hover:underline">
+          <Link to="/privacy" className="font-semibold text-brand-700 hover:underline">
             Privacy Policy
           </Link>
           {' · '}
@@ -47,7 +47,7 @@ export default function CookieConsent() {
             href="https://www.google.com/settings/ads"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold text-teal-700 hover:underline"
+            className="font-semibold text-brand-700 hover:underline"
           >
             Ad settings
           </a>
@@ -55,7 +55,7 @@ export default function CookieConsent() {
         <button
           type="button"
           onClick={accept}
-          className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-teal-700 px-5 text-sm font-semibold text-white transition hover:bg-teal-600"
+          className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-brand-700 px-5 text-sm font-semibold text-white transition hover:bg-brand-600"
         >
           Got it
         </button>

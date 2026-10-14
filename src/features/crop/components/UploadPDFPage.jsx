@@ -10,11 +10,11 @@ const FEATURES = [
       <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
         <path
           d="M12 3l7 3v5c0 4.5-3 8.2-7 9.5C8 19.2 5 15.5 5 11V6l7-3z"
-          className="stroke-teal-600"
+          className="stroke-accent-600"
           strokeWidth="1.8"
           strokeLinejoin="round"
         />
-        <path d="M9.5 12l1.8 1.8L14.8 10" className="stroke-teal-600" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9.5 12l1.8 1.8L14.8 10" className="stroke-accent-600" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -23,8 +23,8 @@ const FEATURES = [
     text: 'Drag a box, resize handles, then download.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
-        <rect x="4" y="5" width="12" height="14" rx="1.5" className="stroke-teal-600" strokeWidth="1.8" />
-        <path d="M10 3v4M16 3v4M8 11h10M8 15h6" className="stroke-teal-600" strokeWidth="1.8" strokeLinecap="round" />
+        <rect x="4" y="5" width="12" height="14" rx="1.5" className="stroke-accent-600" strokeWidth="1.8" />
+        <path d="M10 3v4M16 3v4M8 11h10M8 15h6" className="stroke-accent-600" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -33,8 +33,8 @@ const FEATURES = [
     text: 'The same relative crop applies to every page.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
-        <rect x="5" y="4" width="10" height="14" rx="1.5" className="stroke-teal-600" strokeWidth="1.8" />
-        <rect x="9" y="6" width="10" height="14" rx="1.5" className="fill-white stroke-teal-600" strokeWidth="1.8" />
+        <rect x="5" y="4" width="10" height="14" rx="1.5" className="stroke-accent-600" strokeWidth="1.8" />
+        <rect x="9" y="6" width="10" height="14" rx="1.5" className="fill-white stroke-accent-600" strokeWidth="1.8" />
       </svg>
     ),
   },
@@ -76,15 +76,6 @@ export default function UploadPDFPage({ onFileChange, onFileDrop }) {
 
   return (
     <div className="w-full">
-      <div className="text-center mb-8 sm:mb-10">
-        <p className="text-sm font-semibold text-teal-700 mb-2 tracking-wide uppercase">
-          PDF Crop Tool
-        </p>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
-          Crop PDF online
-        </h1>
-    
-      </div>
 
       <div
         onDragOver={handleDragOver}
@@ -92,10 +83,10 @@ export default function UploadPDFPage({ onFileChange, onFileDrop }) {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={[
-          'relative rounded-2xl border-2 border-dashed bg-white px-6 py-12 sm:px-10 sm:py-16 text-center transition-all duration-200',
+          'relative rounded-[32px] border-2 border-dashed bg-white px-6 py-12 sm:px-10 sm:py-16 text-center transition-all duration-200',
           isDragging
-            ? 'border-teal-500 bg-teal-50/80 scale-[1.01]'
-            : 'border-slate-200 hover:border-teal-300 hover:bg-slate-50/50',
+            ? 'border-accent-500 bg-accent-50/80 scale-[1.01]'
+            : 'border-accent-300 hover:border-accent-500 hover:bg-accent-50/60',
         ].join(' ')}
       >
         <input
@@ -107,7 +98,7 @@ export default function UploadPDFPage({ onFileChange, onFileDrop }) {
           id="crop-pdf-upload"
         />
 
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 text-teal-700">
+        <div className="mx-auto mb-6 flex h-16 w-16 -rotate-6 items-center justify-center rounded-[20px] bg-accent-500 text-white">
           <svg viewBox="0 0 48 48" fill="none" className="w-9 h-9" aria-hidden="true">
             <path
               d="M24 8v20M24 8l-7 7M24 8l7 7"
@@ -125,15 +116,15 @@ export default function UploadPDFPage({ onFileChange, onFileDrop }) {
           </svg>
         </div>
 
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+        <h2 className="text-xl sm:text-2xl font-bold text-ink-900 mb-2">
           {isDragging ? 'Drop your PDF here' : 'Drop PDF here'}
         </h2>
-        <p className="text-slate-500 mb-6">or click the button to browse your files</p>
+        <p className="text-ink-500 mb-6">or click the button to browse your files</p>
 
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="inline-flex items-center justify-center gap-2 bg-teal-700 text-white px-8 py-3 rounded-xl font-semibold text-base hover:bg-teal-600 transition-colors shadow-sm shadow-teal-700/20"
+          className="inline-flex items-center justify-center gap-2 bg-accent-700 text-white px-8 py-3 rounded-full font-semibold text-base hover:bg-accent-600 transition-colors shadow-accent-700/20"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
             <path d="M9 2a1 1 0 012 0v9.6l2.3-2.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-1.4 0l-4-4a1 1 0 111.4-1.4L9 11.6V2z" />
@@ -142,7 +133,7 @@ export default function UploadPDFPage({ onFileChange, onFileDrop }) {
           Choose PDF file
         </button>
 
-        <p className="mt-5 text-xs text-slate-400">
+        <p className="mt-5 text-xs text-ink-400">
           PDF only · Max {maxMb} MB · Processed on your device
         </p>
       </div>
@@ -151,41 +142,41 @@ export default function UploadPDFPage({ onFileChange, onFileDrop }) {
         {FEATURES.map((feature) => (
           <div
             key={feature.title}
-            className="flex gap-3 rounded-xl bg-white border border-slate-200 px-4 py-4"
+            className="flex gap-3 rounded-xl bg-white border border-ink-200 px-4 py-4"
           >
-            <div className="shrink-0 flex h-10 w-10 items-center justify-center rounded-lg bg-teal-50">
+            <div className="shrink-0 flex h-10 w-10 items-center justify-center rounded-lg bg-accent-50">
               {feature.icon}
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">{feature.title}</h3>
-              <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{feature.text}</p>
+              <h3 className="text-sm font-semibold text-ink-900">{feature.title}</h3>
+              <p className="text-xs text-ink-500 mt-0.5 leading-relaxed">{feature.text}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-10 rounded-2xl bg-white border border-slate-200 px-6 py-6 sm:px-8">
-        <h3 className="text-sm font-semibold text-slate-900 mb-5 text-center sm:text-left">
+      <div className="mt-10 rounded-3xl bg-white border border-ink-200 px-6 py-6 sm:px-8">
+        <h3 className="text-sm font-semibold text-ink-900 mb-5 text-center sm:text-left">
           How it works
         </h3>
         <ol className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {STEPS.map((step) => (
             <li key={step.n} className="flex sm:flex-col items-center sm:items-start gap-3 text-left">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-700 text-white text-sm font-bold">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-700 text-white text-sm font-bold">
                 {step.n}
               </span>
               <div>
-                <p className="font-semibold text-slate-900 text-sm">{step.title}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{step.text}</p>
+                <p className="font-semibold text-ink-900 text-sm">{step.title}</p>
+                <p className="text-xs text-ink-500 mt-0.5">{step.text}</p>
               </div>
             </li>
           ))}
         </ol>
       </div>
 
-      <p className="mt-6 text-center text-sm text-slate-500">
+      <p className="mt-6 text-center text-sm text-ink-500">
         Need help?{' '}
-        <Link to="/guide" className="text-teal-700 font-medium hover:underline">
+        <Link to="/guide" className="text-accent-700 font-medium hover:underline">
           Read the cropping guide
         </Link>
       </p>

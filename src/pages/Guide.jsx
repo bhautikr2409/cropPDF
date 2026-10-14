@@ -118,27 +118,26 @@ export default function Guide() {
       />
 
       <div className="mb-10 text-center sm:mb-12">
-        <p className="mb-2 text-sm font-semibold text-teal-700">Help & guide</p>
-        <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+        <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
           How to use {SITE_NAME}
         </h1>
-        <p className="mx-auto max-w-2xl text-lg text-slate-600">
+        <p className="mx-auto max-w-2xl text-lg text-ink-600">
           Step-by-step guides for popular tools and answers about
           privacy, limits, and browser-based PDF processing on croppdf.netlify.app.
         </p>
       </div>
 
-      <article className="mb-8 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8">
-        <h2 className="mb-3 text-xl font-bold text-slate-900">Before you start</h2>
-        <p className="mb-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+      <article className="mb-8 rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-8">
+        <h2 className="mb-3 text-xl font-bold text-ink-900">Before you start</h2>
+        <p className="mb-3 text-sm leading-relaxed text-ink-600 sm:text-base">
           Use a modern desktop or laptop browser for the best results. Keep files within the size
           limits shown on each tool. Because processing is local, a busy tab with a very large PDF
           may feel slower than a lightweight upload site — that trade-off is intentional for
           privacy. After you download a result, you can close the tab to clear session memory.
         </p>
-        <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
+        <p className="text-sm leading-relaxed text-ink-600 sm:text-base">
           Prefer long-form reading? Visit our{' '}
-          <Link to="/resources" className="font-semibold text-teal-700 hover:underline">
+          <Link to="/resources" className="font-semibold text-brand-700 hover:underline">
             Resources
           </Link>{' '}
           for articles on private PDF tools and everyday compress–merge–split workflows.
@@ -152,32 +151,32 @@ export default function Guide() {
           return (
             <article
               key={topic.id}
-              className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
+              className="rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-8"
             >
               <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-                <h2 className="text-2xl font-bold text-slate-900">{topic.title}</h2>
+                <h2 className="text-2xl font-bold text-ink-900">{topic.title}</h2>
                 {tool ? (
                   <Link
                     to={tool.to}
-                    className="text-sm font-semibold text-teal-700 hover:underline"
+                    className="text-sm font-semibold text-brand-700 hover:underline"
                   >
-                    Open {topic.title} →
+                    Open {topic.title}
                   </Link>
                 ) : null}
               </div>
-              <p className="mb-3 text-sm leading-relaxed text-slate-600">
+              <p className="mb-3 text-sm leading-relaxed text-ink-600">
                 {topic.body || toolSeo?.intro}
               </p>
               {toolSeo?.intro && topic.body ? (
-                <p className="mb-5 text-sm leading-relaxed text-slate-600">{toolSeo.intro}</p>
+                <p className="mb-5 text-sm leading-relaxed text-ink-600">{toolSeo.intro}</p>
               ) : null}
               <ol className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 {topic.steps.map((text, i) => (
                   <li key={text} className="rounded-xl bg-[var(--page-bg)] p-4">
-                    <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-lg bg-teal-100 text-sm font-bold text-teal-800">
+                    <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100 text-sm font-bold text-brand-800">
                       {i + 1}
                     </div>
-                    <p className="text-sm leading-relaxed text-slate-700">{text}</p>
+                    <p className="text-sm leading-relaxed text-ink-700">{text}</p>
                   </li>
                 ))}
               </ol>
@@ -186,50 +185,50 @@ export default function Guide() {
         })}
       </div>
 
-      <div className="mb-8 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
-        <h2 className="mb-6 text-2xl font-bold text-slate-900">All tools</h2>
+      <div className="mb-8 rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-10">
+        <h2 className="mb-6 text-2xl font-bold text-ink-900">All tools</h2>
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {TOOLS.filter((t) => t.available).map((tool) => (
             <li key={tool.id}>
               <Link
                 to={tool.to}
-                className="flex flex-col gap-1 rounded-xl border border-slate-100 px-4 py-3 transition hover:border-teal-200 hover:bg-teal-50/40 sm:flex-row sm:items-start sm:gap-3"
+                className="flex flex-col gap-1 rounded-xl border border-ink-100 px-4 py-3 transition hover:border-brand-200 hover:bg-brand-50/40 sm:flex-row sm:items-start sm:gap-3"
               >
-                <span className="shrink-0 font-semibold text-slate-900">{tool.title}</span>
-                <span className="text-sm text-slate-500">{tool.description}</span>
+                <span className="shrink-0 font-semibold text-ink-900">{tool.title}</span>
+                <span className="text-sm text-ink-500">{tool.description}</span>
               </Link>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="mb-8 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
-        <h2 className="mb-6 text-2xl font-bold text-slate-900">FAQ</h2>
+      <div className="mb-8 rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-10">
+        <h2 className="mb-6 text-2xl font-bold text-ink-900">FAQ</h2>
         <div className="space-y-6">
           {generalFaqs.map((faq) => (
-            <div key={faq.q} className="border-b border-slate-100 pb-6 last:border-0 last:pb-0">
-              <h3 className="mb-2 text-base font-semibold text-slate-800">{faq.q}</h3>
-              <p className="text-sm leading-relaxed text-slate-600">{faq.a}</p>
+            <div key={faq.q} className="border-b border-ink-100 pb-6 last:border-0 last:pb-0">
+              <h3 className="mb-2 text-base font-semibold text-ink-800">{faq.q}</h3>
+              <p className="text-sm leading-relaxed text-ink-600">{faq.a}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="rounded-2xl bg-teal-700 px-6 py-8 text-center text-white shadow-sm sm:px-10">
+      <div className="rounded-2xl bg-brand-700 px-6 py-8 text-center text-white shadow-sm sm:px-10">
         <h2 className="mb-2 text-2xl font-bold">Start with any tool</h2>
-        <p className="mb-6 text-sm text-teal-100">
+        <p className="mb-6 text-sm text-brand-100">
           Private by design — files never leave your device. Visit {SITE_URL.replace('https://', '')}
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link
             to="/tools"
-            className="inline-flex h-11 items-center rounded-xl bg-white px-5 text-sm font-bold text-teal-800 transition hover:bg-teal-50"
+            className="inline-flex h-11 items-center rounded-xl bg-white px-5 text-sm font-bold text-brand-800 transition hover:bg-brand-50"
           >
             Browse all tools
           </Link>
           <Link
             to="/contact"
-            className="inline-flex h-11 items-center rounded-xl border border-teal-400/50 px-5 text-sm font-semibold text-white transition hover:bg-teal-600"
+            className="inline-flex h-11 items-center rounded-xl border border-brand-400/50 px-5 text-sm font-semibold text-white transition hover:bg-brand-600"
           >
             Contact support
           </Link>

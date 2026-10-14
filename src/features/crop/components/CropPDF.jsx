@@ -6,6 +6,7 @@ import { downloadCroppedPdf } from '../utils/downloadCroppedPdf';
 import ToolSeoSection from '../../../components/seo/ToolSeoSection';
 import UploadPDFPage from './UploadPDFPage';
 import CropPage from './CropPage';
+import ToolHeading from '../../../components/tools/ToolHeading';
 
 export default function CropPDF() {
   const containerRef = useRef(null);
@@ -38,24 +39,22 @@ export default function CropPDF() {
   };
 
   return (
-    <div className="bg-[var(--page-bg)] py-10 sm:py-14">
+    <div className="cat-edit tool-page pb-20 pt-10 sm:pt-14">
       <div className="container mx-auto px-4">
         {!pdf.hasFile ? (
           <div className="mx-auto max-w-3xl">
             <div className="mb-8 text-center sm:mb-10">
-              <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-teal-700">
-                PDF Crop Tool
-              </p>
-              <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              <ToolHeading toolId="crop" />
+              <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
                 Crop PDF online
               </h1>
-              <p className="mx-auto max-w-xl text-base text-slate-600 sm:text-lg">
+              <p className="mx-auto max-w-xl text-base text-ink-600 sm:text-lg">
                 Trim margins or focus on a region. Everything runs locally in your browser —
                 nothing is uploaded.
               </p>
             </div>
             <UploadPDFPage onFileChange={pdf.loadFile} onFileDrop={pdf.acceptFile} />
-            <ToolSeoSection toolId="crop" accentClass="text-teal-700" />
+            <ToolSeoSection toolId="crop" />
           </div>
         ) : (
           <div className="mx-auto max-w-5xl">
@@ -84,7 +83,7 @@ export default function CropPDF() {
               isDownloading={isDownloading}
             />
             <div className="mx-auto max-w-3xl">
-              <ToolSeoSection toolId="crop" accentClass="text-teal-700" />
+              <ToolSeoSection toolId="crop" />
             </div>
           </div>
         )}

@@ -34,11 +34,10 @@ export default function Resources() {
       />
 
       <div className="mb-10 text-center sm:mb-12">
-        <p className="mb-2 text-sm font-semibold text-teal-700">Resources</p>
-        <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+        <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
           Guides &amp; articles
         </h1>
-        <p className="mx-auto max-w-2xl text-lg text-slate-600">
+        <p className="mx-auto max-w-2xl text-lg text-ink-600">
           Practical writing about private PDF workflows and everyday
           document tasks on {SITE_NAME}. Updated for sellers, students, and small teams.
         </p>
@@ -48,47 +47,47 @@ export default function Resources() {
         {RESOURCES_ARTICLES.map((article) => (
           <article
             key={article.slug}
-            className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
+            className="rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-8"
           >
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-teal-700">
+            <p className="mb-2 text-sm font-semibold text-brand-700">
               {article.category}
             </p>
-            <h2 className="mb-2 text-xl font-bold text-slate-900 sm:text-2xl">
-              <Link to={article.path} className="hover:text-teal-800 hover:underline">
+            <h2 className="mb-2 text-xl font-bold text-ink-900 sm:text-2xl">
+              <Link to={article.path} className="hover:text-brand-800 hover:underline">
                 {article.h1}
               </Link>
             </h2>
-            <p className="mb-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+            <p className="mb-4 text-sm leading-relaxed text-ink-600 sm:text-base">
               {article.summary}
             </p>
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-ink-500">
               <span>Updated {article.updated}</span>
               <Link
                 to={article.path}
-                className="font-semibold text-teal-700 hover:underline"
+                className="font-semibold text-brand-700 hover:underline"
               >
-                Read article →
+                Read article
               </Link>
             </div>
           </article>
         ))}
       </div>
 
-      <div className="rounded-2xl border border-teal-100 bg-teal-50/50 px-6 py-8 text-center sm:px-10">
-        <h2 className="mb-2 text-lg font-bold text-slate-900">Need step-by-step tool help?</h2>
-        <p className="mb-5 text-sm text-slate-600">
+      <div className="rounded-2xl border border-brand-100 bg-brand-50/50 px-6 py-8 text-center sm:px-10">
+        <h2 className="mb-2 text-lg font-bold text-ink-900">Need step-by-step tool help?</h2>
+        <p className="mb-5 text-sm text-ink-600">
           The Help Guide covers merge, split, compress, crop, and privacy FAQs.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link
             to="/guide"
-            className="inline-flex h-10 items-center rounded-xl bg-teal-700 px-5 text-sm font-semibold text-white hover:bg-teal-600"
+            className="inline-flex h-10 items-center rounded-xl bg-brand-700 px-5 text-sm font-semibold text-white hover:bg-brand-600"
           >
             Open Help Guide
           </Link>
           <Link
             to="/tools"
-            className="inline-flex h-10 items-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 hover:border-teal-200"
+            className="inline-flex h-10 items-center rounded-xl border border-ink-200 bg-white px-5 text-sm font-semibold text-ink-700 hover:border-brand-200"
           >
             Browse tools
           </Link>

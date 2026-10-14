@@ -40,10 +40,10 @@ export default function MarkdownToPdfUpload({ onFileChange, onFileDrop, disabled
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={[
-        'rounded-2xl border-2 border-dashed bg-white px-6 py-8 text-center transition-all sm:px-8',
+        'rounded-[32px] border-2 border-dashed bg-white px-6 py-8 text-center transition-all sm:px-8',
         isDragging
-          ? 'scale-[1.01] border-lime-500 bg-lime-50/70'
-          : 'border-slate-200 hover:border-lime-300 hover:bg-slate-50/40',
+          ? 'scale-[1.01] border-accent-500 bg-accent-50/70'
+          : 'border-accent-300 hover:border-accent-500 hover:bg-accent-50/60',
         disabled ? 'pointer-events-none opacity-60' : '',
       ].join(' ')}
     >
@@ -56,7 +56,7 @@ export default function MarkdownToPdfUpload({ onFileChange, onFileDrop, disabled
         id="markdown-to-pdf-upload"
       />
 
-      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-lime-50 text-lime-700">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent-50 text-accent-700">
         <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden="true">
           <path
             d="M5 4h9l5 5v11a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"
@@ -67,17 +67,17 @@ export default function MarkdownToPdfUpload({ onFileChange, onFileDrop, disabled
         </svg>
       </div>
 
-      <h3 className="mb-1 text-base font-bold text-slate-900">
+      <h3 className="mb-1 text-base font-bold text-ink-900">
         {isDragging ? 'Drop Markdown here' : 'Upload a Markdown file'}
       </h3>
-      <p className="mb-4 text-xs text-slate-500">
+      <p className="mb-4 text-xs text-ink-500">
         .md, .markdown, or .txt · Max {maxMb} MB · Local only
       </p>
 
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="inline-flex items-center justify-center rounded-xl bg-lime-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-lime-600"
+        className="inline-flex items-center justify-center rounded-full bg-accent-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-600"
       >
         Choose file
       </button>

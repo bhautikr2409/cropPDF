@@ -1,27 +1,45 @@
+/** Tool categories. `className` switches the accent palette (see index.css). */
 export const CATEGORIES = [
   { id: 'all', label: 'All' },
-  { id: 'edit', label: 'Edit PDF' },
-  { id: 'organize', label: 'Organize PDF' },
-  { id: 'optimize', label: 'Optimize PDF' },
-  { id: 'convert', label: 'Convert PDF' },
-  { id: 'security', label: 'PDF Security' },
+  {
+    id: 'organize',
+    label: 'Organize',
+    blurb: 'Combine, separate, and reorder pages',
+    className: 'cat-organize',
+  },
+  {
+    id: 'optimize',
+    label: 'Optimize',
+    blurb: 'Make files smaller to send',
+    className: 'cat-optimize',
+  },
+  {
+    id: 'edit',
+    label: 'Edit',
+    blurb: 'Change what is on the page',
+    className: 'cat-edit',
+  },
+  {
+    id: 'convert',
+    label: 'Convert',
+    blurb: 'Turn PDFs into images or text, and back',
+    className: 'cat-convert',
+  },
+  {
+    id: 'security',
+    label: 'Secure',
+    blurb: 'Add or remove a password',
+    className: 'cat-security',
+  },
 ];
 
-/** Shared accent tokens for tool cards + header chips */
-export const ACCENT = {
-  blue: { box: 'bg-blue-50', icon: 'text-blue-600', hover: 'group-hover:border-blue-200' },
-  fuchsia: { box: 'bg-fuchsia-50', icon: 'text-fuchsia-600', hover: 'group-hover:border-fuchsia-200' },
-  rose: { box: 'bg-rose-50', icon: 'text-rose-500', hover: 'group-hover:border-rose-200' },
-  orange: { box: 'bg-orange-50', icon: 'text-orange-500', hover: 'group-hover:border-orange-200' },
-  emerald: { box: 'bg-emerald-50', icon: 'text-emerald-600', hover: 'group-hover:border-emerald-200' },
-  teal: { box: 'bg-teal-50', icon: 'text-teal-600', hover: 'group-hover:border-teal-200' },
-  sky: { box: 'bg-sky-50', icon: 'text-sky-600', hover: 'group-hover:border-sky-200' },
-  indigo: { box: 'bg-indigo-50', icon: 'text-indigo-600', hover: 'group-hover:border-indigo-200' },
-  cyan: { box: 'bg-cyan-50', icon: 'text-cyan-600', hover: 'group-hover:border-cyan-200' },
-  lime: { box: 'bg-lime-50', icon: 'text-lime-700', hover: 'group-hover:border-lime-200' },
-  amber: { box: 'bg-amber-50', icon: 'text-amber-600', hover: 'group-hover:border-amber-200' },
-  stone: { box: 'bg-stone-100', icon: 'text-stone-700', hover: 'group-hover:border-stone-300' },
-};
+export const CATEGORY_BY_ID = Object.fromEntries(CATEGORIES.map((c) => [c.id, c]));
+
+/** Accent class for a tool, e.g. `cat-organize`. */
+export function categoryClass(toolOrId) {
+  const tool = typeof toolOrId === 'string' ? TOOLS.find((t) => t.id === toolOrId) : toolOrId;
+  return CATEGORY_BY_ID[tool?.category]?.className || '';
+}
 
 export const TOOLS = [
   {
@@ -31,7 +49,6 @@ export const TOOLS = [
     to: '/merge',
     category: 'organize',
     available: true,
-    accent: 'rose',
     icon: 'merge',
   },
   {
@@ -41,7 +58,6 @@ export const TOOLS = [
     to: '/split',
     category: 'organize',
     available: true,
-    accent: 'orange',
     icon: 'split',
   },
   {
@@ -51,7 +67,6 @@ export const TOOLS = [
     to: '/compress',
     category: 'optimize',
     available: true,
-    accent: 'emerald',
     icon: 'compress',
   },
   {
@@ -61,7 +76,6 @@ export const TOOLS = [
     to: '/crop',
     category: 'edit',
     available: true,
-    accent: 'teal',
     icon: 'crop',
   },
   {
@@ -72,7 +86,6 @@ export const TOOLS = [
     to: '/add-logo',
     category: 'edit',
     available: true,
-    accent: 'indigo',
     icon: 'addLogo',
   },
   {
@@ -82,7 +95,6 @@ export const TOOLS = [
     to: '/edit',
     category: 'edit',
     available: true,
-    accent: 'fuchsia',
     icon: 'edit',
   },
   {
@@ -92,7 +104,6 @@ export const TOOLS = [
     to: '/rotate',
     category: 'edit',
     available: true,
-    accent: 'sky',
     icon: 'rotate',
   },
   {
@@ -103,7 +114,6 @@ export const TOOLS = [
     to: '/compare',
     category: 'organize',
     available: true,
-    accent: 'indigo',
     icon: 'compare',
   },
   {
@@ -114,7 +124,6 @@ export const TOOLS = [
     to: '/organize',
     category: 'organize',
     available: true,
-    accent: 'blue',
     icon: 'organize',
   },
   {
@@ -124,7 +133,6 @@ export const TOOLS = [
     to: '/pdf-to-image',
     category: 'convert',
     available: true,
-    accent: 'sky',
     icon: 'pdfToImage',
   },
   {
@@ -134,7 +142,6 @@ export const TOOLS = [
     to: '/image-to-pdf',
     category: 'convert',
     available: true,
-    accent: 'indigo',
     icon: 'imageToPdf',
   },
   {
@@ -144,7 +151,6 @@ export const TOOLS = [
     to: '/pdf-to-markdown',
     category: 'convert',
     available: true,
-    accent: 'cyan',
     icon: 'markdown',
   },
   {
@@ -154,7 +160,6 @@ export const TOOLS = [
     to: '/markdown-to-pdf',
     category: 'convert',
     available: true,
-    accent: 'lime',
     icon: 'markdownToPdf',
   },
   {
@@ -164,7 +169,6 @@ export const TOOLS = [
     to: '/protect',
     category: 'security',
     available: true,
-    accent: 'amber',
     icon: 'protect',
   },
   {
@@ -174,48 +178,14 @@ export const TOOLS = [
     to: '/unlock',
     category: 'security',
     available: true,
-    accent: 'stone',
     icon: 'unlock',
   },
 ];
 
-export const HEADER_PRIMARY = [
-  { to: '/merge', label: 'Merge PDF' },
-  { to: '/split', label: 'Split PDF' },
-  { to: '/compress', label: 'Compress PDF' },
-];
-
-export const CONVERT_TOOLS = TOOLS.filter((t) => t.category === 'convert');
 export const ALL_TOOLS_MENU = TOOLS.filter((t) => t.available);
 
-export const PDF_TOOLS = TOOLS.filter((t) => ['merge', 'split', 'compress', 'edit', 'organize', 'rotate', 'crop'].includes(t.id));
-export const IMAGE_TOOLS = TOOLS.filter((t) => ['pdf-to-image', 'image-to-pdf', 'add-logo'].includes(t.id));
-export const UTILITY_TOOLS = TOOLS.filter((t) => ['pdf-to-markdown', 'markdown-to-pdf', 'protect', 'unlock', 'compare'].includes(t.id));
-
-export const MEGA_MENU_COLUMNS = [
-  {
-    id: 'organize',
-    label: 'Organize PDF',
-    tools: TOOLS.filter((t) => t.category === 'organize' && t.available),
-  },
-  {
-    id: 'optimize',
-    label: 'Optimize PDF',
-    tools: TOOLS.filter((t) => t.category === 'optimize' && t.available),
-  },
-  {
-    id: 'convert',
-    label: 'Convert PDF',
-    tools: TOOLS.filter((t) => t.category === 'convert' && t.available),
-  },
-  {
-    id: 'edit',
-    label: 'Edit PDF',
-    tools: TOOLS.filter((t) => t.category === 'edit' && t.available),
-  },
-  {
-    id: 'security',
-    label: 'PDF Security',
-    tools: TOOLS.filter((t) => t.category === 'security' && t.available),
-  },
-];
+/** Tools grouped by category, in catalog order. */
+export const TOOL_GROUPS = CATEGORIES.filter((c) => c.id !== 'all').map((category) => ({
+  ...category,
+  tools: TOOLS.filter((t) => t.category === category.id && t.available),
+}));

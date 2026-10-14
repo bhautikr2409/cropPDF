@@ -6,9 +6,9 @@ export default function TypefacePicker({ value, onChange, disabled }) {
   const faces = useMemo(() => filterTypefaces(filter), [filter]);
 
   return (
-    <aside className="flex max-h-[32rem] min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] xl:h-full xl:max-h-none">
-      <div className="shrink-0 border-b border-slate-100 px-5 pb-4 pt-5">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+    <aside className="flex max-h-[32rem] min-h-0 flex-col overflow-hidden rounded-3xl border border-ink-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] xl:h-full xl:max-h-none">
+      <div className="shrink-0 border-b border-ink-100 px-5 pb-4 pt-5">
+        <p className="mb-3 text-sm font-semibold text-ink-400">
           Typeface
         </p>
 
@@ -27,7 +27,7 @@ export default function TypefacePicker({ value, onChange, disabled }) {
                   'rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors',
                   active
                     ? 'bg-[#1e293b] text-white shadow-sm'
-                    : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50',
+                    : 'border border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:bg-ink-50',
                   disabled ? 'cursor-not-allowed opacity-50' : '',
                 ].join(' ')}
               >
@@ -51,22 +51,22 @@ export default function TypefacePicker({ value, onChange, disabled }) {
                 className={[
                   'group flex w-full items-center justify-between gap-4 rounded-xl border px-4 py-3.5 text-left transition-all duration-150',
                   selected
-                    ? 'border-teal-500 bg-teal-50/70 shadow-[0_0_0_1px_rgba(20,184,166,0.35)]'
-                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/80',
+                    ? 'border-accent-500 bg-accent-50/70 shadow-[0_0_0_1px_rgba(20,184,166,0.35)]'
+                    : 'border-ink-200 bg-white hover:border-ink-300 hover:bg-ink-50/80',
                   disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
                 ].join(' ')}
               >
                 <div className="min-w-0 flex-1">
                   <p
                     className={[
-                      'truncate text-[17px] leading-snug tracking-tight text-slate-900',
+                      'truncate text-[17px] leading-snug tracking-tight text-ink-900',
                       face.category === 'serif' ? 'font-normal' : 'font-semibold',
                     ].join(' ')}
                     style={{ fontFamily: face.cssFamily }}
                   >
                     {face.name}
                   </p>
-                  <p className="mt-1 truncate text-[12px] leading-snug text-slate-500">
+                  <p className="mt-1 truncate text-[12px] leading-snug text-ink-500">
                     {face.description}
                   </p>
                 </div>
@@ -74,7 +74,7 @@ export default function TypefacePicker({ value, onChange, disabled }) {
                 <span
                   className={[
                     'shrink-0 select-none text-[34px] leading-none tracking-tight',
-                    selected ? 'text-slate-800' : 'text-slate-600',
+                    selected ? 'text-ink-800' : 'text-ink-600',
                   ].join(' ')}
                   style={{ fontFamily: face.cssFamily }}
                   aria-hidden="true"
@@ -87,14 +87,14 @@ export default function TypefacePicker({ value, onChange, disabled }) {
         })}
 
         {faces.length === 0 ? (
-          <li className="rounded-xl border border-dashed border-slate-200 px-4 py-8 text-center text-sm text-slate-500">
+          <li className="rounded-xl border border-dashed border-ink-200 px-4 py-8 text-center text-sm text-ink-500">
             No typefaces in this category.
           </li>
         ) : null}
       </ul>
 
-      <div className="shrink-0 border-t border-slate-100 px-5 py-3">
-        <p className="text-[11px] leading-relaxed text-slate-400">
+      <div className="shrink-0 border-t border-ink-100 px-5 py-3">
+        <p className="text-[11px] leading-relaxed text-ink-400">
           Selected font is used for preview and the downloaded PDF.
         </p>
       </div>

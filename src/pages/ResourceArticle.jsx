@@ -39,34 +39,34 @@ export default function ResourceArticle() {
         }}
       />
 
-      <nav className="mb-6 text-sm text-slate-500">
-        <Link to="/" className="hover:text-teal-700">
+      <nav className="mb-6 text-sm text-ink-500">
+        <Link to="/" className="hover:text-brand-700">
           Home
         </Link>
         <span className="mx-2">/</span>
-        <Link to="/resources" className="hover:text-teal-700">
+        <Link to="/resources" className="hover:text-brand-700">
           Resources
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-slate-700">{article.category}</span>
+        <span className="text-ink-700">{article.category}</span>
       </nav>
 
-      <article className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
-        <p className="mb-2 text-sm font-semibold text-teal-700">{article.category}</p>
-        <h1 className="mb-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+      <article className="rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-10">
+        <p className="mb-2 text-sm font-semibold text-brand-700">{article.category}</p>
+        <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
           {article.h1}
         </h1>
-        <p className="mb-2 text-lg leading-relaxed text-slate-600">{article.summary}</p>
-        <p className="mb-8 text-xs text-slate-500">
+        <p className="mb-2 text-lg leading-relaxed text-ink-600">{article.summary}</p>
+        <p className="mb-8 text-xs text-ink-500">
           Published {article.published} · Updated {article.updated}
         </p>
 
         <div className="space-y-8">
           {article.sections.map((section) => (
             <section key={section.heading}>
-              <h2 className="mb-3 text-xl font-bold text-slate-900">{section.heading}</h2>
+              <h2 className="mb-3 text-xl font-bold text-ink-900">{section.heading}</h2>
               {section.paragraphs.map((p) => (
-                <p key={p.slice(0, 48)} className="mb-3 text-[15px] leading-relaxed text-slate-600 last:mb-0">
+                <p key={p.slice(0, 48)} className="mb-3 text-[15px] leading-relaxed text-ink-600 last:mb-0">
                   {p}
                 </p>
               ))}
@@ -74,22 +74,22 @@ export default function ResourceArticle() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-3 border-t border-slate-100 pt-8">
+        <div className="mt-10 flex flex-wrap gap-3 border-t border-ink-100 pt-8">
           <Link
             to="/tools"
-            className="inline-flex h-10 items-center rounded-xl bg-teal-700 px-4 text-sm font-semibold text-white hover:bg-teal-600"
+            className="inline-flex h-10 items-center rounded-xl bg-brand-700 px-4 text-sm font-semibold text-white hover:bg-brand-600"
           >
             Try PDF tools
           </Link>
           <Link
             to="/guide"
-            className="inline-flex h-10 items-center rounded-xl border border-slate-200 px-4 text-sm font-semibold text-slate-700 hover:border-teal-200"
+            className="inline-flex h-10 items-center rounded-xl border border-ink-200 px-4 text-sm font-semibold text-ink-700 hover:border-brand-200"
           >
             Help Guide
           </Link>
           <Link
             to="/about"
-            className="inline-flex h-10 items-center rounded-xl border border-slate-200 px-4 text-sm font-semibold text-slate-700 hover:border-teal-200"
+            className="inline-flex h-10 items-center rounded-xl border border-ink-200 px-4 text-sm font-semibold text-ink-700 hover:border-brand-200"
           >
             About {SITE_NAME}
           </Link>
@@ -98,13 +98,13 @@ export default function ResourceArticle() {
 
       {others.length > 0 ? (
         <div className="mt-10">
-          <h2 className="mb-4 text-lg font-bold text-slate-900">More articles</h2>
+          <h2 className="mb-4 text-lg font-bold text-ink-900">More articles</h2>
           <ul className="space-y-3">
             {others.map((a) => (
               <li key={a.slug}>
                 <Link
                   to={a.path}
-                  className="block rounded-xl border border-slate-100 bg-white px-5 py-4 text-sm font-semibold text-slate-800 transition hover:border-teal-200 hover:text-teal-800"
+                  className="block rounded-xl border border-ink-100 bg-white px-5 py-4 text-sm font-semibold text-ink-800 transition hover:border-brand-200 hover:text-brand-800"
                 >
                   {a.h1}
                 </Link>

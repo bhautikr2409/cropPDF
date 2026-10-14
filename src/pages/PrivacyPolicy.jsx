@@ -17,18 +17,17 @@ export default function PrivacyPolicy() {
         keywords={seo.keywords}
       />
 
-      <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
-        <p className="mb-2 text-sm font-semibold text-teal-700">Legal</p>
-        <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+      <div className="rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-10">
+        <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
           Privacy Policy
         </h1>
-        <p className="mb-8 text-sm text-slate-500">
+        <p className="mb-8 text-sm text-ink-500">
           Last updated: August 8, 2026 · Website: {SITE_URL.replace('https://', '')}
         </p>
 
-        <div className="space-y-8 leading-relaxed text-slate-700">
+        <div className="space-y-8 leading-relaxed text-ink-700">
           <section>
-            <h2 className="mb-3 text-xl font-bold text-slate-800">1. Introduction</h2>
+            <h2 className="mb-3 text-xl font-bold text-ink-800">1. Introduction</h2>
             <p>
               Welcome to {SITE_NAME} ({SITE_URL}). We value your privacy and are committed to
               protecting your personal data. This policy explains how we collect, use, and protect
@@ -36,9 +35,9 @@ export default function PrivacyPolicy() {
             </p>
           </section>
 
-          <section className="rounded-2xl border border-teal-200 bg-teal-50/70 p-5 sm:p-6">
-            <h2 className="mb-2 text-xl font-bold text-teal-900">2. Zero-server file privacy</h2>
-            <p className="font-medium text-teal-950">
+          <section className="rounded-2xl border border-brand-200 bg-brand-50/70 p-5 sm:p-6">
+            <h2 className="mb-2 text-xl font-bold text-brand-900">2. Zero-server file privacy</h2>
+            <p className="font-medium text-brand-950">
               PDF documents, images, and Markdown you process are handled locally on your device
               with client-side libraries. Files are never uploaded to our servers, storage, or
               databases for processing. Closing the tab or choosing a new file clears documents from
@@ -47,7 +46,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-bold text-slate-800">3. Information we collect</h2>
+            <h2 className="mb-3 text-xl font-bold text-ink-800">3. Information we collect</h2>
             <p className="mb-3">We collect minimal information to operate the site:</p>
             <ul className="list-disc space-y-2 pl-6">
               <li>
@@ -70,7 +69,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-bold text-slate-800">4. Google AdSense & cookies</h2>
+            <h2 className="mb-3 text-xl font-bold text-ink-800">4. Google AdSense & cookies</h2>
             <p className="mb-3">
               This site may use Google AdSense to display advertisements. Third-party vendors,
               including Google, use cookies to serve ads based on your prior visits to this and other
@@ -83,7 +82,7 @@ export default function PrivacyPolicy() {
                 href="https://www.google.com/settings/ads"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-teal-700 hover:underline"
+                className="font-medium text-brand-700 hover:underline"
               >
                 Google Ad Settings
               </a>
@@ -93,7 +92,7 @@ export default function PrivacyPolicy() {
                 href="https://www.aboutads.info"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-teal-700 hover:underline"
+                className="font-medium text-brand-700 hover:underline"
               >
                 www.aboutads.info
               </a>
@@ -106,7 +105,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-bold text-slate-800">5. Data security</h2>
+            <h2 className="mb-3 text-xl font-bold text-ink-800">5. Data security</h2>
             <p>
               Because documents stay on your machine, they are not exposed through server
               transmission for processing. Site traffic uses HTTPS/TLS. No method of transmission
@@ -116,7 +115,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-bold text-slate-800">6. Children&apos;s privacy</h2>
+            <h2 className="mb-3 text-xl font-bold text-ink-800">6. Children&apos;s privacy</h2>
             <p>
               {SITE_NAME} is not directed at children under 13. We do not knowingly collect personal
               information from children.
@@ -124,7 +123,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-bold text-slate-800">7. Your rights</h2>
+            <h2 className="mb-3 text-xl font-bold text-ink-800">7. Your rights</h2>
             <p>
               Depending on your location, you may have rights to access or delete analytical or
               contact data we hold. We do not store your PDF files, so there is no document data to
@@ -133,14 +132,14 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-xl font-bold text-slate-800">8. Contact</h2>
+            <h2 className="mb-3 text-xl font-bold text-ink-800">8. Contact</h2>
             <p>
               Questions about this policy? Email{' '}
-              <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-teal-700 hover:underline">
+              <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-brand-700 hover:underline">
                 {CONTACT_EMAIL}
               </a>{' '}
               or visit our{' '}
-              <Link to="/contact" className="font-medium text-teal-700 hover:underline">
+              <Link to="/contact" className="font-medium text-brand-700 hover:underline">
                 contact page
               </Link>
               .

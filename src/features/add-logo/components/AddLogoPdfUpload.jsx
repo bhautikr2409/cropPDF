@@ -40,10 +40,10 @@ export default function AddLogoPdfUpload({ onFileChange, onFileDrop, disabled })
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={[
-        'relative rounded-2xl border-2 border-dashed bg-white px-6 py-10 text-center transition-all duration-200 sm:px-10 sm:py-12',
+        'relative rounded-[32px] border-2 border-dashed bg-white px-6 py-10 text-center transition-all duration-200 sm:px-10 sm:py-12',
         isDragging
-          ? 'scale-[1.01] border-violet-500 bg-violet-50/70'
-          : 'border-slate-200 hover:border-violet-300 hover:bg-slate-50/40',
+          ? 'scale-[1.01] border-accent-500 bg-accent-50/70'
+          : 'border-accent-300 hover:border-accent-500 hover:bg-accent-50/60',
         disabled ? 'pointer-events-none opacity-60' : '',
       ].join(' ')}
     >
@@ -56,7 +56,7 @@ export default function AddLogoPdfUpload({ onFileChange, onFileDrop, disabled })
         id="add-logo-pdf-upload"
       />
 
-      <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
+      <div className="mx-auto mb-5 flex h-16 w-16 -rotate-6 items-center justify-center rounded-[20px] bg-accent-500 text-white">
         <svg viewBox="0 0 48 48" fill="none" className="h-8 w-8" aria-hidden="true">
           <rect x="10" y="6" width="22" height="30" rx="2" stroke="currentColor" strokeWidth="2.5" />
           <path
@@ -83,18 +83,18 @@ export default function AddLogoPdfUpload({ onFileChange, onFileDrop, disabled })
         </svg>
       </div>
 
-      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-violet-600">Step 1</p>
-      <h2 className="mb-2 text-xl font-bold text-slate-900">
+      <p className="mb-1 text-sm font-semibold text-accent-700">Step 1</p>
+      <h2 className="mb-2 text-xl font-bold text-ink-900">
         {isDragging ? 'Drop your PDF here' : 'Upload your PDF'}
       </h2>
-      <p className="mb-6 text-sm text-slate-500">
+      <p className="mb-6 text-sm text-ink-500">
         Shipping labels, invoices, or any multi-page PDF · Max {maxMb} MB
       </p>
 
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-7 py-3 font-semibold text-white shadow-sm transition-colors hover:bg-violet-700"
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-accent-600 px-7 py-3 font-semibold text-white transition-colors hover:bg-accent-700"
       >
         Choose PDF file
       </button>

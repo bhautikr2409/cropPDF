@@ -3,6 +3,7 @@ import { TOOLS } from '../../constants/toolsCatalog';
 import { SITE_NAME, SITE_URL } from '../../constants/site';
 import { getToolSeo } from '../../constants/seoContent';
 import SeoHead from './SeoHead';
+import ToolMark from '../tools/ToolMark';
 
 function buildToolJsonLd(seo) {
   const faqEntities = (seo.faqs || []).map((item) => ({
@@ -73,13 +74,15 @@ function buildToolJsonLd(seo) {
  * AdSense-oriented article + FAQ + internal links for a tool page.
  * Also injects the page <SeoHead> + JSON-LD.
  */
-export default function ToolSeoSection({ toolId, accentClass = 'text-teal-700' }) {
+export default function ToolSeoSection({ toolId }) {
   const seo = getToolSeo(toolId);
   if (!seo) return null;
 
   const relatedTools = (seo.related || [])
     .map((id) => TOOLS.find((t) => t.id === id))
     .filter(Boolean);
+
+  const linkClass = 'font-semibold text-accent-700 underline decoration-accent-200 underline-offset-4 hover:decoration-accent-600';
 
   return (
     <>
@@ -91,18 +94,16 @@ export default function ToolSeoSection({ toolId, accentClass = 'text-teal-700' }
         jsonLd={buildToolJsonLd(seo)}
       />
 
-      <article className="mt-12 space-y-8 border-t border-slate-200 pt-10 text-left">
+      <article className="mt-20 space-y-12 text-left">
         <header>
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-            About this {SITE_NAME} tool
-          </h2>
-          <p className="mt-3 text-base leading-relaxed text-slate-600">{seo.intro}</p>
+          <h2 className="text-3xl font-bold">About this tool</h2>
+          <p className="mt-4 text-lg leading-relaxed text-ink-700">{seo.intro}</p>
         </header>
 
         {(seo.sections || []).map((section) => (
           <section key={section.heading}>
-            <h3 className="mb-3 text-xl font-bold text-slate-900">{section.heading}</h3>
-            <div className="space-y-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+            <h3 className="mb-3 text-xl font-semibold">{section.heading}</h3>
+            <div className="space-y-4 text-[17px] leading-[1.75] text-ink-700">
               {section.paragraphs.map((p) => (
                 <p key={p.slice(0, 48)}>{p}</p>
               ))}
@@ -110,31 +111,37 @@ export default function ToolSeoSection({ toolId, accentClass = 'text-teal-700' }
           </section>
         ))}
 
-        <section className="rounded-2xl border border-slate-200 bg-white px-5 py-6 sm:px-8">
-          <h3 className="mb-5 text-xl font-bold text-slate-900">
-            Frequently asked questions
-          </h3>
-          <div className="space-y-5">
-            {(seo.faqs || []).map((faq) => (
-              <div key={faq.q} className="border-b border-slate-100 pb-5 last:border-0 last:pb-0">
-                <h4 className="mb-2 text-base font-semibold text-slate-800">{faq.q}</h4>
-                <p className="text-sm leading-relaxed text-slate-600 sm:text-[15px]">{faq.a}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        {(seo.faqs || []).length > 0 && (
+          <section>
+            <h3 className="mb-4 text-xl font-semibold">Questions people ask</h3>
+            <div className="divide-y divide-ink-200 border-y border-ink-200">
+              {seo.faqs.map((faq) => (
+                <details key={faq.q} className="group py-1">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[17px] font-semibold text-ink-900 [&::-webkit-details-marker]:hidden">
+                    {faq.q}
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-50 text-accent-700 transition-transform group-open:rotate-45" aria-hidden="true">
+                      <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none">
+                        <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p className="pb-5 pr-12 leading-relaxed text-ink-700">{faq.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
 
-        <section className="rounded-2xl border border-teal-100 bg-teal-50/50 px-5 py-6 sm:px-8">
-          <h3 className="mb-2 text-lg font-bold text-slate-900">Privacy promise</h3>
-          <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
-            {SITE_NAME} processes this file type entirely in your browser. Documents are not
-            uploaded to our servers for merge, split, compress, crop, convert, or security tools.
-            Closing the tab clears in-memory data. Read our{' '}
-            <Link to="/privacy" className={`font-semibold ${accentClass} hover:underline`}>
+        <section className="rounded-3xl bg-accent-50 px-6 py-7 sm:px-8">
+          <h3 className="mb-2 text-lg font-semibold">Your file stays on your device</h3>
+          <p className="leading-relaxed text-ink-700">
+            {SITE_NAME} runs this tool inside your browser. Your document is never uploaded to our
+            servers, and closing the tab clears it from memory. See our{' '}
+            <Link to="/privacy" className={linkClass}>
               Privacy Policy
             </Link>{' '}
-            and{' '}
-            <Link to="/guide" className={`font-semibold ${accentClass} hover:underline`}>
+            or the{' '}
+            <Link to="/guide" className={linkClass}>
               Help Guide
             </Link>
             .
@@ -143,23 +150,21 @@ export default function ToolSeoSection({ toolId, accentClass = 'text-teal-700' }
 
         {relatedTools.length > 0 ? (
           <section>
-            <h3 className="mb-4 text-lg font-bold text-slate-900">Related PDF tools</h3>
+            <h3 className="mb-4 text-xl font-semibold">Related tools</h3>
             <ul className="flex flex-wrap gap-2">
               {relatedTools.map((tool) => (
                 <li key={tool.id}>
                   <Link
                     to={tool.to}
-                    className="inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-teal-200 hover:text-teal-800"
+                    className="inline-flex items-center gap-2.5 rounded-full border border-ink-200 bg-white py-1 pl-1 pr-4 text-sm font-semibold text-ink-900 transition-colors hover:border-ink-300 hover:bg-ink-50"
                   >
+                    <ToolMark tool={tool} size="sm" className="!rounded-full" />
                     {tool.title}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link
-                  to="/tools"
-                  className="inline-flex items-center rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-semibold text-teal-800 transition hover:bg-teal-100"
-                >
+                <Link to="/tools" className="btn-secondary h-10 py-0">
                   All tools
                 </Link>
               </li>

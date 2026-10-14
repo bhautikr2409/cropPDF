@@ -16,7 +16,7 @@ function AnnotationItem({
   onUpdate,
   onFinishEdit,
 }) {
-  const selectedClass = selected ? 'outline outline-1 outline-slate-400 outline-offset-2' : '';
+  const selectedClass = selected ? 'outline outline-1 outline-ink-400 outline-offset-2' : '';
   const inputRef = useRef(null);
   const [draftText, setDraftText] = useState(ann.text || '');
 
@@ -96,7 +96,7 @@ function AnnotationItem({
               }
               e.stopPropagation();
             }}
-            className="bg-transparent border-0 p-0 m-0 outline-none shadow-none placeholder:text-slate-400"
+            className="bg-transparent border-0 p-0 m-0 outline-none shadow-none placeholder:text-ink-400"
             style={{
               color: ann.color,
               fontSize: ann.fontSize,

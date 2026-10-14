@@ -8,29 +8,29 @@ function ImageRow({ item, index, total, onMove, onRemove, onDragStart, onDragOve
       onDragStart={(e) => onDragStart(e, item.id)}
       onDragOver={(e) => onDragOver(e, item.id)}
       onDrop={(e) => onDrop(e, item.id)}
-      className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-3 sm:px-4 hover:border-indigo-200 transition-colors"
+      className="flex items-center gap-3 rounded-xl border border-ink-200 bg-white px-3 py-3 sm:px-4 hover:border-accent-200 transition-colors"
     >
-      <span className="hidden sm:flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 cursor-grab active:cursor-grabbing" aria-hidden="true">
+      <span className="hidden sm:flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink-100 text-ink-500 cursor-grab active:cursor-grabbing" aria-hidden="true">
         <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
           <path d="M7 5h2v2H7V5zm4 0h2v2h-2V5zM7 9h2v2H7V9zm4 0h2v2h-2V9zm-4 4h2v2H7v-2zm4 0h2v2h-2v-2z" />
         </svg>
       </span>
 
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700 text-sm font-bold">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-50 text-accent-700 text-sm font-bold">
         {index + 1}
       </span>
 
       <img
         src={item.previewUrl}
         alt=""
-        className="h-12 w-12 rounded-lg object-cover border border-slate-100 bg-slate-50"
+        className="h-12 w-12 rounded-lg object-cover border border-ink-100 bg-ink-50"
       />
 
       <div className="min-w-0 flex-1">
-        <p className="truncate font-medium text-slate-900 text-sm" title={item.file.name}>
+        <p className="truncate font-medium text-ink-900 text-sm" title={item.file.name}>
           {item.file.name}
         </p>
-        <p className="text-xs text-slate-500 mt-0.5">{formatFileSize(item.file.size)}</p>
+        <p className="text-xs text-ink-500 mt-0.5">{formatFileSize(item.file.size)}</p>
       </div>
 
       <div className="flex items-center gap-1 shrink-0">
@@ -38,7 +38,7 @@ function ImageRow({ item, index, total, onMove, onRemove, onDragStart, onDragOve
           type="button"
           onClick={() => onMove(item.id, 'up')}
           disabled={index === 0}
-          className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-30"
+          className="p-2 rounded-lg text-ink-500 hover:bg-ink-100 disabled:opacity-30"
           aria-label={`Move ${item.file.name} up`}
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -49,7 +49,7 @@ function ImageRow({ item, index, total, onMove, onRemove, onDragStart, onDragOve
           type="button"
           onClick={() => onMove(item.id, 'down')}
           disabled={index === total - 1}
-          className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-30"
+          className="p-2 rounded-lg text-ink-500 hover:bg-ink-100 disabled:opacity-30"
           aria-label={`Move ${item.file.name} down`}
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -59,7 +59,7 @@ function ImageRow({ item, index, total, onMove, onRemove, onDragStart, onDragOve
         <button
           type="button"
           onClick={() => onRemove(item.id)}
-          className="p-2 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600"
+          className="p-2 rounded-lg text-ink-500 hover:bg-red-50 hover:text-red-600"
           aria-label={`Remove ${item.file.name}`}
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -104,11 +104,11 @@ export default function ImageToPdfList({
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-slate-100 bg-slate-50">
+    <div className="rounded-3xl border border-ink-200 bg-white overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-ink-100 bg-ink-50">
         <div>
-          <h2 className="font-semibold text-slate-900">Images to convert</h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <h2 className="font-semibold text-ink-900">Images to convert</h2>
+          <p className="text-xs text-ink-500 mt-0.5">
             {files.length} image{files.length === 1 ? '' : 's'}
             {totalBytes > 0 ? ` · ${formatFileSize(totalBytes)}` : ''}
             {' · '}drag to reorder
@@ -119,7 +119,7 @@ export default function ImageToPdfList({
             type="button"
             onClick={onClear}
             disabled={isProcessing || files.length === 0}
-            className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+            className="px-3 py-2 text-sm font-medium text-ink-600 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 disabled:opacity-40"
           >
             Clear all
           </button>
@@ -127,7 +127,7 @@ export default function ImageToPdfList({
             type="button"
             onClick={onConvert}
             disabled={isProcessing || files.length < 1}
-            className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:opacity-40 transition-colors"
+            className="px-4 py-2 text-sm font-semibold text-white bg-accent-600 rounded-full hover:bg-accent-700 disabled:opacity-40 transition-colors"
           >
             {isProcessing ? 'Creating…' : 'Convert to PDF'}
           </button>
@@ -136,7 +136,7 @@ export default function ImageToPdfList({
 
       <div className="px-4 sm:px-5 pt-4">
         <fieldset>
-          <legend className="text-sm font-semibold text-slate-900 mb-3">Page size</legend>
+          <legend className="text-sm font-semibold text-ink-900 mb-3">Page size</legend>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <button
               type="button"
@@ -145,12 +145,12 @@ export default function ImageToPdfList({
               className={[
                 'text-left rounded-xl border px-4 py-3 transition-colors',
                 pageSize === 'fit'
-                  ? 'border-indigo-500 bg-indigo-50 ring-1 ring-indigo-500'
-                  : 'border-slate-200 bg-white hover:border-indigo-300',
+                  ? 'border-accent-500 bg-accent-50 ring-1 ring-accent-500'
+                  : 'border-ink-200 bg-white hover:border-accent-300',
               ].join(' ')}
             >
-              <span className="block text-sm font-semibold text-slate-900">Fit to image</span>
-              <span className="block text-xs text-slate-500 mt-1">
+              <span className="block text-sm font-semibold text-ink-900">Fit to image</span>
+              <span className="block text-xs text-ink-500 mt-1">
                 Each page matches the image dimensions
               </span>
             </button>
@@ -161,12 +161,12 @@ export default function ImageToPdfList({
               className={[
                 'text-left rounded-xl border px-4 py-3 transition-colors',
                 pageSize === 'a4'
-                  ? 'border-indigo-500 bg-indigo-50 ring-1 ring-indigo-500'
-                  : 'border-slate-200 bg-white hover:border-indigo-300',
+                  ? 'border-accent-500 bg-accent-50 ring-1 ring-accent-500'
+                  : 'border-ink-200 bg-white hover:border-accent-300',
               ].join(' ')}
             >
-              <span className="block text-sm font-semibold text-slate-900">A4 page</span>
-              <span className="block text-xs text-slate-500 mt-1">
+              <span className="block text-sm font-semibold text-ink-900">A4 page</span>
+              <span className="block text-xs text-ink-500 mt-1">
                 Center image on an A4 page
               </span>
             </button>

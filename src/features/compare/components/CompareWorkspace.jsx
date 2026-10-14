@@ -16,28 +16,28 @@ function PdfPane({ label, fileName, fileUrl, pageNumber, pageCount, scale }) {
     <div className="flex min-w-0 flex-col">
       <div className="mb-2 flex items-center justify-between gap-2 px-1">
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
-          <p className="truncate text-sm font-medium text-slate-800" title={fileName}>
+          <p className="text-sm font-semibold text-ink-600">{label}</p>
+          <p className="truncate text-sm font-medium text-ink-800" title={fileName}>
             {fileName}
           </p>
         </div>
-        <span className="shrink-0 rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+        <span className="shrink-0 rounded-md bg-ink-100 px-2 py-0.5 text-[11px] font-medium text-ink-600">
           {pageCount} pg
         </span>
       </div>
 
-      <div className="flex flex-1 justify-center overflow-auto rounded-xl border border-slate-200 bg-slate-100 p-3 sm:p-4 min-h-[280px]">
+      <div className="flex flex-1 justify-center overflow-auto rounded-xl border border-ink-200 bg-ink-100 p-3 sm:p-4 min-h-[280px]">
         {!fileUrl ? (
-          <div className="flex items-center text-sm text-slate-500">Preparing…</div>
+          <div className="flex items-center text-sm text-ink-500">Preparing…</div>
         ) : !hasPage ? (
-          <div className="flex items-center rounded-lg border border-dashed border-slate-300 bg-white px-6 py-10 text-center text-sm text-slate-500">
+          <div className="flex items-center rounded-lg border border-dashed border-ink-300 bg-white px-6 py-10 text-center text-sm text-ink-500">
             No page {pageNumber} in this document
           </div>
         ) : (
           <Document
             file={fileUrl}
             loading={
-              <div className="rounded-lg bg-white px-8 py-10 text-sm text-slate-500 shadow-sm">
+              <div className="rounded-lg bg-white px-8 py-10 text-sm text-ink-500 shadow-sm">
                 Loading PDF…
               </div>
             }
@@ -63,13 +63,13 @@ function PdfPane({ label, fileName, fileUrl, pageNumber, pageCount, scale }) {
 
 function DiffText({ parts, isDiffing }) {
   if (isDiffing) {
-    return <p className="text-sm text-slate-500">Comparing page text…</p>;
+    return <p className="text-sm text-ink-500">Comparing page text…</p>;
   }
 
   const hasContent = parts.some((p) => p.text.trim().length > 0);
   if (!hasContent) {
     return (
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-ink-500">
         No extractable text on this page. Scanned or image-only pages won&apos;t show a word
         diff — use side-by-side or overlay instead.
       </p>
@@ -77,7 +77,7 @@ function DiffText({ parts, isDiffing }) {
   }
 
   return (
-    <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-800">
+    <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-800">
       {parts.map((part, i) => {
         if (part.type === 'add') {
           return (
@@ -134,13 +134,13 @@ export default function CompareWorkspace({
   const zoomPct = Math.round(scale * 100);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-slate-50 px-4 py-4 sm:px-5">
+    <div className="overflow-hidden rounded-3xl border border-ink-200 bg-white">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink-100 bg-ink-50 px-4 py-4 sm:px-5">
         <div className="min-w-0">
-          <h2 className="font-semibold text-slate-900">Document comparison</h2>
-          <p className="mt-0.5 truncate text-xs text-slate-500">
+          <h2 className="font-semibold text-ink-900">Document comparison</h2>
+          <p className="mt-0.5 truncate text-xs text-ink-500">
             {leftFile?.name}
-            <span className="mx-1.5 text-slate-300">vs</span>
+            <span className="mx-1.5 text-ink-300">vs</span>
             {rightFile?.name}
             {isLoading
               ? ' · Reading…'
@@ -151,14 +151,14 @@ export default function CompareWorkspace({
           <button
             type="button"
             onClick={onSwap}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+            className="rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm font-medium text-ink-600 hover:bg-ink-50"
           >
             Swap
           </button>
           <button
             type="button"
             onClick={onClear}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+            className="rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm font-medium text-ink-600 hover:bg-ink-50"
           >
             New comparison
           </button>
@@ -181,17 +181,17 @@ export default function CompareWorkspace({
                   <span className="inline-flex items-center rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
                     +{diffSummary.added} added
                   </span>
-                  <span className="text-xs text-slate-500">on this page (text)</span>
+                  <span className="text-xs text-ink-500">on this page (text)</span>
                 </>
               ) : (
-                <span className="inline-flex items-center rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
+                <span className="inline-flex items-center rounded-lg bg-ink-100 px-2.5 py-1 text-xs font-semibold text-ink-600">
                   {isDiffing ? 'Diffing text…' : 'No text changes on this page'}
                 </span>
               )}
             </div>
 
             <fieldset>
-              <legend className="mb-2 text-sm font-semibold text-slate-900">View</legend>
+              <legend className="mb-2 text-sm font-semibold text-ink-900">View</legend>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                 {MODE_OPTIONS.map((option) => {
                   const active = viewMode === option.id;
@@ -203,39 +203,39 @@ export default function CompareWorkspace({
                       className={[
                         'rounded-xl border px-3 py-2.5 text-left transition-colors',
                         active
-                          ? 'border-indigo-500 bg-indigo-50 ring-1 ring-indigo-500'
-                          : 'border-slate-200 bg-white hover:border-indigo-300',
+                          ? 'border-accent-500 bg-accent-50 ring-1 ring-accent-500'
+                          : 'border-ink-200 bg-white hover:border-accent-300',
                       ].join(' ')}
                     >
-                      <span className="block text-sm font-semibold text-slate-900">
+                      <span className="block text-sm font-semibold text-ink-900">
                         {option.label}
                       </span>
-                      <span className="mt-0.5 block text-[11px] text-slate-500">{option.hint}</span>
+                      <span className="mt-0.5 block text-[11px] text-ink-500">{option.hint}</span>
                     </button>
                   );
                 })}
               </div>
             </fieldset>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink-100 bg-ink-50 px-3 py-2.5">
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage <= 1}
-                  className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                  className="rounded-lg border border-ink-200 bg-white px-2.5 py-1.5 text-sm font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-40"
                   aria-label="Previous page"
                 >
                   ←
                 </button>
-                <span className="min-w-[5.5rem] text-center text-sm font-medium text-slate-700">
+                <span className="min-w-[5.5rem] text-center text-sm font-medium text-ink-700">
                   {currentPage} / {maxPages}
                 </span>
                 <button
                   type="button"
                   onClick={() => setCurrentPage((p) => Math.min(maxPages, p + 1))}
                   disabled={currentPage >= maxPages}
-                  className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                  className="rounded-lg border border-ink-200 bg-white px-2.5 py-1.5 text-sm font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-40"
                   aria-label="Next page"
                 >
                   →
@@ -248,19 +248,19 @@ export default function CompareWorkspace({
                     type="button"
                     onClick={() => setScale((s) => Math.max(ZOOM.MIN, +(s - ZOOM.STEP).toFixed(2)))}
                     disabled={scale <= ZOOM.MIN}
-                    className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                    className="rounded-lg border border-ink-200 bg-white px-2.5 py-1.5 text-sm font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-40"
                     aria-label="Zoom out"
                   >
                     −
                   </button>
-                  <span className="min-w-[3.5rem] text-center text-sm font-medium text-slate-700">
+                  <span className="min-w-[3.5rem] text-center text-sm font-medium text-ink-700">
                     {zoomPct}%
                   </span>
                   <button
                     type="button"
                     onClick={() => setScale((s) => Math.min(ZOOM.MAX, +(s + ZOOM.STEP).toFixed(2)))}
                     disabled={scale >= ZOOM.MAX}
-                    className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                    className="rounded-lg border border-ink-200 bg-white px-2.5 py-1.5 text-sm font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-40"
                     aria-label="Zoom in"
                   >
                     +
@@ -269,7 +269,7 @@ export default function CompareWorkspace({
               ) : null}
 
               {viewMode === VIEW_MODES.OVERLAY ? (
-                <label className="flex items-center gap-2 text-xs text-slate-600">
+                <label className="flex items-center gap-2 text-xs text-ink-600">
                   <span className="font-medium">Revised opacity</span>
                   <input
                     type="range"
@@ -278,7 +278,7 @@ export default function CompareWorkspace({
                     step={0.05}
                     value={overlayOpacity}
                     onChange={(e) => setOverlayOpacity(Number(e.target.value))}
-                    className="w-28 accent-indigo-600"
+                    className="w-28 accent-accent-600"
                   />
                   <span className="tabular-nums">{Math.round(overlayOpacity * 100)}%</span>
                 </label>
@@ -308,17 +308,17 @@ export default function CompareWorkspace({
 
             {viewMode === VIEW_MODES.OVERLAY ? (
               <div>
-                <div className="mb-2 flex flex-wrap gap-3 px-1 text-xs text-slate-500">
+                <div className="mb-2 flex flex-wrap gap-3 px-1 text-xs text-ink-500">
                   <span>
-                    <span className="mr-1 inline-block h-2.5 w-2.5 rounded-sm bg-slate-400" />
+                    <span className="mr-1 inline-block h-2.5 w-2.5 rounded-sm bg-ink-400" />
                     Original (base)
                   </span>
                   <span>
-                    <span className="mr-1 inline-block h-2.5 w-2.5 rounded-sm bg-indigo-500" />
+                    <span className="mr-1 inline-block h-2.5 w-2.5 rounded-sm bg-accent-500" />
                     Revised (overlay)
                   </span>
                 </div>
-                <div className="flex justify-center overflow-auto rounded-xl border border-slate-200 bg-slate-100 p-4 min-h-[320px]">
+                <div className="flex justify-center overflow-auto rounded-xl border border-ink-200 bg-ink-100 p-4 min-h-[320px]">
                   {leftUrl && rightUrl ? (
                     <div className="relative inline-block shadow-md">
                       {currentPage <= leftPages ? (
@@ -332,7 +332,7 @@ export default function CompareWorkspace({
                           />
                         </Document>
                       ) : (
-                        <div className="bg-white px-10 py-16 text-sm text-slate-500">
+                        <div className="bg-white px-10 py-16 text-sm text-ink-500">
                           Original has no page {currentPage}
                         </div>
                       )}
@@ -354,15 +354,15 @@ export default function CompareWorkspace({
                       ) : null}
                     </div>
                   ) : (
-                    <div className="text-sm text-slate-500">Preparing overlay…</div>
+                    <div className="text-sm text-ink-500">Preparing overlay…</div>
                   )}
                 </div>
               </div>
             ) : null}
 
             {viewMode === VIEW_MODES.TEXT ? (
-              <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
-                <div className="mb-3 flex flex-wrap gap-3 text-xs text-slate-500">
+              <div className="rounded-xl border border-ink-200 bg-white p-4 sm:p-5">
+                <div className="mb-3 flex flex-wrap gap-3 text-xs text-ink-500">
                   <span>
                     <mark className="rounded-sm bg-rose-200/90 px-1 line-through">removed</mark>
                     {' '}from original

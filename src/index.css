@@ -1,29 +1,186 @@
+@import '@fontsource-variable/figtree';
+@import '@fontsource-variable/bricolage-grotesque';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Category palettes. A tool page wraps itself in .cat-<category> and every
+ * `accent-*` utility underneath picks up that colour. Default is brand violet.
+ */
 :root {
-  --brand: #0f766e;
-  --brand-hover: #0d9488;
-  --brand-soft: #ccfbf1;
-  --brand-ink: #134e4a;
-  --page-bg: #f3f7f6;
+  --accent-50: 244 240 255;
+  --accent-100: 233 225 255;
+  --accent-200: 211 196 255;
+  --accent-300: 180 155 255;
+  --accent-400: 147 112 255;
+  --accent-500: 122 79 245;
+  --accent-600: 102 56 224;
+  --accent-700: 85 40 194;
+  --accent-800: 69 33 156;
+  --accent-900: 55 28 122;
+  --page-bg: #ffffff;
   --surface: #ffffff;
-  --ink: #1e293b;
-  --muted: #64748b;
+  --ink: #1b1930;
+  --muted: #73708c;
+  color-scheme: light;
 }
 
-body {
-  color: var(--ink);
-  background: var(--page-bg);
+.cat-organize {
+  --accent-50: 255 240 245;
+  --accent-100: 255 222 234;
+  --accent-200: 255 189 211;
+  --accent-300: 255 143 180;
+  --accent-400: 246 92 147;
+  --accent-500: 232 62 122;
+  --accent-600: 204 39 102;
+  --accent-700: 169 29 83;
+  --accent-800: 134 25 67;
+  --accent-900: 107 24 56;
 }
 
-html {
-  scroll-behavior: smooth;
+.cat-optimize {
+  --accent-50: 235 251 241;
+  --accent-100: 210 246 224;
+  --accent-200: 166 236 195;
+  --accent-300: 111 220 160;
+  --accent-400: 62 198 124;
+  --accent-500: 32 172 99;
+  --accent-600: 15 127 69;
+  --accent-700: 14 102 57;
+  --accent-800: 16 82 49;
+  --accent-900: 15 66 41;
 }
+
+.cat-edit {
+  --accent-50: 255 243 236;
+  --accent-100: 255 227 211;
+  --accent-200: 255 198 166;
+  --accent-300: 255 160 110;
+  --accent-400: 255 122 61;
+  --accent-500: 246 94 30;
+  --accent-600: 194 62 14;
+  --accent-700: 158 50 16;
+  --accent-800: 128 42 18;
+  --accent-900: 104 36 19;
+}
+
+.cat-convert {
+  --accent-50: 238 246 255;
+  --accent-100: 217 235 255;
+  --accent-200: 181 215 255;
+  --accent-300: 132 188 255;
+  --accent-400: 78 155 255;
+  --accent-500: 42 125 245;
+  --accent-600: 23 99 214;
+  --accent-700: 21 79 174;
+  --accent-800: 23 68 140;
+  --accent-900: 24 59 114;
+}
+
+.cat-security {
+  --accent-50: 255 249 230;
+  --accent-100: 255 240 191;
+  --accent-200: 255 225 132;
+  --accent-300: 255 205 69;
+  --accent-400: 251 182 22;
+  --accent-500: 230 154 0;
+  --accent-600: 154 98 0;
+  --accent-700: 125 79 5;
+  --accent-800: 102 64 11;
+  --accent-900: 86 54 14;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white font-sans text-ink-800 antialiased;
+    font-feature-settings: 'ss01';
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-ink-900;
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgb(var(--accent-200));
+    color: #1b1930;
+  }
+
+  :focus-visible {
+    outline: 3px solid rgb(var(--accent-500) / 0.55);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Primary action: solid pill in the current accent. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent-600 px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-accent-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink-200 bg-white px-5 py-2.5 text-sm font-semibold text-ink-800 transition-colors hover:border-ink-300 hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}
+
+/* Tool pages: category tint behind the heading, fading out before the workspace. */
+.tool-page {
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--accent-50)) 0,
+    rgb(var(--accent-50)) 240px,
+    #ffffff 560px
+  );
+}
+
+/* Home hero: tool cards fan out once on load. */
+@keyframes fan-in {
+  from {
+    transform: translate(0, 24px) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.page-stack > * {
+  /* `backwards`, not `both`: once finished, the cards drop their GPU layer
+     so rotated text is painted sharp instead of resampled. */
+  animation: fan-in 700ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+.page-stack > *:nth-child(2) { animation-delay: 80ms; }
+.page-stack > *:nth-child(3) { animation-delay: 160ms; }
+.page-stack > *:nth-child(4) { animation-delay: 240ms; }
+.page-stack > *:nth-child(5) { animation-delay: 320ms; }
+.page-stack > *:nth-child(6) { animation-delay: 400ms; }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .page-stack > * {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }

@@ -34,13 +34,13 @@ export default function PdfToMarkdownWorkspace({
     progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-slate-100 bg-slate-50">
+    <div className="rounded-3xl border border-ink-200 bg-white overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-ink-100 bg-ink-50">
         <div className="min-w-0">
-          <h2 className="font-semibold text-slate-900 truncate" title={file.name}>
+          <h2 className="font-semibold text-ink-900 truncate" title={file.name}>
             {file.name}
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-ink-500 mt-0.5">
             {formatFileSize(file.size)}
             {isLoading ? ' · Reading…' : pageCount > 0 ? ` · ${pageCount} pages` : ''}
           </p>
@@ -49,7 +49,7 @@ export default function PdfToMarkdownWorkspace({
           type="button"
           onClick={onClear}
           disabled={isProcessing}
-          className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+          className="px-3 py-2 text-sm font-medium text-ink-600 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 disabled:opacity-40"
         >
           New file
         </button>
@@ -63,7 +63,7 @@ export default function PdfToMarkdownWorkspace({
         ) : (
           <>
             <fieldset>
-              <legend className="text-sm font-semibold text-slate-900 mb-3">Pages</legend>
+              <legend className="text-sm font-semibold text-ink-900 mb-3">Pages</legend>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
                   { id: PAGE_SCOPE.ALL, title: 'All pages', text: 'Convert every page' },
@@ -77,12 +77,12 @@ export default function PdfToMarkdownWorkspace({
                     className={[
                       'text-left rounded-xl border px-4 py-3 transition-colors',
                       scope === option.id
-                        ? 'border-cyan-500 bg-cyan-50 ring-1 ring-cyan-500'
-                        : 'border-slate-200 bg-white hover:border-cyan-300',
+                        ? 'border-accent-500 bg-accent-50 ring-1 ring-accent-500'
+                        : 'border-ink-200 bg-white hover:border-accent-300',
                     ].join(' ')}
                   >
-                    <span className="block text-sm font-semibold text-slate-900">{option.title}</span>
-                    <span className="block text-xs text-slate-500 mt-1">{option.text}</span>
+                    <span className="block text-sm font-semibold text-ink-900">{option.title}</span>
+                    <span className="block text-xs text-ink-500 mt-1">{option.text}</span>
                   </button>
                 ))}
               </div>
@@ -92,7 +92,7 @@ export default function PdfToMarkdownWorkspace({
               <div>
                 <label
                   htmlFor="pdf-md-range"
-                  className="block text-sm font-semibold text-slate-900 mb-2"
+                  className="block text-sm font-semibold text-ink-900 mb-2"
                 >
                   Page numbers / ranges
                 </label>
@@ -103,16 +103,16 @@ export default function PdfToMarkdownWorkspace({
                   onChange={(e) => setRangeInput(e.target.value)}
                   disabled={isProcessing || isLoading}
                   placeholder="1-3, 5, 8-10"
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500"
+                  className="w-full px-4 py-2.5 border border-ink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500"
                 />
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-2 text-xs text-ink-500">
                   Example: 1-3, 5, 8-10 (document has {pageCount || '—'} pages)
                 </p>
               </div>
             )}
 
             <fieldset>
-              <legend className="text-sm font-semibold text-slate-900 mb-3">Page breaks</legend>
+              <legend className="text-sm font-semibold text-ink-900 mb-3">Page breaks</legend>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {Object.values(PAGE_BREAK_MODES).map((option) => (
                   <button
@@ -123,12 +123,12 @@ export default function PdfToMarkdownWorkspace({
                     className={[
                       'text-left rounded-xl border px-4 py-3 transition-colors',
                       pageBreakMode === option.id
-                        ? 'border-cyan-500 bg-cyan-50 ring-1 ring-cyan-500'
-                        : 'border-slate-200 bg-white hover:border-cyan-300',
+                        ? 'border-accent-500 bg-accent-50 ring-1 ring-accent-500'
+                        : 'border-ink-200 bg-white hover:border-accent-300',
                     ].join(' ')}
                   >
-                    <span className="block text-sm font-semibold text-slate-900">{option.label}</span>
-                    <span className="block text-xs text-slate-500 mt-1">{option.hint}</span>
+                    <span className="block text-sm font-semibold text-ink-900">{option.label}</span>
+                    <span className="block text-xs text-ink-500 mt-1">{option.hint}</span>
                   </button>
                 ))}
               </div>
@@ -140,13 +140,13 @@ export default function PdfToMarkdownWorkspace({
                 checked={includeTitle}
                 onChange={(e) => setIncludeTitle(e.target.checked)}
                 disabled={isProcessing}
-                className="mt-1 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500"
+                className="mt-1 rounded border-ink-300 text-accent-600 focus:ring-accent-500"
               />
               <span>
-                <span className="block text-sm font-semibold text-slate-900">
+                <span className="block text-sm font-semibold text-ink-900">
                   Include document title
                 </span>
-                <span className="block text-xs text-slate-500 mt-0.5">
+                <span className="block text-xs text-ink-500 mt-0.5">
                   Prefaces the Markdown with a top-level heading from the file name
                 </span>
               </span>
@@ -154,15 +154,15 @@ export default function PdfToMarkdownWorkspace({
 
             {isProcessing && (
               <div>
-                <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+                <div className="flex items-center justify-between text-xs text-ink-500 mb-2">
                   <span>
                     Reading page {progress.current} of {progress.total}…
                   </span>
                   <span>{progressPercent}%</span>
                 </div>
-                <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div className="h-2 rounded-full bg-ink-100 overflow-hidden">
                   <div
-                    className="h-full bg-cyan-600 transition-all duration-200"
+                    className="h-full bg-accent-600 transition-all duration-200"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -174,7 +174,7 @@ export default function PdfToMarkdownWorkspace({
                 type="button"
                 onClick={onConvert}
                 disabled={!canConvert}
-                className="px-6 py-3 text-sm font-semibold text-white bg-cyan-600 rounded-xl hover:bg-cyan-700 disabled:opacity-40 disabled:hover:bg-cyan-600 transition-colors"
+                className="px-6 py-3 text-sm font-semibold text-white bg-accent-600 rounded-full hover:bg-accent-700 disabled:opacity-40 disabled:hover:bg-accent-600 transition-colors"
               >
                 {isProcessing ? 'Converting…' : markdown ? 'Convert again' : 'Convert to Markdown'}
               </button>
@@ -182,7 +182,7 @@ export default function PdfToMarkdownWorkspace({
                 type="button"
                 onClick={onCopy}
                 disabled={!markdown || isProcessing}
-                className="px-5 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 disabled:opacity-40"
+                className="px-5 py-3 text-sm font-medium text-ink-700 bg-white border border-ink-200 rounded-xl hover:bg-ink-50 disabled:opacity-40"
               >
                 Copy
               </button>
@@ -190,7 +190,7 @@ export default function PdfToMarkdownWorkspace({
                 type="button"
                 onClick={onDownload}
                 disabled={!markdown || isProcessing}
-                className="px-5 py-3 text-sm font-semibold text-cyan-700 bg-cyan-50 border border-cyan-200 rounded-xl hover:bg-cyan-100 disabled:opacity-40"
+                className="px-5 py-3 text-sm font-semibold text-accent-700 bg-accent-50 border border-accent-200 rounded-xl hover:bg-accent-100 disabled:opacity-40"
               >
                 Download .md
               </button>
@@ -199,8 +199,8 @@ export default function PdfToMarkdownWorkspace({
             {markdown ? (
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-semibold text-slate-900">Preview</h3>
-                  <span className="text-xs text-slate-500">
+                  <h3 className="text-sm font-semibold text-ink-900">Preview</h3>
+                  <span className="text-xs text-ink-500">
                     {markdown.length.toLocaleString()} characters · editable
                   </span>
                 </div>
@@ -209,14 +209,14 @@ export default function PdfToMarkdownWorkspace({
                   onChange={(e) => setMarkdown(e.target.value)}
                   rows={16}
                   spellCheck={false}
-                  className="w-full px-4 py-3 text-sm font-mono leading-relaxed text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 resize-y min-h-[240px]"
+                  className="w-full px-4 py-3 text-sm font-mono leading-relaxed text-ink-800 bg-ink-50 border border-ink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 resize-y min-h-[240px]"
                 />
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-2 text-xs text-ink-500">
                   Text-based PDFs convert best. Scanned/image-only PDFs may have little or no text.
                 </p>
               </div>
             ) : (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-ink-500">
                 Text is extracted in your browser. Headings and lists are detected from layout when
                 possible.
               </p>

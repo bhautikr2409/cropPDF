@@ -5,6 +5,7 @@ import { useComparePdf } from '../hooks/useComparePdf';
 import CompareUpload from './CompareUpload';
 import CompareWorkspace from './CompareWorkspace';
 import ToolSeoSection from '../../../components/seo/ToolSeoSection';
+import ToolHeading from '../../../components/tools/ToolHeading';
 
 const STEPS = [
   { n: '1', title: 'Upload both', text: 'Original and revised PDF versions' },
@@ -30,17 +31,15 @@ export default function ComparePDF() {
   };
 
   return (
-    <div className="bg-[var(--page-bg)] py-10 sm:py-14">
+    <div className="cat-organize tool-page pb-20 pt-10 sm:pt-14">
       <div className="container mx-auto px-4">
         <div className={`mx-auto ${showWorkspace ? 'max-w-6xl' : 'max-w-3xl'}`}>
           <div className="mb-8 text-center sm:mb-10">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-indigo-600">
-              PDF Compare Tool
-            </p>
-            <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            <ToolHeading toolId="compare" />
+            <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
               Compare PDF online
             </h1>
-            <p className="mx-auto max-w-xl text-base text-slate-600 sm:text-lg">
+            <p className="mx-auto max-w-xl text-base text-ink-600 sm:text-lg">
               Show a side-by-side document comparison and easily spot changes between different
               file versions. Everything runs locally in your browser.
             </p>
@@ -61,7 +60,7 @@ export default function ComparePDF() {
               />
 
               {pdf.isLoading ? (
-                <p className="mt-4 text-center text-sm text-slate-500">Reading PDFs…</p>
+                <p className="mt-4 text-center text-sm text-ink-500">Reading PDFs…</p>
               ) : null}
               {pdf.loadError ? (
                 <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-700">
@@ -69,8 +68,8 @@ export default function ComparePDF() {
                 </div>
               ) : null}
 
-              <div className="mt-10 rounded-2xl border border-slate-200 bg-white px-6 py-6 sm:px-8">
-                <h3 className="mb-5 text-center text-sm font-semibold text-slate-900 sm:text-left">
+              <div className="mt-10 rounded-3xl border border-ink-200 bg-white px-6 py-6 sm:px-8">
+                <h3 className="mb-5 text-center text-sm font-semibold text-ink-900 sm:text-left">
                   How it works
                 </h3>
                 <ol className="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -79,12 +78,12 @@ export default function ComparePDF() {
                       key={step.n}
                       className="flex items-center gap-3 text-left sm:flex-col sm:items-start"
                     >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-600 text-sm font-bold text-white">
                         {step.n}
                       </span>
                       <div>
-                        <p className="text-sm font-semibold text-slate-900">{step.title}</p>
-                        <p className="mt-0.5 text-xs text-slate-500">{step.text}</p>
+                        <p className="text-sm font-semibold text-ink-900">{step.title}</p>
+                        <p className="mt-0.5 text-xs text-ink-500">{step.text}</p>
                       </div>
                     </li>
                   ))}
@@ -118,11 +117,11 @@ export default function ComparePDF() {
             />
           )}
 
-          <ToolSeoSection toolId="compare" accentClass="text-indigo-600" />
+          <ToolSeoSection toolId="compare" />
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-6 text-center text-sm text-ink-500">
             Need to merge versions?{' '}
-            <Link to="/merge" className="font-medium text-indigo-600 hover:underline">
+            <Link to="/merge" className="font-medium text-accent-600 hover:underline">
               Open Merge PDF
             </Link>
           </p>

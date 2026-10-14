@@ -7,7 +7,7 @@ import { SITE_NAME } from '../constants/site';
 import { STATIC_SEO } from '../constants/seoContent';
 
 const fieldClass =
-  'w-full rounded-xl border border-slate-200 px-4 py-2.5 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20';
+  'w-full rounded-xl border border-ink-200 px-4 py-2.5 transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20';
 
 /** Free client-side delivery to CONTACT_EMAIL (FormSubmit). First use needs inbox confirmation. */
 const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
@@ -100,15 +100,14 @@ export default function ContactUs() {
         path={seo.path}
         keywords={seo.keywords}
       />
-      <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-10">
+      <div className="rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-10">
         <div className="mb-8 text-center">
-          <p className="mb-2 text-sm font-semibold text-teal-700">Support</p>
-          <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-slate-900">
+          <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
             Contact {SITE_NAME}
           </h1>
-          <p className="text-slate-500">
+          <p className="text-ink-500">
             Send feedback or questions about croppdf.netlify.app. Messages go to{' '}
-            <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-teal-700 hover:underline">
+            <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-brand-700 hover:underline">
               {CONTACT_EMAIL}
             </a>
             . We will reply to the email you enter below.
@@ -117,7 +116,7 @@ export default function ContactUs() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-slate-700">
+            <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-ink-700">
               Your name <span className="text-red-500">*</span>
             </label>
             <input
@@ -134,7 +133,7 @@ export default function ContactUs() {
           </div>
 
           <div>
-            <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-slate-700">
+            <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-ink-700">
               Your email <span className="text-red-500">*</span>
             </label>
             <input
@@ -148,11 +147,11 @@ export default function ContactUs() {
               disabled={isSending}
               className={fieldClass}
             />
-            <p className="mt-1.5 text-xs text-slate-500">We use this to reply to you.</p>
+            <p className="mt-1.5 text-xs text-ink-500">We use this to reply to you.</p>
           </div>
 
           <div>
-            <label htmlFor="subject" className="mb-1.5 block text-sm font-semibold text-slate-700">
+            <label htmlFor="subject" className="mb-1.5 block text-sm font-semibold text-ink-700">
               Subject
             </label>
             <input
@@ -168,7 +167,7 @@ export default function ContactUs() {
           </div>
 
           <div>
-            <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-slate-700">
+            <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-ink-700">
               Message <span className="text-red-500">*</span>
             </label>
             <textarea
@@ -187,14 +186,14 @@ export default function ContactUs() {
           <button
             type="submit"
             disabled={isSending}
-            className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-teal-700 text-sm font-semibold text-white transition hover:bg-teal-600 disabled:opacity-60"
+            className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-brand-700 text-sm font-semibold text-white transition hover:bg-brand-600 disabled:opacity-60"
           >
             {isSending ? 'Sending…' : 'Send message'}
           </button>
 
-          <p className="text-center text-xs text-slate-400">
+          <p className="text-center text-xs text-ink-400">
             First-time setup: check{' '}
-            <span className="font-medium text-slate-500">{CONTACT_EMAIL}</span> for a FormSubmit
+            <span className="font-medium text-ink-500">{CONTACT_EMAIL}</span> for a FormSubmit
             confirmation email and activate the form.
           </p>
         </form>

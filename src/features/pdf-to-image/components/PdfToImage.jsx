@@ -3,6 +3,7 @@ import { usePdfToImage } from '../hooks/usePdfToImage';
 import PdfToImageUpload from './PdfToImageUpload';
 import PdfToImageWorkspace from './PdfToImageWorkspace';
 import ToolSeoSection from '../../../components/seo/ToolSeoSection';
+import ToolHeading from '../../../components/tools/ToolHeading';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a PDF to convert' },
@@ -33,17 +34,15 @@ export default function PdfToImage() {
   } = usePdfToImage();
 
   return (
-    <div className="bg-[var(--page-bg)] py-10 sm:py-14">
+    <div className="cat-convert tool-page pb-20 pt-10 sm:pt-14">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8 sm:mb-10">
-            <p className="text-sm font-semibold text-sky-600 mb-2 tracking-wide uppercase">
-              PDF to Image
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+            <ToolHeading toolId="pdf-to-image" />
+            <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
               Convert PDF to images
             </h1>
-            <p className="text-slate-600 max-w-xl mx-auto text-base sm:text-lg">
+            <p className="text-ink-600 max-w-xl mx-auto text-base sm:text-lg">
               Export PDF pages as PNG or JPEG. Everything runs locally — nothing is uploaded.
             </p>
           </div>
@@ -55,17 +54,17 @@ export default function PdfToImage() {
                 onFileDrop={acceptFile}
                 disabled={isProcessing}
               />
-              <div className="mt-10 rounded-2xl bg-white border border-slate-200 px-6 py-6 sm:px-8">
-                <h3 className="text-sm font-semibold text-slate-900 mb-5">How it works</h3>
+              <div className="mt-10 rounded-3xl bg-white border border-ink-200 px-6 py-6 sm:px-8">
+                <h3 className="text-sm font-semibold text-ink-900 mb-5">How it works</h3>
                 <ol className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   {STEPS.map((step) => (
                     <li key={step.n} className="flex sm:flex-col items-center sm:items-start gap-3">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-600 text-white text-sm font-bold">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-600 text-white text-sm font-bold">
                         {step.n}
                       </span>
                       <div>
-                        <p className="font-semibold text-slate-900 text-sm">{step.title}</p>
-                        <p className="text-xs text-slate-500 mt-0.5">{step.text}</p>
+                        <p className="font-semibold text-ink-900 text-sm">{step.title}</p>
+                        <p className="text-xs text-ink-500 mt-0.5">{step.text}</p>
                       </div>
                     </li>
                   ))}
@@ -93,11 +92,11 @@ export default function PdfToImage() {
             />
           )}
 
-          <ToolSeoSection toolId="pdf-to-image" accentClass="text-sky-600" />
+          <ToolSeoSection toolId="pdf-to-image" />
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-6 text-center text-sm text-ink-500">
             Going the other way?{' '}
-            <Link to="/image-to-pdf" className="text-sky-600 font-medium hover:underline">
+            <Link to="/image-to-pdf" className="text-accent-600 font-medium hover:underline">
               Open Image to PDF
             </Link>
           </p>

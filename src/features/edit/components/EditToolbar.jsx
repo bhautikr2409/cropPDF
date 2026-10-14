@@ -22,7 +22,7 @@ export default function EditToolbar({
   hasSelection,
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-2 p-3 bg-slate-50 border-b border-slate-200">
+    <div className="flex flex-wrap items-center gap-2 p-3 bg-ink-50 border-b border-ink-200">
       <div className="flex flex-wrap gap-1">
         {TOOL_BUTTONS.map((item) => (
           <button
@@ -38,8 +38,8 @@ export default function EditToolbar({
             className={[
               'px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors',
               tool === item.id
-                ? 'bg-fuchsia-600 text-white border-fuchsia-600'
-                : 'bg-white text-slate-700 border-slate-200 hover:border-fuchsia-300',
+                ? 'bg-accent-600 text-white border-accent-600'
+                : 'bg-white text-ink-700 border-ink-200 hover:border-accent-300',
             ].join(' ')}
           >
             {item.label}
@@ -53,14 +53,14 @@ export default function EditToolbar({
         type="button"
         onClick={onDelete}
         disabled={!hasSelection}
-        className="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-red-50 hover:text-red-600 disabled:opacity-40"
+        className="px-3 py-1.5 text-xs font-medium rounded-lg border border-ink-200 bg-white text-ink-700 hover:bg-red-50 hover:text-red-600 disabled:opacity-40"
       >
         Delete
       </button>
       <button
         type="button"
         onClick={onClearPage}
-        className="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+        className="px-3 py-1.5 text-xs font-medium rounded-lg border border-ink-200 bg-white text-ink-700 hover:bg-ink-100"
       >
         Clear page
       </button>
@@ -68,7 +68,7 @@ export default function EditToolbar({
         type="button"
         onClick={onExport}
         disabled={!canExport || isExporting}
-        className="px-4 py-1.5 text-xs font-semibold rounded-lg bg-fuchsia-600 text-white hover:bg-fuchsia-700 disabled:opacity-40"
+        className="px-4 py-1.5 text-xs font-semibold rounded-full bg-accent-600 text-white hover:bg-accent-700 disabled:opacity-40"
       >
         {isExporting ? 'Exporting…' : 'Download PDF'}
       </button>

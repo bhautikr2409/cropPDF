@@ -20,13 +20,13 @@ export default function CompressWorkspace({
     progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-slate-100 bg-slate-50">
+    <div className="rounded-3xl border border-ink-200 bg-white overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-ink-100 bg-ink-50">
         <div className="min-w-0">
-          <h2 className="font-semibold text-slate-900 truncate" title={file.name}>
+          <h2 className="font-semibold text-ink-900 truncate" title={file.name}>
             {file.name}
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-ink-500 mt-0.5">
             {formatFileSize(file.size)}
             {isLoading ? ' · Reading…' : pageCount > 0 ? ` · ${pageCount} pages` : ''}
           </p>
@@ -35,7 +35,7 @@ export default function CompressWorkspace({
           type="button"
           onClick={onClear}
           disabled={isProcessing}
-          className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+          className="px-3 py-2 text-sm font-medium text-ink-600 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 disabled:opacity-40"
         >
           New file
         </button>
@@ -49,7 +49,7 @@ export default function CompressWorkspace({
         ) : (
           <>
             <fieldset>
-              <legend className="text-sm font-semibold text-slate-900 mb-3">
+              <legend className="text-sm font-semibold text-ink-900 mb-3">
                 Compression level
               </legend>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -64,14 +64,14 @@ export default function CompressWorkspace({
                       className={[
                         'text-left rounded-xl border px-4 py-3 transition-colors',
                         active
-                          ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500'
-                          : 'border-slate-200 bg-white hover:border-emerald-300',
+                          ? 'border-accent-500 bg-accent-50 ring-1 ring-accent-500'
+                          : 'border-ink-200 bg-white hover:border-accent-300',
                       ].join(' ')}
                     >
-                      <span className="block text-sm font-semibold text-slate-900">
+                      <span className="block text-sm font-semibold text-ink-900">
                         {option.label}
                       </span>
-                      <span className="block text-xs text-slate-500 mt-1 leading-relaxed">
+                      <span className="block text-xs text-ink-500 mt-1 leading-relaxed">
                         {option.hint}
                       </span>
                     </button>
@@ -82,15 +82,15 @@ export default function CompressWorkspace({
 
             {isProcessing && (
               <div>
-                <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
+                <div className="flex items-center justify-between text-xs text-ink-500 mb-2">
                   <span>
                     Compressing page {progress.current} of {progress.total}…
                   </span>
                   <span>{progressPercent}%</span>
                 </div>
-                <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div className="h-2 rounded-full bg-ink-100 overflow-hidden">
                   <div
-                    className="h-full bg-emerald-600 transition-all duration-200"
+                    className="h-full bg-accent-600 transition-all duration-200"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -98,9 +98,9 @@ export default function CompressWorkspace({
             )}
 
             {lastResult && !isProcessing && (
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm">
-                <p className="font-semibold text-slate-900 mb-1">Last result</p>
-                <p className="text-slate-600">
+              <div className="rounded-xl border border-ink-200 bg-ink-50 px-4 py-3 text-sm">
+                <p className="font-semibold text-ink-900 mb-1">Last result</p>
+                <p className="text-ink-600">
                   {formatFileSize(lastResult.originalSize)} →{' '}
                   {formatFileSize(lastResult.compressedSize)}
                   {lastResult.savedPercent != null && lastResult.savedPercent > 0
@@ -116,7 +116,7 @@ export default function CompressWorkspace({
               type="button"
               onClick={onCompress}
               disabled={!canCompress}
-              className="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 disabled:opacity-40 disabled:hover:bg-emerald-600 transition-colors"
+              className="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-white bg-accent-600 rounded-full hover:bg-accent-700 disabled:opacity-40 disabled:hover:bg-accent-600 transition-colors"
             >
               {isProcessing ? 'Compressing…' : 'Compress & Download'}
             </button>

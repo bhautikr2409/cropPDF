@@ -48,13 +48,13 @@ export default function SplitWorkspace({
     (mode === SPLIT_MODES.EVERY_PAGE || rangeInput.trim().length > 0);
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-slate-100 bg-slate-50">
+    <div className="rounded-3xl border border-ink-200 bg-white overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-ink-100 bg-ink-50">
         <div className="min-w-0">
-          <h2 className="font-semibold text-slate-900 truncate" title={file.name}>
+          <h2 className="font-semibold text-ink-900 truncate" title={file.name}>
             {file.name}
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-ink-500 mt-0.5">
             {formatFileSize(file.size)}
             {isLoading ? ' · Reading…' : pageCount > 0 ? ` · ${pageCount} pages` : ''}
           </p>
@@ -63,7 +63,7 @@ export default function SplitWorkspace({
           type="button"
           onClick={onClear}
           disabled={isProcessing}
-          className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+          className="px-3 py-2 text-sm font-medium text-ink-600 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 disabled:opacity-40"
         >
           New file
         </button>
@@ -77,7 +77,7 @@ export default function SplitWorkspace({
         ) : (
           <>
             <fieldset>
-              <legend className="text-sm font-semibold text-slate-900 mb-3">
+              <legend className="text-sm font-semibold text-ink-900 mb-3">
                 Split mode
               </legend>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -92,14 +92,14 @@ export default function SplitWorkspace({
                       className={[
                         'text-left rounded-xl border px-4 py-3 transition-colors',
                         active
-                          ? 'border-orange-500 bg-orange-50 ring-1 ring-orange-500'
-                          : 'border-slate-200 bg-white hover:border-orange-300',
+                          ? 'border-accent-500 bg-accent-50 ring-1 ring-accent-500'
+                          : 'border-ink-200 bg-white hover:border-accent-300',
                       ].join(' ')}
                     >
-                      <span className="block text-sm font-semibold text-slate-900">
+                      <span className="block text-sm font-semibold text-ink-900">
                         {option.title}
                       </span>
-                      <span className="block text-xs text-slate-500 mt-1 leading-relaxed">
+                      <span className="block text-xs text-ink-500 mt-1 leading-relaxed">
                         {option.description}
                       </span>
                     </button>
@@ -112,7 +112,7 @@ export default function SplitWorkspace({
               <div>
                 <label
                   htmlFor="split-range-input"
-                  className="block text-sm font-semibold text-slate-900 mb-2"
+                  className="block text-sm font-semibold text-ink-900 mb-2"
                 >
                   Pages / ranges
                 </label>
@@ -123,14 +123,14 @@ export default function SplitWorkspace({
                   onChange={(e) => setRangeInput(e.target.value)}
                   disabled={isProcessing || isLoading}
                   placeholder="1-3, 5, 8-10"
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-colors"
+                  className="w-full px-4 py-2.5 border border-ink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-colors"
                 />
-                <p className="mt-2 text-xs text-slate-500">{rangeHint}</p>
+                <p className="mt-2 text-xs text-ink-500">{rangeHint}</p>
               </div>
             )}
 
             {mode === SPLIT_MODES.EVERY_PAGE && pageCount > 0 && (
-              <p className="text-sm text-slate-600 bg-orange-50 border border-orange-100 rounded-xl px-4 py-3">
+              <p className="text-sm text-ink-600 bg-accent-50 border border-accent-100 rounded-xl px-4 py-3">
                 This will create <strong>{pageCount}</strong> PDF
                 {pageCount === 1 ? '' : 's'} and download them as a ZIP file.
               </p>
@@ -140,7 +140,7 @@ export default function SplitWorkspace({
               type="button"
               onClick={onSplit}
               disabled={!canSplit}
-              className="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 disabled:opacity-40 disabled:hover:bg-orange-600 transition-colors"
+              className="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-white bg-accent-600 rounded-full hover:bg-accent-700 disabled:opacity-40 disabled:hover:bg-accent-600 transition-colors"
             >
               {isProcessing
                 ? 'Processing…'

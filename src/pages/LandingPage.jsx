@@ -1,3 +1,4 @@
+import HomeHero from '../components/home/HomeHero';
 import ToolsCatalog from '../components/tools/ToolsCatalog';
 import HomeSeoContent from '../components/seo/HomeSeoContent';
 import SeoHead from '../components/seo/SeoHead';
@@ -42,7 +43,8 @@ export default function LandingPage() {
         keywords={seo.keywords}
         jsonLd={homeJsonLd}
       />
-      <ToolsCatalog showHero />
+      <HomeHero />
+      <ToolsCatalog variant="grouped" />
       <HomeSeoContent />
     </>
   );

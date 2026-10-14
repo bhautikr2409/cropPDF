@@ -34,10 +34,10 @@ export default function UnlockUpload({ onFileChange, onFileDrop, disabled }) {
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={[
-        'relative rounded-2xl border-2 border-dashed bg-white px-6 py-10 sm:px-10 sm:py-12 text-center transition-all duration-200',
+        'relative rounded-[32px] border-2 border-dashed bg-white px-6 py-10 sm:px-10 sm:py-12 text-center transition-all duration-200',
         isDragging
-          ? 'border-stone-500 bg-stone-100/80 scale-[1.01]'
-          : 'border-slate-200 hover:border-stone-400 hover:bg-slate-50/40',
+          ? 'border-accent-500 bg-accent-100/80 scale-[1.01]'
+          : 'border-accent-300 hover:border-accent-500 hover:bg-accent-50/60',
         disabled ? 'opacity-60 pointer-events-none' : '',
       ].join(' ')}
     >
@@ -50,7 +50,7 @@ export default function UnlockUpload({ onFileChange, onFileDrop, disabled }) {
         id="unlock-pdf-upload"
       />
 
-      <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-100 text-stone-700">
+      <div className="mx-auto mb-5 flex h-16 w-16 -rotate-6 items-center justify-center rounded-[20px] bg-accent-500 text-white">
         <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" aria-hidden="true">
           <rect x="12" y="20" width="24" height="18" rx="3" stroke="currentColor" strokeWidth="2.5" />
           <path d="M16 20v-4a8 8 0 0114.5-4.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
@@ -58,17 +58,17 @@ export default function UnlockUpload({ onFileChange, onFileDrop, disabled }) {
         </svg>
       </div>
 
-      <h2 className="text-xl font-bold text-slate-900 mb-2">
+      <h2 className="text-xl font-bold text-ink-900 mb-2">
         {isDragging ? 'Drop your PDF here' : 'Drop PDF to unlock'}
       </h2>
-      <p className="text-slate-500 mb-6 text-sm">
+      <p className="text-ink-500 mb-6 text-sm">
         Remove password protection · Max {maxMb} MB
       </p>
 
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="inline-flex items-center justify-center gap-2 bg-stone-800 text-white px-7 py-3 rounded-xl font-semibold hover:bg-stone-900 transition-colors shadow-sm"
+        className="inline-flex items-center justify-center gap-2 bg-accent-800 text-white px-7 py-3 rounded-xl font-semibold hover:bg-accent-900 transition-colors shadow-sm"
       >
         Choose PDF file
       </button>

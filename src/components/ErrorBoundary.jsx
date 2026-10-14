@@ -25,22 +25,22 @@ export default class ErrorBoundary extends Component {
     if (this.state.hasError) {
       return (
         <div className="min-h-[50vh] flex items-center justify-center px-4 py-16">
-          <div className="max-w-md w-full bg-white border border-slate-200 rounded-xl p-8 text-center shadow-sm">
-            <h1 className="text-xl font-bold text-slate-900 mb-2">Something went wrong</h1>
-            <p className="text-slate-600 text-sm mb-6">
+          <div className="max-w-md w-full bg-white border border-ink-200 rounded-xl p-8 text-center shadow-sm">
+            <h1 className="text-xl font-bold text-ink-900 mb-2">Something went wrong</h1>
+            <p className="text-ink-600 text-sm mb-6">
               An unexpected error occurred. You can try again or return to the home page.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 type="button"
                 onClick={this.handleReset}
-                className="bg-teal-700 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-teal-600 transition-colors"
+                className="bg-brand-700 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-brand-600 transition-colors"
               >
                 Try again
               </button>
               <a
                 href="/"
-                className="border border-slate-200 text-slate-700 px-5 py-2.5 rounded-lg font-medium hover:bg-slate-50 transition-colors"
+                className="border border-ink-200 text-ink-700 px-5 py-2.5 rounded-lg font-medium hover:bg-ink-50 transition-colors"
               >
                 Go home
               </a>

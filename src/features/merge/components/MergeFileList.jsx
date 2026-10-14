@@ -19,11 +19,11 @@ function FileRow({ item, index, total, onMove, onRemove, onDragStart, onDragOver
         'flex items-center gap-3 rounded-xl border bg-white px-3 py-3 sm:px-4 transition-colors',
         item.status === 'error'
           ? 'border-red-200 bg-red-50/40'
-          : 'border-slate-200 hover:border-rose-200',
+          : 'border-ink-200 hover:border-accent-200',
       ].join(' ')}
     >
       <span
-        className="hidden sm:flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 cursor-grab active:cursor-grabbing"
+        className="hidden sm:flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink-100 text-ink-500 cursor-grab active:cursor-grabbing"
         title="Drag to reorder"
         aria-hidden="true"
       >
@@ -32,15 +32,15 @@ function FileRow({ item, index, total, onMove, onRemove, onDragStart, onDragOver
         </svg>
       </span>
 
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-50 text-rose-700 text-sm font-bold">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-50 text-accent-700 text-sm font-bold">
         {index + 1}
       </span>
 
       <div className="min-w-0 flex-1">
-        <p className="truncate font-medium text-slate-900 text-sm" title={item.file.name}>
+        <p className="truncate font-medium text-ink-900 text-sm" title={item.file.name}>
           {item.file.name}
         </p>
-        <p className="text-xs text-slate-500 mt-0.5">
+        <p className="text-xs text-ink-500 mt-0.5">
           {formatFileSize(item.file.size)} · {pagesLabel}
         </p>
       </div>
@@ -50,7 +50,7 @@ function FileRow({ item, index, total, onMove, onRemove, onDragStart, onDragOver
           type="button"
           onClick={() => onMove(item.id, 'up')}
           disabled={index === 0}
-          className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-30 disabled:hover:bg-transparent"
+          className="p-2 rounded-lg text-ink-500 hover:bg-ink-100 disabled:opacity-30 disabled:hover:bg-transparent"
           aria-label={`Move ${item.file.name} up`}
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -61,7 +61,7 @@ function FileRow({ item, index, total, onMove, onRemove, onDragStart, onDragOver
           type="button"
           onClick={() => onMove(item.id, 'down')}
           disabled={index === total - 1}
-          className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-30 disabled:hover:bg-transparent"
+          className="p-2 rounded-lg text-ink-500 hover:bg-ink-100 disabled:opacity-30 disabled:hover:bg-transparent"
           aria-label={`Move ${item.file.name} down`}
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -71,7 +71,7 @@ function FileRow({ item, index, total, onMove, onRemove, onDragStart, onDragOver
         <button
           type="button"
           onClick={() => onRemove(item.id)}
-          className="p-2 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600"
+          className="p-2 rounded-lg text-ink-500 hover:bg-red-50 hover:text-red-600"
           aria-label={`Remove ${item.file.name}`}
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -122,11 +122,11 @@ export default function MergeFileList({
   const canMerge = readyCount >= 2 && !isMerging;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-slate-100 bg-slate-50">
+    <div className="rounded-3xl border border-ink-200 bg-white overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-ink-100 bg-ink-50">
         <div>
-          <h2 className="font-semibold text-slate-900">Files to merge</h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <h2 className="font-semibold text-ink-900">Files to merge</h2>
+          <p className="text-xs text-ink-500 mt-0.5">
             {files.length} file{files.length === 1 ? '' : 's'}
             {totalPages > 0 ? ` · ${totalPages} pages` : ''}
             {totalBytes > 0 ? ` · ${formatFileSize(totalBytes)}` : ''}
@@ -138,7 +138,7 @@ export default function MergeFileList({
             type="button"
             onClick={onClear}
             disabled={isMerging || files.length === 0}
-            className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40"
+            className="px-3 py-2 text-sm font-medium text-ink-600 bg-white border border-ink-200 rounded-lg hover:bg-ink-50 disabled:opacity-40"
           >
             Clear all
           </button>
@@ -146,7 +146,7 @@ export default function MergeFileList({
             type="button"
             onClick={onMerge}
             disabled={!canMerge}
-            className="px-4 py-2 text-sm font-semibold text-white bg-rose-600 rounded-lg hover:bg-rose-700 disabled:opacity-40 disabled:hover:bg-rose-600 transition-colors"
+            className="px-4 py-2 text-sm font-semibold text-white bg-accent-600 rounded-full hover:bg-accent-700 disabled:opacity-40 disabled:hover:bg-accent-600 transition-colors"
           >
             {isMerging ? 'Merging…' : 'Merge & Download'}
           </button>

@@ -3,6 +3,7 @@ import { useCompressPdf } from '../hooks/useCompressPdf';
 import CompressUpload from './CompressUpload';
 import CompressWorkspace from './CompressWorkspace';
 import ToolSeoSection from '../../../components/seo/ToolSeoSection';
+import ToolHeading from '../../../components/tools/ToolHeading';
 
 const STEPS = [
   { n: '1', title: 'Upload', text: 'Choose a PDF to compress' },
@@ -28,17 +29,15 @@ export default function CompressPDF() {
   } = useCompressPdf();
 
   return (
-    <div className="bg-[var(--page-bg)] py-10 sm:py-14">
+    <div className="cat-optimize tool-page pb-20 pt-10 sm:pt-14">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8 sm:mb-10">
-            <p className="text-sm font-semibold text-emerald-600 mb-2 tracking-wide uppercase">
-              PDF Compress Tool
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+            <ToolHeading toolId="compress" />
+            <h1 className="mb-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl">
               Compress PDF online
             </h1>
-            <p className="text-slate-600 max-w-xl mx-auto text-base sm:text-lg">
+            <p className="text-ink-600 max-w-xl mx-auto text-base sm:text-lg">
               Reduce PDF file size for sharing and storage. Everything runs locally in your
               browser — nothing is uploaded.
             </p>
@@ -52,8 +51,8 @@ export default function CompressPDF() {
                 disabled={isProcessing}
               />
 
-              <div className="mt-10 rounded-2xl bg-white border border-slate-200 px-6 py-6 sm:px-8">
-                <h3 className="text-sm font-semibold text-slate-900 mb-5 text-center sm:text-left">
+              <div className="mt-10 rounded-3xl bg-white border border-ink-200 px-6 py-6 sm:px-8">
+                <h3 className="text-sm font-semibold text-ink-900 mb-5 text-center sm:text-left">
                   How it works
                 </h3>
                 <ol className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -62,12 +61,12 @@ export default function CompressPDF() {
                       key={step.n}
                       className="flex sm:flex-col items-center sm:items-start gap-3 text-left"
                     >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white text-sm font-bold">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-600 text-white text-sm font-bold">
                         {step.n}
                       </span>
                       <div>
-                        <p className="font-semibold text-slate-900 text-sm">{step.title}</p>
-                        <p className="text-xs text-slate-500 mt-0.5">{step.text}</p>
+                        <p className="font-semibold text-ink-900 text-sm">{step.title}</p>
+                        <p className="text-xs text-ink-500 mt-0.5">{step.text}</p>
                       </div>
                     </li>
                   ))}
@@ -90,11 +89,11 @@ export default function CompressPDF() {
             />
           )}
 
-          <ToolSeoSection toolId="compress" accentClass="text-emerald-600" />
+          <ToolSeoSection toolId="compress" />
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-6 text-center text-sm text-ink-500">
             Need to split first?{' '}
-            <Link to="/split" className="text-emerald-600 font-medium hover:underline">
+            <Link to="/split" className="text-accent-600 font-medium hover:underline">
               Open Split PDF
             </Link>
           </p>
